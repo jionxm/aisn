@@ -5,7 +5,7 @@
 <ui_layer>
   <ui name="frmMeetSummaryView" title="查看会议">
 	<panel name="hiddenPanel" title="hidden" object="meeting" type="Hidden">
-		<control name="eq_meetId" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="eq_id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
 	</panel>
 	<panel name="pnlGroupPop" title="tab1" object="meeting" type="Group">
 		<control name="eq_meetId" title="会议日期" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
@@ -54,7 +54,7 @@
         <param name="Out" value="pnlGroupPop"></param>
       </procedure>
              <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
-        <param name="Out" value="hiddenPanel.eq_meetId"></param>
+        <param name="Out" value="hiddenPanel.eq_id"></param>
       </procedure> 
       <procedure name="qid"  logic="QueryById" ifyes="query" ifno="">
         <param name="In" value="hiddenPanel"></param>
