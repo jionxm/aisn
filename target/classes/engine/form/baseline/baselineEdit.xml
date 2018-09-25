@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="baselineEdit" title="编辑基线信息">
+   	<panel name="pnlHidden" title="pnlHidden" object="project" type="Hidden">
+		<control name="projId" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="基线信息" object="baseline" type="Group">
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="ctlprojName" title="项目名称" property="projName" type="TextBox" edit="N" required="Y" format="" width="1" height="1" column=""/>
+		<control name="projId" title="项目编号" property="projId" type="Hidden" edit="N" required="Y" format="" width="" height="" column=""/>
+		<control name="ctlsprint" title="迭代" property="sprintId" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		<control name="ctlsha1" title="提交编号" property="sha1" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="ctlversion" title="版本号" property="version" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="ctlbranch" title="分支名称" property="branch" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		<control name="ctlstrglocation" title="存储位置" property="strgLocation" type="TextBox" edit="Y" required="" format="" width="1" height="1" column=""/>
+		<control name="ctltype" title="类型" property="type" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="2" initial="'test'"/>
+		<control name="ctlcommitTime" title="构建日期" property="commitTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="" initial="CurrentTime()"  />
+		<control name="ctlcommitor" title="构建人编号" property="commitor" type="Hidden" edit="Y" required="Y" target="" format="" width="1" height="1" column=""  />		
+		<control name="ctlcommitorName" title="构建人" property="commitorName" type="PopupBox" edit="Y" required="Y" target="" format="" width="1" height="1" column="2"  />		
+		<control name="ctlremark" title="备注" property="remark" type="TextBox" edit="Y" required="N" format="" width="1" height="2" column="1"/>
+	</panel>
+	<panel name="pnlDown" title="操作按钮" object="" type="Toolbar">
+		<control name="ctlSave" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlCancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+   	  <procedure name="getType" server="" logic="List" ifyes="branch" ifno="">
+        <param name="Out" value="pnlGroup.ctltype"></param>
+        <param name="Sql" value="baseline/baselineType"></param>
+      </procedure>      
+   	  <procedure name="branch" server="" logic="Branch" ifyes="initForm" ifno="getId">
+        <param name="In" value="getStorage('baselineEdit_EditMode')=='Add'"></param>
+      </procedure>          
+      <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pnlGroup.id"></param>
+      </procedure>  
+      <procedure name="qid"  logic="QueryById" ifyes="getSprint" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure> 
+      <procedure name="initForm"  logic="Clear" ifyes="getProjId" ifno="" >
+          <param name="Out" value="pnlGroup"></param>
+      </procedure> 
+      <procedure name="getProjId" server="" logic="DecodeId" ifyes="qProjectId" ifno="">
+        <param name="Out" value="pnlHidden.projId"></param>
+      </procedure>
+      <procedure name="qProjectId"  logic="QueryById" ifyes="getSprint" ifno="">
+        <param name="In" value="pnlHidden"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="proj/QryProjectName"></param>
+      </procedure>
+ 	  <procedure name="getSprint" server="" logic="List" ifyes="" ifno="">
+       	<param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup.ctlsprint"></param>
+        <param name="Sql" value="sprint/sprintList"></param>
+        <param name="Options" value=",请选择"/>
+      </procedure>   
+    </flow>
+     <!-- 提交人 -->
+    <flow trigger="pnlGroup.ctlcommitorName" event="OnClick" filter="">
+      <procedure name="findEmp" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="emp"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Title" value="选择人员"></param>
+        <param name="Columns" value="id,人员编码,ctlcommitor|name,人员姓名,ctlcommitorName"></param>
+         <param name="Window" value="Medium"></param>
+      </procedure>
+     </flow>
+    <!-- 确认 -->
+    <flow trigger="pnlDown.ctlSave" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Msg" value="'基线信息已被保存,详情请查看操作日志'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>
+    <!-- 取消 -->
+    <flow trigger="pnlDown.ctlCancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlDown" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="Center" scale="" />
+        <subregion panel="pnlHidden" location="North" scale="" />
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

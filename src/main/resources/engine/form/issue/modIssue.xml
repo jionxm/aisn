@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+	<object name="issue" table="t_issue" primary="id" unique="" order="id desc" autoinc="Y">
+	<property name="id" type="Long" length="10" initial="" field="id"/>
+	<property name="issueId" type="Long" length="10" initial="" field=""/>
+	<property name="projId" type="Long" length="50" initial="" field="proj_id"/>
+	<property name="sprintId" type="Long" length="10" initial="" field="sprint_id"/>
+	<property name="testcaseId" type="Long" length="10" field="testcase_id"/>
+	<property name="title" type="String" length="500" field="title"/>
+	 
+	<property name="remark" type="String" length="500" field="remark"/>
+	<property name="issueType" type="String" length="50" field="type"/>
+	<property name="workload" type="Double" length="5.1" field="workload"/>
+	<property name="issueStatus" type="String" length="50" field="status"/>
+	<property name="reporter" type="Long" length="10" field="reporter"/>
+	<property name="assignee" type="Long" length="10" field="assignee"/>
+	<property name="priority" type="String" length="50" field="priority"/>
+	<property name="testDesignBy" type="Long" length="10" field="test_design_by"/>
+	<property name="testBy" type="Long" length="10" field="test_by"/>
+	<property name="modId" type="Long" length="10" field="module_id"/>
+	
+	<!-- 查询相关，关联表字段等 begin-->
+	<property name="issueTypeName" type="String" length="50" field=""/>
+	<property name="issueStatusName" type="String" length="50" field=""/>
+	<property name="reporterName" type="String" length="50" field=""/>
+	<property name="assigneeName" type="String" length="50" field=""/>
+	<property name="testByName" type="String" length="50" field=""/>
+	<property name="testDesignByName" type="String" length="50" field=""/>
+	<property name="priorityName" type="String" length="50" field=""/>
+	<property name="sprintName" type="String" length="50" field=""/>
+	<property name="projName" type="String" length="50" field=""/>
+	<property name="moduleName" type="String" length="50" field=""/>
+	<!-- end -->	
+	<property name="updateBy" type="Long" length="10" validate=""  field="update_by" />
+	<property name="updateByName" type="String" length="50" validate=""  field="" />
+	<property name="createBy" type="Long" length="10" validate=""  field="create_by" />	
+	<property name="createByName" type="String" length="50" validate=""  field="" />
+	<property name="updateTime" type="Date" length="" validate=""  field="update_time" />
+	<property name="createTime" type="Date" length="" validate=""  field="create_time" />
+	
+	<property name="riskResultType" type="String" length="50" field="risk_result_type"/>
+	<property name="riskResult" type="String" length="500" field="risk_result"/>
+	<property name="riskLatestDate" type="Date" length="50" field="risk_latest_date" 
+		validate="(model.issueType!='risk') || (model.issueType=='risk' &amp;&amp; model.riskLatestDate!=nil &amp;&amp; model.riskLatestDate!='')" /><!-- 计划完成日期 -->
+  </object>       
+</model_layer>
+</tsoftware>

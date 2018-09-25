@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+
+
+<ui_layer>
+  <ui name="frmModuleList" title="查询模块信息列表">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlAdd" title="新增" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="查询条件" object="module" type="Group">
+		<control name="eq_projId" title="项目id" property="projId" type="Hidden" edit="N" required="Y" format="" width="1" height="1" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column="4"/>
+	</panel> 
+	<panel name="pnlDg" title="pnlDg" object="module" type="Grid"  multiple="">
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width="80" height="" column=""/>
+    	<control name="ctlprojectName" title="项目名称" property="projName" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctlname" title="模块名称" property="name" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctlremark" title="备注" property="remark" type="TextBox" edit="" required="" format="" width="400" height="" column=""/>
+		<control name="ctlcreateByName" title="创建人" property="createByName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="ctlcreateTime" title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctlupdateByName" title="更新人" property="updateByName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="ctlupdateTime" title="更新时间" property="updateTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="module/QryModuleList"></param>
+      </procedure>
+    </flow>
+    <!-- 项目选择 -->
+  <flow trigger="pnlGroup.ctlprojectName" event="OnClick" filter="">
+      <procedure name="jsFind"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="project"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,ctlprojectName"/>
+        <param name="Window" value="Medium"></param> 
+      </procedure> 
+  </flow>
+	<!-- 查询 -->
+   	<flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="module/QryModuleList"></param>
+      </procedure>
+    </flow>
+    <!-- 新增 -->
+    <flow trigger="pnlUp.ctlAdd" event="OnClick" filter="">
+      <procedure name="branch" server="" logic="Branch" ifyes="jsMsg" ifno="jsencodeid">
+        <param name="In" value="getPanelControlValue('pnlGroup.eq_projId')==''"></param>
+      </procedure>
+      <procedure name="jsMsg" server="" logic="InfoMsg" ifyes="" ifno="">
+       <param name="Msg" value="请先选择项目"></param>
+      </procedure> 
+   	  <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlGroup.eq_projId"></param>
+      </procedure>
+      <procedure name="jspopup" server="" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="新增模块信息"></param>
+        <param name="To" value="frmModuleEdit"></param>
+        <param name="Mode" value="Add"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="module/QryModuleList"></param>
+      </procedure>  
+    </flow>
+   <!-- 编辑 -->
+    <flow trigger="pnlDg.ctlEdit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="编辑模块信息"></param>
+        <param name="To" value="frmModuleEdit"></param>
+        <param name="Mode" value="Edit"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="module/QryModuleList"></param>
+      </procedure>              
+    </flow>
+   
+    <!-- 导出清单 -->
+    <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+      <procedure name="ctlExport" server="" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pnlDg"></param>
+        <param name="In" value="pnlGroup"></param>
+        <param name="Sql" value="module/QryModuleList"></param>
+      </procedure>
+    </flow>
+
+    
+    <layout>
+      <region location ="North" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+		<subregion panel="pnlDg" location="Center" scale=""/>
+      </region>
+    </layout>
+  </ui>
+  </ui_layer>
+</tsoftware>

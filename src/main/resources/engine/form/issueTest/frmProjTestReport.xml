@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="testReport" table="" primary="" unique="" order="createTime desc">
+            <property name="issueId" type="Long" length="20"/>
+            <property name="issueName" type="String" length="50"/>
+            <property name="pass" type="Long" initial="" field=""/>
+            <property name="fail" type="Long" initial="" field=""/>
+            <property name="invalid" type="Long" initial="" field=""/>
+            <property name="blocker" type="Long" validate="" field=""/>
+            <property name="notRun" type="Long" validate="" field=""/>
+            <property name="total" type="Long" validate="" field=""/>
+            <property name="createTime" type="Date" validate="" field=""/>
+
+        </object>
+        <object name="pnlLineChart1" table="" primary="date" unique="" order="date">
+            <property name="date" type="String" length="" initial=""/>
+            <property name="blocker" type="String" length="" initial=""/>
+            <property name="critical" type="String" length="" initial=""/>
+            <property name="major" type="String" length="" initial=""/>
+            <property name="minor" type="String" length="" initial=""/>
+            <property name="total" type="String" length="" initial=""/>
+        </object>
+        <object name="pnlLineChart2" table="" primary="date" unique="" order="date">
+            <property name="date" type="String" length="" initial=""/>
+            <property name="feature" type="String" length="" initial=""/>
+            <property name="testCaseCoverNum" type="String" length="" initial=""/>
+        </object>
+        <object name="pnlLineChart3" table="" primary="date" unique="" order="date">
+            <property name="date" type="String" length="" initial=""/>
+            <property name="testCaseNum" type="String" length="" initial=""/>
+            <property name="testCasePassNum" type="String" length="" initial=""/>
+        </object>
+        <object name="pnlLineChart4" table="" primary="date" unique="" order="date">
+            <property name="date" type="String" length="" initial=""/>
+            <property name="testCaseCoverRate" type="String" length="" initial=""/>
+            <property name="testCasePassRate" type="String" length="" initial=""/>
+        </object>
+    </model_layer>
+    <ui_layer>
+        <ui name="frmProjTestReport" title="项目测试报告">
+            <panel name="pnlToolbar" title="工具条" object="" type="Toolbar">
+                <control name="ctlSearch" title="查询" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlExport" title="导出测试进度" property="" type="Button" edit="" required="" format=""
+                         width=""
+                         height="" column=""/>
+            </panel>
+
+            <panel name="pnlCondition" title="查询条件" object="issueTest" type="Group">
+                <control name="projId" title="项目Id" property="projId" type="Hidden" edit="N" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="projName" title="项目" property="projectName" type="PopupBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="sprintId" title="迭代" property="sprintId" type="ComboBox" edit="Y" required="N" format=""
+                         width="1" height="1" column="4"/>
+            </panel>
+
+            <panel name="pnlList" title="测试进度" object="testReport" type="Grid" page="0">
+                <control name="issueId" title="工作项编号" property="issueId" type="DataLink" edit="" required="" format=""
+                         width="100" height="" column=""/>
+                <control name="issueName" title="工作项" property="issueName" type="TextBox" edit="" required="" format=""
+                         width="600" height="" column=""/>
+                <control name="pass" title="通过" property="pass" type="TextBox" edit="" required="" format=""
+                         width="100" height="" column=""/>
+                <control name="fail" title="失败" property="fail" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="invalid" title="无效" property="invalid" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="blocker" title="停滞" property="blocker" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="notRun" title="未执行" property="notRun" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="total" title="小计" property="total" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+            </panel>
+
+
+            <panel name="pnlLineChart1" title="缺陷收敛曲线" object="pnlLineChart1" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox"/>
+                <control name="blocker" title="严重" property="blocker" initial="" type="TextBox"/>
+                <control name="critical" title="重要" property="critical" type="TextBox"/>
+                <control name="major" title="一般" property="major" type="TextBox"/>
+                <control name="minor" title="轻微" property="minor" type="TextBox"/>
+                <control name="total" title="合计" property="total"  type="TextBox"/>
+            </panel>
+
+            <panel name="pnlLineChart2" title="测试用例覆盖比例" object="pnlLineChart2" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox"/>
+                <control name="feature" title="需求数" property="feature" initial="" type="TextBox"/>
+                <control name="testCaseCoverNum" title="测试用例覆盖数" property="testCaseCoverNum" type="TextBox"/>
+            </panel>
+
+            <panel name="pnlLineChart3" title="测试用例通过比例" object="pnlLineChart3" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox"/>
+                <control name="testCaseNum" title="测试用例数" property="testCaseNum" initial="" type="TextBox"/>
+                <control name="testCasePassNum" title="已通过测试用例数" property="testCasePassNum" type="TextBox"/>
+            </panel>
+            <panel name="pnlLineChart4" title="测试用例通过率" object="pnlLineChart4" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox"/>
+                <control name="testCaseCoverRate" title="覆盖率%" property="testCaseCoverRate" type="TextBox"/>
+                <control name="testCasePassRate" title="通过率%" property="testCasePassRate" type="TextBox"/>
+            </panel>
+
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="procClear" logic="Clear" ifyes="jBranch" ifno="" sync="Y">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+                 <procedure name="jBranch" server="" logic="Branch" ifyes=""
+					ifno="proQuery">
+					<param name="In" value="getPanelControlValue('pnlCondition.projName')==''"></param>
+				</procedure>
+                <procedure name="proQuery" logic="Query" ifyes="procSprintList" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="proj/QryProjTestReport"></param>
+                </procedure>
+               
+                <procedure name="procSprintList" logic="List" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlCondition.sprintId"></param>
+                    <param name="Sql" value="sprintForStat"></param>
+                </procedure>
+            </flow>
+
+            <!-- 查询 -->
+            <flow trigger="pnlToolbar.ctlSearch" event="OnClick" filter="">
+            	<procedure name="jBranch" server="" logic="Branch" ifyes="j0"
+					ifno="proQuery">
+					<param name="In" value="getPanelControlValue('pnlCondition.projName')==''"></param>
+				</procedure>
+            	<procedure name="j0" server="" logic="ToastMsg" ifyes="procQuery"
+					ifno="">
+					<param name="Title" value="提示信息" />
+					<param name="Msg" value="请设置查询条件" />
+				</procedure>
+                <procedure name="proQuery" logic="Query" ifyes="proLineChart1" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="proj/QryProjTestReport"></param>
+                </procedure>
+                <procedure name="proLineChart1" logic="Query" ifyes="proLineChart2" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart1"></param>
+                    <param name="Sql" value="stat/StatBug"></param>
+                </procedure>
+                <procedure name="proLineChart2" logic="Query" ifyes="proLineChart3" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart2"></param>
+                    <param name="Sql" value="stat/StatTestcaseCoverRate"></param>
+                </procedure>
+                <procedure name="proLineChart3" logic="Query" ifyes="proLineChart4" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart3"></param>
+                    <param name="Sql" value="stat/StatTestcasePassRate"></param>
+                </procedure>
+                <procedure name="proLineChart4" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart4"></param>
+                    <param name="Sql" value="stat/StatTestcaseRate"></param>
+                </procedure>
+
+            </flow>
+
+            <!-- 导出 -->
+            <flow trigger="pnlToolbar.ctlExport" event="OnClick" filter="">
+                <procedure name="procExport" logic="Export" ifyes="" ifno="">
+                    <param name="Format" value="pnlList"></param>
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Sql" value="proj/QryProjTestReport"></param>
+                </procedure>
+            </flow>
+
+            <!-- 项目查询 -->
+            <flow trigger="pnlCondition.projName" event="OnClick" filter="">
+                <procedure name="procProjectFind" logic="Find" ifyes="procSprintList" ifno="">
+                    <param name="Out" value="pnlCondition"></param>
+                    <param name="Sql" value="ProjectHasPermission"></param>
+                    <param name="Title" value="项目选择"></param>
+                    <param name="Columns" value="id,编码,projId|name,项目名称,projName"></param>
+                    <param name="Window" value="Large"></param>
+                </procedure>
+                <procedure name="procSprintList" logic="List" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlCondition.sprintId"></param>
+                    <param name="Sql" value="sprintForStat"></param>
+                </procedure>
+            </flow>
+
+            <!--钻取逻辑-->
+            <flow trigger="pnlList.issueId" event="OnClick" filter="">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procToIssueView" ifno="">
+                    <param name="In" value="pnlList.issueId"/>
+                </procedure>
+                <procedure name="procToIssueView" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueView"/>
+                    <param name="Mode" value="Readonly"/>
+                </procedure>
+            </flow>
+
+
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlToolbar" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="300px">
+                    <subregion panel="pnlCondition" location="North" scale=""/>
+                    <subregion panel="pnlList" location="Center" scale=""/>
+                    <subregion panel="pnlLineChart1" location="Center" scale=""/>
+                    <subregion panel="pnlLineChart2" location="Center" scale=""/>
+                    <subregion panel="pnlLineChart3" location="Center" scale=""/>
+                    <subregion panel="pnlLineChart4" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

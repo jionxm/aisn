@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+	<object name="sprintIssue" table="t_issue" primary="id" unique="" order="sprintStartTime desc,sprintName,assignee,createTime desc" autoinc="Y">
+	<property name="id" type="Long" length="10" initial="" field="id"/>
+	<property name="issueId" type="Long" length="10" initial="" field=""/>
+	<property name="projId" type="Long" length="50" initial="" field="proj_id"/>
+	<property name="sprintId" type="Long" length="10" initial="" field="sprint_id"/>
+	<property name="testcaseId" type="Long" length="10" field="testcase_id"/>
+	<property name="title" type="String" length="50" field="title"/>
+	
+	<property name="remark" type="String" length="50" field="remark"/>
+	<property name="issueType" type="String" length="50" field="type"/>
+	<property name="workload" type="Double" length="5.1" field="workload"/>
+	<property name="issueStatus" type="String" length="50" field="status"/>
+	<property name="reporter" type="Long" length="10" field="reporter"/>
+	<property name="assignee" type="Long" length="10" field="assignee"/>
+	<property name="priority" type="String" length="50" field="priority"/>
+	<property name="testDesignBy" type="Long" length="10" field="test_design_by"/>
+	<property name="testBy" type="Long" length="10" field="test_by"/>
+	
+	<!-- 查询相关，关联表字段等 begin-->
+	<property name="issueTypeName" type="String" length="50" field=""/>
+	<property name="sprintStartTime" type="String" length="50" field=""/>
+	<property name="issueStatusName" type="String" length="50" field=""/>
+	<property name="reporterName" type="String" length="50" field=""/>
+	<property name="assigneeName" type="String" length="50" field=""/>
+	<property name="testByName" type="String" length="50" field=""/>
+	<property name="testDesignByName" type="String" length="50" field=""/>
+	<property name="priorityName" type="String" length="50" field=""/>
+	<property name="sprintName" type="String" length="50" field=""/>
+	<property name="projName" type="String" length="50" field=""/>
+	<!-- end -->	
+	<property name="updateBy" type="Long" length="10" validate=""  field="update_by" />
+	<property name="updateByName" type="String" length="50" validate=""  field="" />
+	<property name="createBy" type="Long" length="10" validate=""  field="create_by" />	
+	<property name="createByName" type="String" length="50" validate=""  field="" />
+	<property name="updateTime" type="Date" length="" validate=""  field="update_time" />
+	<property name="createTime" type="Date" length="" validate=""  field="create_time" />
+  </object>       
+</model_layer>
+<ui_layer>
+  <ui name="sprintViewList" title="迭代需求列表">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="查询条件" object="issue" type="Group">
+		<control name="eq_projId" title="项目id" property="projId" type="Hidden" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column="4"/>
+	</panel>
+	<panel name="pnlDg" title="pnlDg" object="sprintIssue" type="Grid"  multiple="">
+		<control name="ctlConfig" title="设置" property="" type="Link" edit="" required="" format="" width="40" height="" column=""/>
+		<control name="id" title="工作项编号" property="id" type="DataLink" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="sprintId" title="迭代id" property="sprintId" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="title" title="标题" property="title" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="sprintName" title="迭代" property="sprintName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="assigneeName" title="处理人" property="assigneeName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="workload" title="预计工作量" property="workload" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="issueTypeName" title="类型" property="issueTypeName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="issueStatusName" title="状态" property="issueStatusName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="priorityName" title="重要程度" property="priorityName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="reporterName" title="发起人" property="reporterName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="createTime1" title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="QrySprintIssue"></param>
+      </procedure>
+    </flow>
+  <!-- 项目选择 -->
+  <flow trigger="pnlGroup.ctlprojectName" event="OnClick" filter="">
+      <procedure name="jsFind"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="ProjectHasPermission"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,ctlprojectName"/>
+        <param name="Window" value="Medium"></param> 
+      </procedure> 
+  </flow>
+	<!-- 查询 -->
+   	<flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="QrySprintIssue"></param>
+      </procedure>
+    </flow>
+    <!-- 工作项详情 -->
+    <flow trigger="pnlDg.id" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="j2"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueView"></param>
+        <param name="Mode" value="Readonly"></param>
+      </procedure>
+    </flow>  
+    <!-- 设置 -->
+    <flow trigger="pnlDg.ctlConfig" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="backlogEdit"></param>
+        <param name="Mode" value="Edit"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="QrySprintIssue"></param>
+      </procedure>              
+    </flow>
+    <!-- 导出清单 -->
+    <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+      <procedure name="ctlExport" server="" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pnlDg"></param>
+        <param name="In" value="pnlGroup"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="North" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+		<subregion panel="pnlDg" location="Center" scale=""/>
+      </region>
+    </layout>
+  </ui>
+  </ui_layer>
+</tsoftware>

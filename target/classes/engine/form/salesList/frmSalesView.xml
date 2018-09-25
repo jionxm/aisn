@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmSalesView" title="销售线索">
+			<panel name="pTable" title="查询结果" object="tsalesclues" type="Group">
+				<control name="id" title="线索编号" property="id" type="TextBox"
+					edit="" required="" format="" width="1" height="" column="" />
+				<control name="projName" title="项目名称" property="proName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="importanceDegreeName" title="重要程度"
+					property="importanceDegreeName" type="TextBox" edit="" required=""
+					format="" width="1" height="" column="" />
+				<control name="projectTypeName" title="项目类型" property="projectTypeName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="bidName" title="是否投标" property="bidName" type="TextBox"
+					edit="" required="" format="" width="1" height="" column="" />
+				<control name="successRate" title="成功率(%)" property="successRate"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="eq_stage" title="项目进度名" property="stage"
+					type="Hidden"></control>
+				<control name="stage" title="项目进度" property="stageName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="initContacts" title="初始联系人" property="initContacts"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="initContactsTel" title="初始联系方式" property="initContactsTel"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="sellerName" title="销售人员"
+					property="sellerName" type="TextBox" edit="" required=""
+					format="" width="1" height="" column="2" />
+				<control name="presalesName" title="售前人员" property="presalesName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="byInputtingTime" title="建档时间" property="byInputtingTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="customerId" title="客户id" property="customerId"
+					type="Hidden" edit="" required="" format="" width="" height=""
+					column="" />
+				<control name="customerName" title="客户名" property="customerName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""
+					drill="{ctlCustomerName:'${row.customerName}',eq_id:'${row.customerId}'}" />
+				<control name="budget" title="项目预算(￥)" property="budget"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="projectStartTime" title="项目启动时间" property="projectStartTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<!-- <control name="followName" title="跟进人" property="followName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" /> -->
+				<control name="reportName" title="报备人姓名" property="reportName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="reportOrg" title="报备人单位" property="reportOrg"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="reportConcact" title="报备人联系方式" property="reportContact"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<!-- <control name="fianlTime" title="最后跟进时间" property="fianlTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" /> -->
+				<control name="filesNum" title="资料数" property="filesNum"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="actNum" title="进度数" property="actNum" type="TextBox"
+					edit="" required="" format="" width="1" height="" column="2" />
+				<control name="createTime" title="创建时间" property="createTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="createBy" title="创建人" property="createByName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="updateTime" title="最后修改时间" property="updateTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="updateBy" title="最后修改人" property="updateByName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+			</panel>
+			<panel name="pHidden" title="隐藏域" object="tsalesclues" type="Hidden">
+				<control name="id" title="项目" property="id" type="TextBox"
+					edit="Y" required="" format="" width="" height="" column="" />
+				<control name="lk_proName" title="项目" property="proName"
+					type="TextBox" edit="Y" required="" format="" width="" height=""
+					column="" />
+				<control name="lk_initContacts" title="联系方式" property="initContacts"
+					type="TextBox" edit="Y" required="" format="" width="" height=""
+					column="" />
+				<control name="lk_followId" title="跟进人" property="followId"
+					type="TextBox" edit="Y" required="" format="" width="" height=""
+					column="" />
+			</panel>
+
+			<!-- 逻辑加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="jClear" logic="Clear" ifyes="j1"
+					ifno="" sync="Y">
+					<param name="Out" value="pTable"></param>
+				</procedure>
+				<procedure name="j1" server="" logic="DecodeId" ifyes="Query"
+					ifno="">
+					<param name="Out" value="pTable.id" />
+				</procedure>
+				<procedure name="Query" logic="QueryById" ifyes="" ifno="">
+					<param name="In" value="pTable"></param>
+					<param name="Out" value="pTable"></param>
+					<param name="Sql" value="saleQuery"></param>
+				</procedure>
+			</flow>
+
+			<layout>
+				<region location="North" scale="">
+					<subregion panel="pHidden" location="Center" scale=""></subregion>
+				</region>
+				<region location="Center" scale="">
+					<subregion panel="pTable" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

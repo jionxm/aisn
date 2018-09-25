@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+			
+<ui_layer>
+  <ui name="frmMeetSummaryEdit" title="会议编辑">
+	<panel name="hiddenPanel" title="hidden" object="meeting" type="Hidden">
+		<control name="eq_meetId" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroupPop" title="tab1" object="meeting" type="Group">
+		<control name="eq_meetId" title="会议日期" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="eq_meetingTime" title="会议日期" property="meetingTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="lk_originator" title="发起人" property="originator" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		<control name="lk_attendee" title="参会人" property="attendee" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="writeByName" title="记录人" property="writeByName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		<control name="projectName" title="项目名" property="projectName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="lk_theme" title="会议主题" property="theme" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		<control name="content" title="会议内容" property="content" type="TextBox" edit="Y" required="N" format="" width="1" height="2" column="1"/>
+		<control name="result" title="会议结论" property="result" type="TextBox" edit="Y" required="N" format="" width="1" height="2" column="1"/>
+		<control name="place" title="会议地点" property="place" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="eq_status" title="跟进状态" property="status" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="2" target="'before'"/>
+		<control name="eq_writeBy" title="记录人" property="writeBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_projectId" title="项目" property="projectId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="createTime" title="创建时间" property="createTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="editMode=='Add'?CurrentTime():nil"/>
+		<control name="updateTime" title="最后修改时间" property="updateTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="CurrentTime()"/>
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column=""  />
+	</panel>
+	<panel name="pnlDown" title="pnlDown" object="" type="Toolbar">
+		<control name="ctlSave" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlCancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="meetDetail" title="相关工作项" object="meetingDetail" type="Grid"  multiple="">
+		<control name="ctlAdd" title="新增详情" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlDel" title="删除详情" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="issueName" title="工作项" property="issueName" type="PopupBox" edit="Y" required="Y" format="" width="230" height="" column=""/>
+		<control name="assignee" title="处理人" property="assignee" type="TextBox" edit="N" required="" format="" width="140" height="" column=""/>
+		<control name="reporter" title="发起人" property="reporter" type="TextBox" edit="N" required="" format="" width="140" height="" column=""/>
+		<control name="issueId" title="id" property="issueId" type="Hidden" edit="N" required="N" format="" width="" height="" column=""/>
+		<control name="meetingId" title="id" property="meetingId" type="Hidden" edit="N" required="N" format="" width="" height="" column=""/>
+		<control name="createTime" title="创建时间" property="createTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="editMode=='Add'?CurrentTime():nil"/>
+		<control name="updateTime" title="最后修改时间" property="updateTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="CurrentTime()"/>
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column=""  />
+	</panel>
+	<panel name="meetFile" title="相关附件" object="meetingFile" type="Grid"  multiple="">
+		<control name="ctlAdd" title="新增附件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlDel" title="删除附件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="fileName" title="文件" property="fileName" type="FileBox" edit="Y" required="Y" format="" width="200" height="" column=""/>
+		<control name="fileId" title="文件ID" property="fileId" type="Hidden" edit="Y" required="" format="" width="200" height="" column=""/>
+		<control name="remark" title="备注" property="remark" type="TextBox" edit="Y" required="" format="" width="140" height="" column=""/>
+		<control name="meetingId" title="id" property="meetingId" type="Hidden" edit="Y" required="N" format="" width="" height="" column=""/>
+		<control name="createTime" title="创建时间" property="createTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="Mode=='Add'?CurrentTime():nil"/>
+		<control name="updateTime" title="最后修改时间" property="updateTime" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1" target="CurrentTime()"/>
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="Mode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column=""  />
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+    <procedure name="btnClear"  logic="Clear" ifyes="branch" ifno="">
+        <param name="Out" value="pnlGroupPop"></param>
+      </procedure>
+   	  <procedure name="branch" server="" logic="Branch" ifyes="getId" ifno="">
+        <param name="In" value="getEditMode()=='Edit'"></param>
+      </procedure> 
+             <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="hiddenPanel.eq_meetId"></param>
+      </procedure> 
+      <procedure name="qid"  logic="QueryById" ifyes="query" ifno="">
+        <param name="In" value="hiddenPanel"></param>
+        <param name="Out" value="pnlGroupPop"></param>
+        <param name="Sql" value="meetSummary/QryMeet"></param>
+      </procedure>
+      <procedure name="query"  logic="Query" ifyes="query1" ifno="">
+        <param name="In" value="hiddenPanel"></param>
+        <param name="Out" value="meetDetail"></param>
+        <param name="Sql" value="meetSummary/QryMeetDetail"></param>
+      </procedure>  
+      <procedure name="query1"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="hiddenPanel"></param>
+        <param name="Out" value="meetFile"></param>
+        <param name="Sql" value="meetSummary/QryMeetFile"></param>
+      </procedure>  
+    </flow>
+    <flow trigger="pnlDown.ctlSave" event="OnClick" filter="Mode!='' &amp;&amp; Mode!='Readonly'" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroupPop,meetDetail.meetingId,meetFile.meetingId"></param>
+         <param name="Msg" value="'信息已被保存'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>
+    <flow trigger="pnlDown.ctlCancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+	<flow trigger="meetFile.ctlAdd" event="OnClick" filter="" >
+      <procedure name="addRow" server="" logic="AddRow" ifyes="" ifno="">
+        <param name="Out" value="meetFile"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="meetFile.ctlDel" event="OnClick" filter="" >
+      <procedure name="removeRow" server="" logic="RemoveRow" ifyes="" ifno="">
+        <param name="In" value="meetFile"></param>
+      </procedure>
+    </flow>
+    	<flow trigger="meetDetail.ctlAdd" event="OnClick" filter="" >
+      <procedure name="addRow" server="" logic="AddRow" ifyes="" ifno="">
+        <param name="Out" value="meetDetail"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="meetDetail.ctlDel" event="OnClick" filter="" >
+      <procedure name="removeRow" server="" logic="RemoveRow" ifyes="" ifno="">
+        <param name="In" value="meetDetail"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="meetDetail.issueName" event="OnClick" filter="" >
+      <procedure name="find"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="meetDetail"></param>
+        <param name="Sql" value="IssueForMeet"></param>
+        <param name="Title" value="选择工作项"></param>
+        <param name="Columns" value="id,id,issueId|title,工作项标题,issueName|assignee,处理人,assignee|reporter,发起人,reporter|creatTime,发起人,issueCreatTime"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="pnlGroupPop.projectName" event="OnClick" filter="" >
+       <procedure name="sprint"  logic="Find" ifyes="" ifno="">
+       <param name="In" value=""></param>
+        <param name="Out" value="pnlGroupPop"></param>
+        <param name="Sql" value="pro"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,id,eq_projectId|name,项目名,projectName"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="pnlGroupPop.writeByName" event="OnClick" filter="" >
+      <procedure name="find"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroupPop"></param>
+        <param name="Sql" value="emp"></param>
+        <param name="Title" value="人员选择"></param>
+        <param name="Columns" value="id,编码,eq_writeBy|name,姓名,writeByName|email,邮箱"></param>
+      </procedure>
+    </flow>
+     <flow trigger="meetFile.fileName" event="OnClick" filter="">
+      <procedure name="fileUpload" server="" logic="Upload" ifyes="" ifno="">
+        <param name="Size" value="1000"></param>
+        <param name="Type" value="jpg,txt,pdf"></param>
+        <param name="Bucket" value="public"></param>
+        <param name="Out" value="meetFile.fileId"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlDown" location="South" scale="" />
+      </region>
+      <region location ="North" scale="">
+        <subregion panel="pnlGroupPop" location="North" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="meetDetail" location="Center" scale="" />
+        <subregion panel="meetFile" location="Center" scale="" />
+        <subregion panel="hiddenPanel" location="Center" scale="" />
+      </region>
+      
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

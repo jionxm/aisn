@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<model_layer>
+
+		<object name="tcustomer" table="t_customer" primary="id"
+			unique="name" order="id desc">
+			<property name="id" type="Long" length="20" initial=""
+				field="id" />
+			<!-- <property name="name" type="String" length="50" initial="" field="name"/> -->
+			<property name="customerName" type="String" length="50"
+				initial="" field="name" />
+			<property name="shortName" type="String" length="50"
+				initial="" field="short_name" />
+			<property name="type" type="String" length="20" initial=""
+				field="type" />
+			<property name="typeName" type="String" length="20" initial=""
+				field="" />
+			<property name="marks" type="String" length="200" initial=""
+				field="marks" />
+			<property name="createTime" type="Date" length="" field="create_time" />
+			<property name="createBy" type="Long" length="20" field="create_by" />
+			<property name="createByName" type="String" length="20"
+				field="" />
+			<property name="updateTime" type="Date" length="" field="update_time" />
+			<property name="updateBy" type="Long" length="20" field="update_by" />
+			<property name="presales" type="Long" length="20" field="presales" />
+			<property name="seller" type="Long" length="20" field="seller" />
+			<property name="presalesName" type="String" length="20" field="" />
+			<property name="sellerName" type="String" length="20" field="" />
+			<property name="coopStatus" type="String" length="20" field="coop_status" />
+			<property name="scale" type="Long" length="1" field="scale" />
+			<property name="nature" type="Long" length="1" field="nature" />
+			<property name="area" type="String" length="200" field="area" />
+			<property name="updateByName" type="String" length="20"
+				field="" />
+			<property name="contactsName" type="String" length="20"
+				initial="" field="" />
+			<property name="duty" type="String" length="20" initial=""
+				field="" />
+			<property name="status" type="Long" length="1" initial=""
+				field="status" />
+			<property name="statusName" type="String" length="20"
+				initial="" field="" />
+			<property name="telp" type="String" length="20" initial=""
+				field="" />
+
+			<property name="contactNum" type="Long" length="20" initial=""
+				field="" />
+			<property name="clueNum" type="Long" length="20" initial=""
+				field="" />
+				
+			<!-- 中文信息 -->
+			<property name="natureName" type="String" length="50" initial="" field="" />
+			<property name="scaleName" type="String" length="50" initial="" field="" />
+
+		</object>
+		<object name="tcontacts" table="t_contacts" primary="id"
+			unique="tel,customer_id" order="id desc">
+			<property name="id" type="Long" length="10" initial=""
+				field="id" />
+			<property name="name" type="String" length="20" initial=""
+				field="name" />
+			<property name="type" type="String" length="20" initial=""
+				field="type" />
+			<property name="typeName" type="String" length="20" initial=""
+				field="" />
+			<property name="tel" type="String" length="20" initial=""
+				validate="CheckMobile(self)||CheckPhone(self)" field="tel" />
+			<property name="status" type="Long" length="1" initial=""
+				field="status" />
+			<property name="customerId" type="Long" length="20" initial=""
+				field="customer_id" />
+			<property name="customerName" type="String" length="50" initial=""
+				field="" />
+			<property name="coopDegree" type="String" length="20" initial=""
+				field="coop_degree" />
+			<property name="department" type="String" length="20" initial=""
+				field="department" />
+			<property name="duty" type="String" length="20" initial=""
+				field="duty" />
+		</object>
+	</model_layer>
+</tsoftware>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmIssueTracking" title="风险追踪表"> 
+  	<panel name="panRiskType" type="Group">
+  		<control name="code" title="code" property="" type="Hidden" edit="Y" initial="'t_issue.risk_result_type'"  
+  		required="" format="" width="2" height="" column=""/>
+  	</panel>    
+	<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+		<control name="btnQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnClear" title="清空条件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pCondition" title="查询条件" object="modIssueTracking" type="Group">
+		<control name="eq_projId" title="项目" property="projId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="projName" title="项目名称" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="de_createTime" title="识别日期" property="createTime" type="DateBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="de_riskResolveDate" title="实际解决日期" property="riskResolveDate" type="DateBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_riskResultType" title="处理结果" multiple="Y" property="riskResultType" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column="5"/>
+	</panel>	
+	<panel name="pTable" title="查询结果" object="modIssueTracking" type="Grid">
+		<control name="issueId" title="issueId" property="issueId" type="Hidden" edit="" required="" format="" width="10" height="" column=""/>
+		<control name="projName" title="项目名称" property="projName" type="TextBox" edit="" required="" format="" width="220" height="" column=""/>
+		<control name="title" title="问题|风险描述" property="title" type="DataLink" edit="" required="" format="" width="350" height="" column=""/>
+		<control name="remark" title="影响" property="remark" type="TextBox" edit="" required="N" format="" width="220" height="3" column=""/>
+		<control name="createTime" title="识别日期" property="createTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="reporterName" title="识别人" property="reporterName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="priorityName" title="重要程度" property="priorityName" type="TextBox" edit="" required="N" format="" multiple="Y" width="90" height="1" column=""/>
+		<control name="riskResult" title="解决方案" property="riskResult" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="riskLatestDate" title="计划解决日期" property="riskLatestDate" type="TextBox" edit="" required="" format="" width="110" height="" column=""/>
+		<control name="riskResolveDate" title="实际解决日期" property="riskResolveDate" type="TextBox" edit="" required="" format="" width="110" height="" column=""/>
+		<control name="assigneeName" title="负责人 " property="assigneeName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="issueStatusName" title="风险状态" property="issueStatusName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="riskResultTypeName" title="处理结果" property="riskResultTypeName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="">  
+      <procedure name="j1"  logic="Clear" ifyes="j2" ifno="" sync="Y">
+           <param name="Out" value="pCondition"></param>
+      </procedure>      
+        <procedure name="j2"  logic="Query" ifyes="clear1" ifno="">
+        <param name="In" value="pCondition"></param>
+        <param name="Out" value="pTable"></param>
+        <param name="Sql" value="issue/QryIssueRiskList"></param>
+      </procedure>   
+      <procedure name="clear1"  logic="Clear" ifyes="list5" ifno="">
+        <param name="Out" value="panRiskType" />
+      </procedure>         
+      <procedure name="list5"  logic="List" ifyes="" ifno="">
+      	<param name="In" value="panRiskType"/>
+        <param name="Out" value="pCondition.eq_riskResultType"/>
+        <param name="Sql" value="issue/ListByType"/>
+        <param name="Options" value="YorN,[全选/取消]"/>
+      </procedure>       
+    </flow>	
+    <flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueRiskList" />
+      </procedure>              
+    </flow>     
+     <flow trigger="pToolbar.btnExport" event="OnClick" filter="">
+      <procedure name="p1" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pTable" />
+        <param name="In" value="pCondition" />
+        <param name="Sql" value="issue/QryIssueRiskList" />
+      </procedure>
+    </flow>
+    <flow trigger="pToolbar.btnClear" event="OnClick" filter="">
+      <procedure name="jsquery"  logic="Clear" ifyes="" ifno="">
+        <param name="Out" value="pCondition" />
+      </procedure>              
+    </flow>    
+    <flow trigger="pTable.title" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pTable.issueId" />
+      </procedure>
+      <procedure name="j2"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueView" />
+        <param name="Mode" value="Readonly" />
+      </procedure>
+    </flow>    
+    <flow trigger="pCondition.projName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="Project"/>
+        <param name="Out" value="pCondition"/>
+        <param name="Title" value="项目选择"/>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,projName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>    
+    <flow trigger="pCondition.reporterName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+      	<param name="In" value="pCondition"/>
+      	<param name="Alias" value="eq_projId,projId|eq_reporter,id"/>
+        <param name="Sql" value="empNameQ" />
+        <param name="Out" value="pCondition" />
+        <param name="Title" value="发起人选择" />
+        <param name="Options" value="$RESET,重置"/>
+        <param name="Columns" value="id,编码,eq_reporter|name,姓名,reporterName" />
+         <param name="Window" value="Medium" />
+      </procedure>
+    </flow>   
+    <layout>
+  	<region location ="North" scale="">
+        <subregion panel="pToolbar" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+		<subregion panel="pCondition" location="North" scale=""/>
+		<subregion panel="pTable" location="Center" scale=""/>
+		<subregion panel="panRiskType" location="South" scale=""/>
+      </region>
+    </layout>
+    </ui>
+    </ui_layer>
+    </tsoftware>

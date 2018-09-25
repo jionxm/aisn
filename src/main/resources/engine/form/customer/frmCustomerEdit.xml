@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmCustomerEdit" title="潜在客户编辑">
+			<panel name="customerGroup" title="tab1" object="tcustomer"
+				type="Group">
+				<control name="customerName" title="客户名全称" property="customerName"
+					type="TextBox" edit="Y" required="Y" format="" width="1" height="1"
+					column="" />
+				<control name="shortName" title="客户名简称" property="shortName"
+					type="TextBox" edit="Y" required="" format="" width="1" height="1"
+					column="2" />
+				<control name="eq_id" title="id" property="id" type="Hidden"
+					edit="N" required="" format="" width="" height="" column="" />
+				<control name="coopStatus" title="合作状态" property="coopStatus"
+					type="TextBox" edit="Y" required="N" format="" width="1" height="1"
+					column="" />
+				<control name="type" title="分类" property="type" type="ComboBox"
+					edit="Y" required="N" format="" width="1" height="1" column="2"
+					initial="'integration'" />
+				<control name="sellerName" title="销售" property="sellerName"
+					type="PopupBox" edit="Y" required="" format="" width="1" height=""
+					column="" />
+				<control name="seller" title="销售编号" property="seller" type="Hidden"
+					edit="N" required="" format="" width="" height="" column="" />
+				<control name="presalesName" title="售前" property="presalesName"
+					type="PopupBox" edit="Y" required="" format="" width="1" height=""
+					column="2" />
+				<control name="presales" title="售前编号" property="presales"
+					type="Hidden" edit="N" required="" format="" width="" height=""
+					column="" />
+				<control name="nature" title="属性" property="nature" type="ComboBox"
+					edit="Y" required="N" format="" width="1" height="1" column=""
+					initial="0" />
+				<control name="scale" title="规模" property="scale" type="ComboBox"
+					edit="Y" required="N" format="" width="1" height="1" column="2"
+					initial="0" />
+				<control name="area" title="区域" property="area" type="TextBox"
+					edit="Y" required="N" format="" width="2" height="2" column="1" />
+				<control name="marks" title="说明" property="marks" type="TextBox"
+					edit="Y" required="N" format="" width="2" height="2" column="1" />
+
+				<control name="createTime" title="创建时间" property="createTime"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="" target="editMode=='Add'?CurrentTime():nil" />
+				<control name="updateTime" title="最后修改时间" property="updateTime"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="" target="CurrentTime()" />
+
+				<control name="createByName" title="创建人" property="createBy"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="" target="editMode=='Add'?session.userInfo.empId:nil" />
+				<control name="updateByName" title="最后修改人" property="updateBy"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="2" target="session.userInfo.empId" />
+
+			</panel>
+			<!-- <panel name="pTable" title="新建联系人" object="tcontacts" type="Group" 
+				page="0"> <control name="eq_customerId" title="customerId" property="customerId" 
+				type="Hidden" edit="" required="" format="" width="" height="" column="" 
+				/> <control name="btnAdd" title="新增联系人" property="" type="Button" edit="" 
+				required="" format="" width="" height="" column="" /> <control name="btnDel" 
+				title="删除联系人" property="" type="Button" edit="" required="" format="" width="" 
+				height="" column="" /> <control name="ctlMobile" title="手机号" property="tel" 
+				type="TextBox" edit="Y" required="Y" format="" width="100" height="" column="" 
+				/> <control name="ctlContactsName" title="姓名" property="contactsName" type="TextBox" 
+				edit="Y" required="Y" format="" width="100" height="" column="" /> <control 
+				name="ctlType" title="类型" property="type" type="ComboBox" edit="Y" required="Y" 
+				format="" width="100" height="" column="" /> </panel> -->
+			<panel name="customerDown" title="pnlDown" object="" type="Toolbar">
+				<control name="ctlSave" title="确认" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+				<control name="ctlCancel" title="取消" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+			</panel>
+			<!-- <flow trigger="pTable.btnDel" event="OnClick" filter=""> <procedure 
+				name="removeRow" server="" logic="RemoveRow" ifyes="" ifno=""> <param name="In" 
+				value="pTable"></param> </procedure> </flow> 增加登录账户 <flow trigger="pTable.btnAdd" 
+				event="OnClick" filter=""> <procedure name="addRow" server="" logic="AddRow" 
+				ifyes="" ifno=""> <param name="Out" value="pTable"></param> </procedure> 
+				</flow> -->
+
+			<!-- 初始加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="clear" logic="Clear" ifyes="jScaleList"
+					ifno="">
+					<param name="Out" value="customerGroup"></param>
+				</procedure>
+				<procedure name="jScaleList" logic="List" ifyes="jNatureList"
+					ifno="">
+					<param name="Out" value="customerGroup.scale" />
+					<param name="Options" value="0,小|1,中|2,大" />
+				</procedure>
+				<procedure name="jNatureList" logic="List" ifyes="jTypeList"
+					ifno="">
+					<param name="Out" value="customerGroup.nature" />
+					<param name="Options" value="0,国企|1,私企" />
+				</procedure>
+				<procedure name="jTypeList" logic="List" ifyes="branch"
+					ifno="">
+					<param name="Out" value="customerGroup.type" />
+					<param name="Sql" value="customer/frmjType" />
+				</procedure>
+				<procedure name="branch" server="" logic="Branch" ifyes=""
+					ifno="jDecodeId">
+					<param name="In" value="getStorage('frmCustomerEdit_EditMode')=='Add'"></param>
+				</procedure>
+				<procedure name="jDecodeId" server="" logic="DecodeId"
+					ifyes="qId" ifno="">
+					<param name="Out" value="customerGroup.eq_id"></param>
+				</procedure>
+				<procedure name="qId" server="" logic="QueryById" ifyes=""
+					ifno="">
+					<param name="In" value="customerGroup"></param>
+					<param name="Out" value="customerGroup"></param>
+					<param name="Sql" value="customer/QryCustomerList"></param>
+				</procedure>
+			</flow>
+
+
+			<!-- 售前人员名称 -->
+			<flow trigger="customerGroup.presalesName" event="OnClick"
+				filter="">
+				<procedure name="Querypresalses" logic="Find" ifyes=""
+					ifno="">
+					<!-- <param name="In" value="customerGroup"></param> -->
+					<param name="Out" value="customerGroup"></param>
+					<param name="Sql" value="TechnologistQry"></param>
+					<param name="Title" value="售前人员名称选择" />
+					<param name="Options" value="$RESET,重置" />
+					<param name="Columns" value="id,售前人员编号,presales|name,售前人员名称,presalesName|orgName,部门"></param>
+				</procedure>
+			</flow>
+
+			<!-- 销售人员名称 -->
+			<flow trigger="customerGroup.sellerName" event="OnClick" filter="">
+				<procedure name="Queryseller" logic="Find" ifyes="" ifno="">
+					<!-- <param name="In" value="customerGroup"></param> -->
+					<param name="Out" value="customerGroup"></param>
+					<param name="Sql" value="TechnologistQry"></param>
+					<param name="Title" value="销售人员名称选择" />
+					<param name="Options" value="$RESET,重置" />
+					<param name="Columns" value="id,销售人员编号,seller|name,销售人员名称,sellerName|orgName,部门"></param>
+				</procedure>
+			</flow>
+
+			<!-- 选择创建人 -->
+			<flow trigger="customerGroup.createByName" event="OnClick"
+				filter="">
+				<procedure name="jSearch" logic="Find" ifyes="" ifno="">
+					<param name="In" value="customerGroup" />
+					<param name="Sql" value="createlQry" />
+					<param name="Out" value="customerGroup" />
+					<param name="Title" value="创建人选择" />
+					<param name="Options" value="$RESET,重置" />
+					<param name="Columns" value="id,编码,eq_createBy|name,姓名,createByName|orgName,部门" />
+					<param name="Window" value="Medium" />
+				</procedure>
+			</flow>
+			<!-- 选择最后修改人 -->
+			<flow trigger="customerGroup.updateByName" event="OnClick"
+				filter="">
+				<procedure name="jSearch" logic="Find" ifyes="" ifno="">
+					<param name="In" value="customerGroup" />
+					<param name="Sql" value="emp" />
+					<param name="Out" value="customerGroup" />
+					<param name="Title" value="修改人选择" />
+					<param name="Options" value="$RESET,重置" />
+					<param name="Columns" value="id,编码,eq_updateBy|name,姓名,updateByName|orgName,部门" />
+					<param name="Window" value="Medium" />
+				</procedure>
+			</flow>
+
+			<!-- 确认 -->
+			<flow trigger="customerDown.ctlSave" event="OnClick" filter="">
+				<procedure name="jssave" logic="Save" ifyes="jsclose"
+					ifno="">
+					<param name="In" value="customerGroup"></param>
+					<param name="Msg" value="'潜在客户信息已被保存,详情请查看操作日志'"></param>
+					<!-- <param name="Plugin" value="insertCustomerPlugins" /> -->
+				</procedure>
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+			<!-- 取消 -->
+			<flow trigger="customerDown.ctlCancel" event="OnClick" filter="">
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="false"></param>
+				</procedure>
+			</flow>
+
+			<layout>
+				<region location="South" scale="">
+					<subregion panel="customerDown" location="South" scale="" />
+					<!-- <subregion panel="pTable" location="Center" scale="" /> -->
+				</region>
+				<region location="Center" scale="">
+					<subregion panel="customerGroup" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+
+	</ui_layer>
+</tsoftware>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+	<object	name="pushlog" table="t_commit" primary="id" unique="" order="">
+		<property name="id" type="Long" length="20" initial="" field="id"/>
+		<property name="sha1" type="String" length="50" initial="" field="c_id"/>
+		<property name="issueId" type="Long" length="20" initial="" field="issue_id"/>
+		<property name="message" type="String" length="50" initial="" field="message"/>
+		<property name="date" type="Date" length="" initial="" field="timestamp"/>
+		<property name="authorName" type="String" length="20" initial="" field="name"/>
+	</object>
+</model_layer>
+<ui_layer>
+  <ui name="baselineDiff" title="基线差异报告">
+   	<panel name="pnlHidden" title="pnlHidden" object="commitLog" type="Hidden">
+		<control name="sha1" title="id" property="sha1" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlDg" title="基线发布列表" object="pushlog" type="Grid"  multiple="">
+		<!-- <control name="baseline" title="基线"  property="baseline" type="TextBox" edit="" required="" format="" width="100" height="" column=""/> -->
+		<control name="ctlsha1" title="提交编号" property="sha1" type="DataLink" edit="" required="" format="" width="300" height="" column=""/>
+    	<control name="ctlissue" title="工作项编号" property="issueId" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctltitle" title="标题" property="message" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="ctlcommitTime" title="提交日期" property="date" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctlcommitName" title="提交人" property="authorName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<!-- <control name="test" title="测试人"  property="test" type="TextBox" edit="" required="" format="" width="200" height="" column=""/> -->
+	</panel>
+	<panel name="pnlUp" title="操作按钮" object="" type="Toolbar">
+		<control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlBack" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+      <procedure name="getbaseline" server="" logic="DecodeId" ifyes="jsQuery" ifno="">
+        <param name="Out" value="pnlHidden.sha1"></param>
+      </procedure>
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlHidden"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineDiff"></param>
+      </procedure> 
+    </flow>
+    <!-- 导出清单 -->
+    <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+      <procedure name="exportdata" server="" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pnlDg"></param>
+        <param name="In" value="pnlHidden"></param>
+        <param name="Sql" value="baseline/QryBaselineReport"></param>
+      </procedure>
+    </flow>
+    <!-- 返回 -->
+    <flow trigger="pnlUp.ctlBack" event="OnClick" filter="" >
+      <procedure name="jsback" logic="Back" ifyes="" ifno="">
+      	<param name="Mode" value="Edit" />
+      </procedure>
+    </flow>
+    
+    <!-- 提交文件详情 -->
+    <flow trigger="pnlDg.ctlsha1" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.sha1" />
+      </procedure>
+      <procedure name="jspopup" server="" logic="Popup" ifyes="" ifno="">
+      	<param name="Title" value="提交文件详情"></param>
+        <param name="To" value="frmCommitFile"></param>
+        <param name="Mode" value="Readonly"></param>
+        <param name="Window" value="Large"></param>
+      </procedure>
+    </flow>
+    
+    <layout>
+      <region location ="North" scale="">
+          <subregion panel="pnlUp" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pnlDg" location="Center" scale="" />
+        <subregion panel="pnlHidden" location="North" scale="" />
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

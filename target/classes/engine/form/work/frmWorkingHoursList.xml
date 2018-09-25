@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmWorkingHoursList" title="人员工时统计列表"> 
+  	<panel name="hiddenPanel" title="hidden" object="org" type="Hidden">
+		<control name="eq_id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column="" initial="session.userInfo.empId"/>
+	</panel>
+	<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+		<control name="btnQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnClear" title="清空条件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+ 		<control name="btnExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pCondition" title="查询条件" object="" type="Group">
+		<!-- ge_值大于等于  gt_值大于 lt_值小于  le_值小于等于  eq_等于 -->  
+		<control name="orgId" title="所属部门" property="orgId" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="" />
+		<control name="submitTime" title="月份" property="submitTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="resValue" title="审核状态" property="resValue" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="4" initial="'2'"/>
+	</panel>	
+	<panel name="pTable" title="查询结果" object="" type="Grid" multiple="" page="0">
+		<control name="total" title="姓名" property="total" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="orgId" title="所属部门" property="orgId" type="Hidden" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri1" title="1号" property="ri1" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri2" title="2号" property="ri2" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri3" title="3号" property="ri3" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri4" title="4号" property="ri4" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri5" title="5号" property="ri5" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri6" title="6号" property="ri6" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri7" title="7号" property="ri7" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri8" title="8号" property="ri8" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri9" title="9号" property="ri9" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri10" title="10号" property="ri10" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri11" title="11号" property="ri11" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri12" title="12号" property="ri12" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri13" title="13号" property="ri13" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri14" title="14号" property="ri14" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri15" title="15号" property="ri15" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri16" title="16号" property="ri16" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri17" title="17号" property="ri17" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri18" title="18号" property="ri18" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri19" title="19号" property="ri19" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri20" title="20号" property="ri20" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri21" title="21号" property="ri21" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri22" title="22号" property="ri22" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri23" title="23号" property="ri23" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri24" title="24号" property="ri24" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri25" title="25号" property="ri25" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri26" title="26号" property="ri26" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri27" title="27号" property="ri27" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri28" title="28号" property="ri28" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri29" title="29号" property="ri29" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri30" title="30号" property="ri30" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="ri31" title="31号" property="ri31" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+		<control name="sumHours" title="小计" property="sumHours" type="TextBox" edit="" required="" format="" width="60" height="" column=""/>
+	</panel>
+	
+	<!-- <flow trigger="pCondition.submitTime" event="OnSelect" filter="">
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="worklog/QryWorkingHoursList" />
+      </procedure>
+    </flow> -->
+    
+    <flow trigger="" event="OnLoad" filter="">  
+      <procedure name="j1"  logic="Clear" ifyes="list2" ifno="">
+           <param name="Out" value="pCondition"></param>
+      </procedure>
+      <procedure name="list2"  logic="List" ifyes="list3" ifno="">
+        <param name="Out" value="pCondition.resValue"/>
+        <param name="Sql" value="worklog/ListWorkLogStatus"/>
+        <param name="Options" value=",[全部]"/>
+      </procedure>
+      <procedure name="list3"  logic="List" ifyes="jsquery" ifno="">
+        <param name="Out" value="pCondition.orgId"/>
+        <param name="Sql" value="worklog/ListDetpOrg"/>
+      </procedure> 
+     <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="worklog/QryWorkingHoursList" />
+      </procedure>
+    </flow>	
+    
+   <flow trigger="pToolbar.btnClear" event="OnClick" filter="">
+      <procedure name="j1"  logic="Clear" ifyes="" ifno="">
+           <param name="Out" value="pCondition"></param>
+      </procedure>             
+    </flow> 
+    
+   <flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="worklog/QryWorkingHoursList" />
+      </procedure>              
+    </flow> 
+     <flow trigger="pToolbar.btnExport" event="OnClick" filter="">
+      <procedure name="p1" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pTable" />
+        <param name="In" value="pCondition" />
+        <param name="Sql" value="worklog/QryWorkingHoursList" />
+      </procedure>
+    </flow>
+   
+    <!-- end -->
+    <layout>
+  	<region location ="North" scale="">
+        <subregion panel="pToolbar" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+		<subregion panel="pCondition" location="North" scale=""/>
+		<subregion panel="pTable" location="Center" scale=""/>
+		<subregion panel="hiddenPanel" location="Center" scale="" />
+		
+      </region>
+    </layout>
+    </ui>
+    </ui_layer>
+    </tsoftware>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+<!-- 新建组织 -->
+  <ui name="frmIssueTestEdit" title="测试任务分配">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlConfirm" title="确定" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlCancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="pnlGroup" object="issueTest" type="Group">
+		<control name="ctlId" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="designId" title="id" property="testDesignBy" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="excuteId" title="id" property="testBy" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="design" title="测试设计人" property="testDesignByName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+		<control name="excute" title="测试执行人" property="testByName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="">
+          <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pnlGroup.ctlId"></param>
+      </procedure> 
+      <procedure name="qid"  logic="QueryById" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="QryIssueTestDetail"></param>
+      </procedure>
+    </flow>
+    <flow trigger="pnlGroup.design" event="OnClick" filter="">
+      <procedure name="searchEmp"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="emp"></param>
+        <param name="Title" value="人员选择"></param>
+        <param name="Columns" value="id,编码,designId|name,姓名,design|email,邮箱"></param>
+      </procedure>
+    </flow> 
+    <flow trigger="pnlGroup.excute" event="OnClick" filter="">
+      <procedure name="searchEmp"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="emp"></param>
+        <param name="Title" value="人员选择"></param>
+        <param name="Columns" value="id,编码,excuteId|name,姓名,excute|email,邮箱"></param>
+      </procedure>
+    </flow> 
+    <flow trigger="pnlUp.ctlConfirm" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Msg" value="'人员信息已被保存,详情请查看操作日志'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>
+    <!-- 取消 -->
+    <flow trigger="pnlUp.ctlCancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

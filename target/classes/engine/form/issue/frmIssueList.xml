@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmIssueList" title="工作项列表"> 
+	<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+		<control name="btnQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnClear" title="清空条件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnCreate" title="新增工作项" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnImport" title="导入工作项" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnUpdate" title="批量修改工作项" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnShow" title="显示列" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnReturn" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pCondition" title="查询条件" object="issue" type="Group">
+		<control name="eq_issueId" title="工作项编号" property="issueId" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="projName" title="项目名称" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_sprintId" title="迭代名称" property="sprintId" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<!-- 新增 start -->
+		<control name="eq_modId" title="模块名称" property="modId" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column="4" />
+		<!--新增 end  -->
+		
+		<control name="lk_title" title="标题" property="title" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_issueType" title="类型" property="issueType" type="ComboBox" edit="Y" multiple="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_issueStatus" title="状态" property="issueStatus" type="ComboBox" multiple="Y" edit="Y" required="N" format="" width="1" height="1" column="" initial="'open,workin,reopen'"/>
+		<control name="eq_priority" title="重要程度" property="priority" type="ComboBox" edit="Y" required="N" format="" multiple="Y" width="1" height="1" column="4"/>
+		
+		<control name="reporterName" title="发起人" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="assigneeName" title="处理人" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_testDesignBy" title="测试设计人" property="testDesignBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="testDesignByName" title="测试设计人" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="testByName" title="测试执行人" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="4"/>
+
+		<control name="eq_assignee" title="处理人" property="assignee" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_testBy" title="测试执行人" property="testBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_projId" title="项目" property="projId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_reporter" title="发起人" property="reporter" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="4"/>
+		<control name="ge_createTime" title="开始时间" property="createTime" type="DateBox" edit="Y" required="" format="" width="1" height="1" column=""/>
+		<control name="dl_createTime" title="结束时间" property="createTime" type="DateBox" edit="Y" required="" format="" width="1" height="1" column="4"/>
+	</panel>	
+	<panel name="pTable" title="查询结果" object="issue" type="Grid" multiple="Y" >
+  		<filter name="projMember"><!-- 字典项 -->
+			<field name="projId" sign="in" condition="(select proj_id from t_proj_emp where emp_id='#{session.userInfo.empId}')" conjunction="or" />
+		</filter>
+		<control name="edit" title="编辑" property="" type="Link" edit="" required="" format="" width="250" height="" column=""/>
+		<control name="delete" title="删除" property="" type="Link" edit="" required="" format="" width="250" height="" column=""/>
+		<control name="start" title="开始工作" property="" type="Link" edit="" required="" format="" width="250" height="" column=""/>
+		<control name="resolve" title="解决工作" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="test" title="开始测试" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="close" title="关闭工作" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="closeRisk" title="关闭风险" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="cancel" title="取消工作" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="reopen" title="重新打开" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="addBug" title="新增缺陷" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="issueId" title="工作项编号" property="id" type="DataLink" edit="Y" required="" format="" width="78" height="" column=""/>
+		<control name="name" title="项目" property="projName" type="TextBox" edit="" required="" format="" width="180" height="" column=""/>
+		<control name="sprintName" title="迭代" property="sprintName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<!-- 新增 start -->
+	    <control name="module" title="模块名称" property="moduleName" type="TextBox" edit="" required="" format="" width="100" height="" column="" />
+	    <control name="moduleId" title="模块Id" property="modId" type="Hidden" edit="" required="" format="" width="100" height="" column="" /> 
+	    <!-- 新增 end -->
+		<control name="title" title="标题" property="title" type="TextBox" edit="" required="" format="" width="350" height="" column=""/>
+		<control name="assigneeName" title="处理人 " property="assigneeName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="issueTypeName" title="类型" property="issueTypeName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="issueStatusName" title="状态" property="issueStatusName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="priorityName" title="重要程度" property="priorityName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="reporterName" title="发起人" property="reporterName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		
+		<control name="testDesignByName" title="测试设计人" property="testDesignByName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		<control name="testByName" title="测试执行人" property="testByName" type="TextBox" edit="" required="" format="" width="78" height="" column=""/>
+		
+		<control name="createTime1" title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="TextBox" edit="" required="N" target="CurrentTime()" format="" width="150" height="1" column="1"  />
+		
+		<!-- 更新标记 savecustom用-->
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />		
+<!-- 		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="" required="N" target="CurrentTime()" format="" width="1" height="1" column="1"  />  -->
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />
+	</panel>
+	
+    <flow trigger="" event="OnLoad" filter="">  
+      <procedure name="j1"  logic="Clear" ifyes="list1" ifno="" sync="Y">
+           <param name="Out" value="pCondition"></param>
+      </procedure>      
+      <procedure name="list1"  logic="List" ifyes="list2" ifno=""  sync="N">
+        <param name="Out" value="pCondition.eq_issueType"/>
+        <param name="Sql" value="issue/ListIssueType"/>
+        <param name="Options" value="YorN,[全选/取消]"/>
+      </procedure>       
+      <procedure name="list2"  logic="List" ifyes="list3" ifno="" sync="N">
+        <param name="Out" value="pCondition.eq_issueStatus"/>
+        <param name="Sql" value="issue/ListIssueStatus"/>
+        <param name="Options" value="YorN,[全选/取消]"/>
+      </procedure> 
+      <procedure name="list3"  logic="List" ifyes="list4" ifno=""  sync="N">
+        <param name="Out" value="pCondition.eq_priority"/>
+        <param name="Sql" value="issue/ListIssuePriority"/>
+        <param name="Options" value="YorN,[全选/取消]"/>
+      </procedure>     
+      <procedure name="list4"  logic="List" ifyes="list5" ifno="">
+        <param name="In" value="pCondition"/>
+        <param name="Out" value="pCondition.eq_sprintId"/>
+        <param name="Sql" value="openSprint"/>
+		<param name="Options" value=",[全部]|$NULL,未指派"/>
+      </procedure>   
+	  <!-- 新增 start -->
+	  <procedure name="list5" logic="List" ifyes="j2" ifno="">
+		<param name="In" value="pCondition" />
+		<param name="Out" value="pCondition.eq_modId" />
+		<param name="Sql" value="module" />
+		<param name="Options" value=",[全部]|$NULL,未指派" />
+	  </procedure>
+	  <!-- 新增 end -->
+      <procedure name="j2"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition"></param>
+        <param name="Out" value="pTable"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>   
+    </flow>	
+      <flow trigger="pToolbar.btnImport" event="OnClick" filter="">
+      <procedure name="importbat"  logic="BatchImport" ifyes="" ifno="">
+        <param name="In" value="frmIssueAdd.pForm"></param>
+        <param name="Title" value="批量导入工作项"></param>
+        <param name="Foreign" value="eq_projId|t_project.name|projName,assignee|t_employee.name|assigneeName,testBy|t_employee.name|testByName,testDesignBy|t_employee.name|testDesignByName"></param>
+        <param name="Dict" value="moduleName|moduleA|eq_projId,sprintId|openSprint|eq_projId,issueType|issue/ListIssueType,priority|issue/ListIssuePriority"></param>
+        <param name="Window" value="Large"></param>
+      </procedure>  
+      </flow>
+    <!-- 表格操作列 -->
+    <flow trigger="pTable.edit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pTable.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmIssueEdit" />
+        <param name="Mode" value="Edit" />
+         <param name="Window" value="Medium" />
+         <param name="Title" value="编辑工作项" />
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>              
+    </flow>
+          <flow trigger="pToolbar.btnUpdate" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="j0">
+        <param name="In" value="pTable.id"></param>
+      </procedure>
+            <procedure name="j0" server="" logic="InfoMsg" ifyes="" ifno="">
+       <param name="Msg" value="只有选择一个工作项，才能编辑"></param>
+      </procedure>  
+      
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmIssueUpdate" />
+        <param name="Mode" value="Edit" />
+         <param name="Window" value="Medium" />
+         <param name="Title" value="批量修改工作项" />
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>              
+    </flow>
+    <flow trigger="pTable.delete" event="OnClick" filter="row.issueStatus=='open'">
+      <procedure name="j0" server="" logic="ConfirmMsg" ifyes="j1" ifno="">
+       <param name="Title" value="删除提示" />
+       <param name="Msg" value="确认删除当前工作项吗?" />
+      </procedure>
+      <procedure name="j1" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pTable.id" />
+      </procedure>
+      <procedure name="j2"  logic="Delete" ifyes="j3" ifno="">
+        <param name="In" value="pTable" />
+        <param name="Msg" value="'工作项已删除'" />
+      </procedure>
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>           
+    </flow>  
+    <flow trigger="pTable.start" event="OnClick" filter="row.issueStatus=='open' || row.issueStatus=='reopen' ">
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusStart" />
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已开始'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>    
+    <flow trigger="pTable.resolve" event="OnClick" filter="row.issueStatus=='workin' ">
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusResolve" />
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已解决'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>     
+    <flow trigger="pTable.test" event="OnClick" filter="row.issueStatus=='resolve' ">
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusTest" />
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已开始测试'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>   
+    <flow trigger="pTable.close" event="OnClick" filter="row.issueStatus=='test' &amp;&amp; row.issueType!='risk' ">
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusClose" />
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已关闭'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>
+    <flow trigger="pTable.closeRisk" event="OnClick" filter="row.issueStatus=='test' &amp;&amp; row.issueType=='risk'">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pTable.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmIssueRiskEdit" />
+        <param name="Mode" value="Edit" />
+         <param name="Window" value="Medium" />
+        <param name="Msg" value="'风险工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已关闭'" />
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>   
+    </flow>    
+    <flow trigger="pTable.cancel" event="OnClick" filter="row.issueStatus!='close' &amp;&amp; row.issueStatus!='cancel'" >
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusCancel" />
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已取消'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>
+    <flow trigger="pTable.reopen" event="OnClick" filter="(row.issueType=='bug' &amp;&amp; row.issueStatus=='test') || row.issueStatus=='close' ">
+      <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusReopen"></param>
+        <param name="In" value="pTable" />
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项  &quot;#' + model.id + ':' + model.title + '&quot; 已重新打开'" />
+      </procedure>      
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>          
+    </flow>         
+    <flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>              
+    </flow>     
+     <flow trigger="pToolbar.btnExport" event="OnClick" filter="">
+      <procedure name="p1" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pTable" />
+        <param name="In" value="pCondition" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>
+    </flow>
+    <flow trigger="pToolbar.btnShow" event="OnClick" filter="">
+      <procedure name="p1" logic="ShowColumn" ifyes="" ifno="">
+        <param name="In" value="pTable" />
+      </procedure>
+    </flow>
+    
+    <flow trigger="pToolbar.btnClear" event="OnClick" filter="">
+      <procedure name="jsquery"  logic="Clear" ifyes="" ifno="">
+        <param name="Out" value="pCondition" />
+      </procedure>              
+    </flow>    
+    <flow trigger="pTable.issueId" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pTable.issueId" />
+      </procedure>
+      <procedure name="j2"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueView" />
+        <param name="Mode" value="Readonly" />
+      </procedure>
+    </flow>    
+ 
+    <!-- end -->
+    <flow trigger="pToolbar.btnCreate" event="OnClick" filter="">
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmIssueAdd" />
+        <param name="Mode" value="Add" />
+         <param name="Window" value="Medium" />
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pCondition" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="issue/QryIssueList" />
+      </procedure>              
+    </flow>      
+    <flow trigger="pCondition.projName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="reloadSprint" ifno="">
+        <param name="Sql" value="Project"/>
+        <param name="Out" value="pCondition"/>
+        <param name="Title" value="项目选择"/>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,projName"/>
+         <param name="Window" value="Medium"/>
+      </procedure> 
+       <procedure name="reloadSprint"  logic="List" ifyes="list" ifno="">
+           <param name="In" value="pCondition" />
+           <param name="Out" value="pCondition.eq_sprintId" />
+           <param name="Sql" value="openSprint" />
+			<param name="Options" value=",[全部]|$NULL,未指派"/>
+       </procedure>
+	  <!-- 新增 start -->
+	  <procedure name="list" logic="List" ifyes="" ifno="">
+		<param name="In" value="pCondition" />
+		<param name="Out" value="pCondition.eq_modId" />
+		<param name="Sql" value="module" />
+		<param name="Options" value=",[全部]|$NULL,未指派" />
+	  </procedure>
+	  <!-- 新增 end -->	   
+    </flow>
+  
+    <flow trigger="pCondition.reporterName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+      	<param name="In" value="pCondition"/>
+      	<param name="Alias" value="eq_projId,projId|eq_reporter,id"/>
+        <param name="Sql" value="empNameQ" />
+        <param name="Out" value="pCondition" />
+        <param name="Title" value="发起人选择" />
+        <param name="Options" value="$RESET,重置"/>
+        <param name="Columns" value="id,编码,eq_reporter|name,姓名,reporterName" />
+         <param name="Window" value="Medium" />
+      </procedure>
+    </flow>   
+    <flow trigger="pCondition.assigneeName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+      	<param name="In" value="pCondition"/>
+      	<param name="Alias" value="eq_projId,projId|eq_assignee,id"/>
+        <param name="Sql" value="empNameQ" />
+        <param name="Out" value="pCondition" />
+        <param name="Title" value="处理人人选择" />
+        <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+        <param name="Columns" value="id,编码,eq_assignee|name,姓名,assigneeName" />
+         <param name="Window" value="Medium" />
+      </procedure>
+    </flow>      
+    <flow trigger="pCondition.testDesignByName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+      	<param name="In" value="pCondition"/>
+      	<param name="Alias" value="eq_projId,projId|eq_testDesignBy,id"/>
+        <param name="Sql" value="empNameQ"/>
+        <param name="Out" value="pCondition"/>
+        <param name="Title" value="测试设计人选择"/>
+        <param name="Columns" value="id,编码,eq_testDesignBy|name,姓名,testDesignByName"/>
+        <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+        <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>    
+    <flow trigger="pCondition.testByName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+      	<param name="In" value="pCondition"/>
+      	<param name="Alias" value="eq_projId,projId|eq_testBy,id"/>
+        <param name="Sql" value="empNameQ" />
+        <param name="Out" value="pCondition" />
+        <param name="Title" value="测试执行人选择" />
+        <param name="Columns" value="id,编码,eq_testBy|name,姓名,testByName" />
+        <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+         <param name="Window" value="Medium" />
+      </procedure>
+    </flow>            
+    <flow trigger="pToolbar.btnReturn" event="OnClick" filter="root!=''" >
+      <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+      </procedure>
+    </flow>	     
+    <flow trigger="pTable.addBug" event="OnClick" filter="row.issueType=='feature' || row.issueType=='improvement'">
+        <procedure name="je" logic="EncodeId" ifyes="jspopup" ifno="">
+            <param name="In" value="pTable.id"></param>
+        </procedure>
+        <procedure name="jspopup" logic="Popup" ifyes="queryTable" ifno="">
+            <param name="To" value="frmIssueBugAdd"></param>
+            <param name="Mode" value="Add"></param>
+            <param name="Window" value="Medium"></param>
+            <param name="Title" value="新增缺陷"></param>
+        </procedure>
+        <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+	        <param name="In" value="pCondition"></param>
+	        <param name="Out" value="pTable"></param>
+	        <param name="Sql" value="issue/QryIssueList"></param>
+        </procedure>
+    </flow>
+    <layout>
+  	<region location ="North" scale="">
+        <subregion panel="pToolbar" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+		<subregion panel="pCondition" location="North" scale=""/>
+		<subregion panel="pTable" location="Center" scale=""/>
+      </region>
+    </layout>
+    </ui>
+    </ui_layer>
+    </tsoftware>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="sprintEdit" title="编辑迭代信息">
+   	<panel name="pnlHidden" title="pnlHidden" object="project" type="Hidden">
+		<control name="projId" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="迭代信息" object="sprint" type="Group">
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="" height="" column=""/>
+		<control name="ctlprojName" title="项目名称" property="projName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="1"/>
+		<control name="aim" title="跌代目标" property="aim" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="ctlprojId" title="项目编号" property="projId" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="1"/>
+		<control name="ctlName" title="迭代名称" property="name" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="ge_ctlstartTime" title="开发启动日期" property="startTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="le_ctlendTime" title="开发完成日期" property="endTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="ge_ctltestStartTime" title="测试启动日期" property="testStartTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="le_ctltestEndTime" title="测试完成日期" property="testEndTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="ctlremark" title="备注" property="remark" type="TextBox" edit="Y" required="N" format="" width="1" height="6" column="1"/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column="1"  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />		
+		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil" format="" width="1" height="1" column="1"  />
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column="1"  />
+	</panel>
+	<panel name="pnlDown" title="pnlDown" object="" type="Toolbar">
+		<control name="ctlSave" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlCancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+   	  <procedure name="branch" server="" logic="Branch" ifyes="getProjId" ifno="getId">
+        <param name="In" value="getStorage('sprintEdit_EditMode')=='Add'"></param>
+      </procedure>          
+      <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pnlGroup.id"></param>
+      </procedure>  
+      <procedure name="qid"  logic="QueryById" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure> 
+      <procedure name="getProjId" server="" logic="DecodeId" ifyes="qProjectId" ifno="">
+        <param name="Out" value="pnlHidden.projId"></param>
+      </procedure>
+      <procedure name="qProjectId"  logic="QueryById" ifyes="" ifno="">
+        <param name="In" value="pnlHidden"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="proj/QryProjectName"></param>
+      </procedure>
+    </flow>
+    <!-- 确认 -->
+    <flow trigger="pnlDown.ctlSave" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'" >
+    	<procedure name="jsbranch1" logic="Branch" ifyes="jsbranch2" ifno="jsmsg">
+            <param name="In" value="getPanelControlValue('pnlGroup.ge_ctlstartTime')&lt;=getPanelControlValue('pnlGroup.le_ctlendTime')"></param>
+        </procedure>
+        <procedure name="jsbranch2" logic="Branch" ifyes="jssave" ifno="jsmsg">
+            <param name="In" value="getPanelControlValue('pnlGroup.ge_ctltestStartTime')&lt;=getPanelControlValue('pnlGroup.le_ctltestEndTime')"></param>
+        </procedure>
+      	<procedure name="jsmsg" logic="InfoMsg" ifyes="" ifno="">
+      		<param name="Msg" value="您选的完成日期应小于开始日期"></param>
+      	</procedure>
+       <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Msg" value="'迭代信息已被保存,详情请查看操作日志'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>
+    <!-- 取消 -->
+    <flow trigger="pnlDown.ctlCancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlDown" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="Center" scale="" />
+        <subregion panel="pnlHidden" location="North" scale="" />
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

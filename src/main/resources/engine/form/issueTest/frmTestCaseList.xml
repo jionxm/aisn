@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="testCase" table="T_TESTCASE" primary="id" unique="" order="create_time desc">
+            <property name="id" type="Long" length="10" validate="" field="id"/>
+            <property name="issueId" type="Long" length="20" validate="" field="issue_id"/>
+            <property name="issueName" type="String" length="20" validate="" field=""/>
+
+            <property name="projId" type="Long" length="20" validate="" field=""/>
+            <property name="projectName" type="String" length="20" validate="" field=""/>
+			<property name="number" type="Long" length="5" validate="" field=""/>
+            <property name="name" type="String" length="50" validate="" field="name"/>
+            <property name="title" type="String" length="50" validate="" field=""/>
+            <property name="level" type="String" length="20" validate="" field="level"/>
+            <property name="precondition" type="String" length="200" validate="" field="precondition"/>
+            <property name="lastResult" type="String" length="50" validate="" field="last_result"/>
+            <property name="lastResultName" type="String" length="50" validate="" field=""/>
+            <property name="createTime" type="Date" length="" validate="" field="CREATE_TIME"/>
+            <property name="createBy" type="String" length="50" validate="" field="CREATE_BY"/>
+            <property name="createByName" type="String" length="50" validate="" field=""/>
+            <property name="updateTime" type="Date" length="" validate="" field="UPDATE_TIME"/>
+            <property name="updateBy" type="String" length="50" validate="" field="UPDATE_BY"/>
+            <property name="updateByName" type="String" length="" validate="" field=""/>
+			<property name="description" type="String" length="200" validate="" field=""/>
+            <property name="expectResult" type="String" length="200" validate="" field=""/>
+            
+        </object>
+        <object name="testCaseStep" table="T_TESTCASE_STEP" primary="id" unique="" order="id asc">
+            <property name="id" type="Long" length="10" validate="" field="id"/>
+            <property name="testcaseId" type="String" length="20" validate="" field="testcase_id"/>
+            <property name="number" type="Long" length="5" validate="" field="number"/>
+            <property name="description" type="String" length="200" validate="" field="description"/>
+            <property name="expectResult" type="String" length="200" validate="" field="expect_result"/>
+            <property name="createTime" type="String" length="" validate="" field="CREATE_TIME"/>
+            <property name="createBy" type="String" length="50" validate="" field="CREATE_BY"/>
+            <property name="createByName" type="String" length="50" validate="" field=""/>
+            <property name="updateTime" type="String" length="" validate="" field="UPDATE_TIME"/>
+            <property name="updateBy" type="String" length="50" validate="" field="UPDATE_BY"/>
+            <property name="updateByName" type="String" length="" validate="" field=""/>
+        </object>
+        <object name="testCaseRecord" table="T_TESTCASE_RECORD" primary="id" unique="" order="">
+            <property name="id" type="Long" length="10" validate="" field="id"/>
+            <property name="testcaseId" type="Long" length="20" validate="" field="testcase_id"/>
+            <property name="name" type="String" length="20" validate="" field=""/>
+            <property name="result" type="String" length="50" validate="" field="result"/>
+            <property name="resultName" type="String" length="50" validate="" field=""/>
+            <property name="createTime" type="Date" length="" validate="" field="CREATE_TIME"/>
+            <property name="createBy" type="String" length="50" validate="" field="CREATE_BY"/>
+            <property name="createByName" type="String" length="50" validate="" field=""/>
+            <property name="updateTime" type="String" length="" validate="" field="UPDATE_TIME"/>
+            <property name="updateBy" type="String" length="50" validate="" field="UPDATE_BY"/>
+            <property name="updateByName" type="String" length="" validate="" field=""/>
+        </object>
+    </model_layer>
+    <ui_layer>
+        <!-- 新建组织 -->
+        <ui name="frmTestCaseList" title="测试用例列表">
+            <panel name="pnlUp" title="工具条" object="" type="Toolbar">
+                <control name="ctlAdd" title="新增测试用例" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <!-- <control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/> -->
+                <control name="ctlBack" title="返回" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+            <panel name="pnlGroup" title="pnlGroup" object="testCase" type="Group">
+                <control name="name" title="工作项名" property="name" type="TextBox" edit="N" required="N" format=""
+                         width="1" height="1" column="2"/>
+                <control name="eq_issueId" title="id" property="id" type="Hidden" edit="Y" required="N" format=""
+                         width="" height="" column=""/>
+            </panel>
+            <panel name="pnlDg" title="pnlDg" object="testCase" type="Grid" multiple="">
+                <control name="ctlCopy" title="复制" property="" type="Link" edit="" required="" format="" width="240"
+                         height="" column=""/>
+                <control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="delete" title="删除" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlAdd1" title="新增测试记录" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlAdd2" title="新增缺陷" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="id" title="测试用例ID" property="id" type="DataLink" edit="N" required="N" format=""
+                         width="80" height="1" column=""/>
+                <control name="name" title="名称" property="name" type="TextBox" edit="N" required="N" format=""
+                         width="200" height="1" column=""/>
+                <control name="level" title="等级" property="level" type="TextBox" edit="N" required="N" format=""
+                         width="100" height="1" column=""/>
+                <control name="updateTime" title="更新日期" property="updateTime" type="TextBox" edit="" required="N"
+                         target="CurrentTime()" format="" width="150" height="1" column="1"/>
+                <control name="updateBy" title="更新人" property="updateByName" type="TextBox" edit="" required="N"
+                         target="session.userInfo.empId" format="" width="80" height="1" column="1"/>
+                <control name="createTime" title="创建日期" property="createTime" type="TextBox" edit="" required="N"
+                         target="CurrentTime()" format="" width="150" height="1" column="1"/>
+                <control name="createBy" title="创建人" property="createByName" type="TextBox" edit="" required="N"
+                         target="session.userInfo.empId" format="" width="80" height="1" column="1"/>
+                <control name="result" title="最新测试结果" property="lastResultName" type="TextBox" edit="N" required="N"
+                         format="" width="170" height="1" column=""/>
+            </panel>
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+                    <param name="Out" value="pnlGroup.eq_issueId"></param>
+                </procedure>
+                <procedure name="qid" logic="QueryById" ifyes="query" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="QryIssueTestDetail"></param>
+                </procedure>
+                <procedure name="query" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlAdd2" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'">
+                <procedure name="je" logic="EncodeId" ifyes="jspopup" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jspopup" logic="Popup" ifyes="queryTable" ifno="">
+                    <param name="To" value="frmBugAdd"></param>
+                    <param name="Mode" value="Add"></param>
+                    <param name="Window" value="Medium"></param>
+                    <param name="Title" value="新增缺陷"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlEdit" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'">
+                <procedure name="je" logic="EncodeId" ifyes="jsTransition" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jsTransition" logic="Transition" ifyes="queryTable" ifno="">
+                    <param name="To" value="frmTestCaseEdit"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlCopy" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'">
+                <procedure name="je" logic="EncodeId" ifyes="jsTransition" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jsTransition" logic="Transition" ifyes="queryTable" ifno="">
+                    <param name="To" value="frmTestCaseEdit"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlAdd1" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'">
+                <procedure name="je" logic="EncodeId" ifyes="jspopup" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jspopup" logic="Popup" ifyes="queryTable" ifno="">
+                    <param name="To" value="frmRecordAdd"></param>
+                    <param name="Mode" value="Add"></param>
+                    <param name="Window" value="Medium"></param>
+                    <param name="Title" value="新增测试记录"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.id" event="OnClick" filter="">
+                <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jsgoto" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jsgoto" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmTestCaseDetail"></param>
+                    <param name="Mode" value="Readonly"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlAdd" event="OnClick" filter="">
+                <procedure name="je" logic="EncodeId" ifyes="jspopup" ifno="">
+                    <param name="In" value="pnlGroup.eq_issueId"></param>
+                </procedure>
+                <procedure name="jspopup" logic="Transition" ifyes="queryTable" ifno="">
+                    <param name="To" value="frmTestCaseAdd"></param>
+                    <param name="Mode" value="Add"></param>
+                    <param name="Window" value="Large"></param>
+                    <param name="Title" value="新增测试用例"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlBack" event="OnClick" filter="">
+                <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.delete" event="OnClick" filter="row.lastResult==nil||row.lastResult==''">
+                <procedure name="j0" server="" logic="ConfirmMsg" ifyes="j1" ifno="">
+                    <param name="Title" value="删除提示"/>
+                    <param name="Msg" value="确认删除当前测试用例吗?"/>
+                </procedure>
+                <procedure name="j1" server="" logic="EncodeId" ifyes="j2" ifno="">
+                    <param name="In" value="pnlDg.id"/>
+                </procedure>
+                <procedure name="j2" logic="Delete" ifyes="j3" ifno="">
+                    <param name="In" value="pnlDg"/>
+                    <param name="Msg" value="'已删除'"/>
+                </procedure>
+                <procedure name="j3" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryTestCaseList"></param>
+                </procedure>
+            </flow>
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlUp" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="">
+                    <subregion panel="pnlGroup" location="North" scale=""/>
+                    <subregion panel="pnlDg" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

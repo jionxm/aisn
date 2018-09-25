@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+			
+<model_layer>
+  <object name="meeting" table="t_meeting" primary="id" unique="" order="">
+	<property name="id" type="Long" length="" validate=""  field="id"/>
+	<property name="meetingTime" type="Date" length="50" validate="" field="meeting_time"/>
+	<property name="originator" type="String" length="50" validate="" field="originator"/>
+	<property name="attendee" type="String" length="50" field="attendee"></property>
+	<property name="writeBy" type="Long" length="20" validate="" field="write_by"/>
+	<property name="writeByName" type="String" length="20" validate="" field=""/>
+	<property name="projectId" type="Long" length="20" validate="" field="project_id"/>
+	<property name="projectName" type="String" length="50" validate="" field=""/>
+	<property name="theme" type="String" length="100" validate=""  field="theme"/>
+	<property name="content" type="String" length="2000" validate=""  field="content"/>
+	<property name="result" type="String" length="1000" validate=""  field="result"/>
+	<property name="status" type="String" length="20" validate=""  field="status"/>
+	<property name="statusName" type="String" length="20" validate=""  field=""/>
+	<property name="place" type="String" length="100" validate=""  field="place"/>
+	<property name="issueCount" type="Long" length="20" validate="" field=""/>
+	<property name="fileCount" type="Long" length="20" validate="" field=""/>
+	<property name="createTime" type="String" length="" validate=""  field="CREATE_TIME"/>
+	<property name="createBy" type="String" length="50" validate=""  field="CREATE_BY"/>
+	<property name="updateTime" type="String" length="" validate=""  field="UPDATE_TIME"/>
+	<property name="updateBy" type="String" length="50" validate=""  field="UPDATE_BY"/>
+	<property name="updateCount" type="String" length="6" validate=""  field="UPDATE_COUNT" />
+  </object>
+    <object name="meetingDetail" table="t_meeting_detail" primary="id" unique="id" order="">
+	<property name="id" type="Long" length="" validate=""  field="id"/>
+	<property name="meetingId" type="String" length="50" validate="" field="meeting_id"/>
+	<property name="issueId" type="Long" length="50" validate="" field="issue_id"/>
+	<property name="issueName" type="String" length="50" validate="" field=""/>
+	<property name="assignee" type="String" length="50" validate="" field=""/>
+	<property name="reporter" type="String" length="50" validate="" field=""/>
+	<property name="issueCreatTime" type="String" length="50" validate="" field=""/>
+	
+	<property name="createTime" type="String" length="" validate=""  field="CREATE_TIME"/>
+	<property name="createBy" type="String" length="50" validate=""  field="CREATE_BY"/>
+	<property name="updateTime" type="String" length="" validate=""  field="UPDATE_TIME"/>
+	<property name="updateBy" type="String" length="50" validate=""  field="UPDATE_BY"/>
+	<property name="updateCount" type="String" length="6" validate=""  field="UPDATE_COUNT" />
+  </object>
+    <object name="meetingFile" table="t_meeting_file" primary="id" unique="id" order="">
+	<property name="id" type="Long" length="" validate=""  field="id"/>
+	<property name="meetingId" type="String" length="50" validate="" field="meeting_id"/>
+	<property name="fileId" type="String" length="50" validate="" field="file_id"/>
+	<property name="fileName" type="String" length="50" validate="" field=""/>
+	<property name="remark" type="String" length="200" validate="" field="remark"/>
+	<property name="createTime" type="String" length="" validate=""  field="CREATE_TIME"/>
+	<property name="createBy" type="String" length="50" validate=""  field="CREATE_BY"/>
+	<property name="updateTime" type="String" length="" validate=""  field="UPDATE_TIME"/>
+	<property name="updateBy" type="String" length="50" validate=""  field="UPDATE_BY"/>
+	<property name="updateCount" type="String" length="6" validate=""  field="UPDATE_COUNT" />
+  </object>
+</model_layer>
+<ui_layer>
+  <ui name="frmMeetSummary" title="会议纪要列表">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlClear" title="清空" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlAdd" title="新增会议纪要" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<!-- 查询条件用op_做前缀 -->
+	<panel name="pnlGroup" title="pnlGroup" object="meeting" type="Group">
+		<control name="eq_meetingTime" title="会议日期" property="meetingTime" type="DateBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="lk_originator" title="发起人" property="originator" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="2"/>
+		<control name="lk_attendee" title="参会人" property="attendee" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="writeByName" title="记录人" property="writeByName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="2"/>
+		<control name="projectName" title="项目名" property="projectName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="lk_theme" title="会议主题" property="theme" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="2"/>
+		<control name="eq_status" title="跟进状态" property="status" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column="2"/>
+		<control name="eq_writeBy" title="记录人" property="writeBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="eq_projectId" title="项目" property="projectId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		
+	</panel>
+	<panel name="pnlDg" title="pnlDg" object="meeting" type="Grid"  multiple="">
+		<control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctlDel" title="删除" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlView" title="查看" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="meetingTime" title="会议日期" property="meetingTime" type="TextBox" edit="" required="N" format="Common.DateFormatter" width="100" height="1" column=""/>
+		<control name="originator" title="发起人" property="originator" type="TextBox" edit="" required="N" format="" width="100" height="1" column="2"/>
+		<control name="attendee" title="参会人" property="attendee" type="TextBox" edit="" required="N" format="" width="150" height="1" column=""/>
+		<control name="writeByName" title="记录人" property="writeByName" type="TextBox" edit="" required="N" format="" width="100" height="1" column="2"/>
+		<control name="projectName" title="项目名" property="projectName" type="TextBox" edit="" required="N" format="" width="150" height="1" column=""/>
+		<control name="theme" title="会议主题" property="theme" type="TextBox" edit="" required="N" format="" width="150" height="1" column="2"/>
+		<control name="status" title="跟进状态" property="statusName" type="TextBox" edit="" required="N" format="" width="100" height="1" column="2"/>
+		<control name="issueCount" title="相关工作项记录数" property="issueCount" type="TextBox" edit="" required="" format="" width="110" height="" column=""/>
+		<control name="fileCount" title="相关附件记录数" property="fileCount" type="TextBox" edit="" required="" format="" width="110" height="" column=""/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
+		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />
+	</panel>
+	
+	<!-- 初始化 -->
+    <flow trigger="" event="OnLoad" filter="">
+          <procedure name="initForm"  logic="Clear" ifyes="jsdict1" ifno="">
+           <param name="Out" value="pnlGroup"></param>
+      </procedure>  
+      <procedure name="jsdict1"  logic="List" ifyes="j4" ifno="">
+        <param name="Out" value="pnlGroup.eq_status"></param>
+        <param name="Sql" value="meetSummary/QryMeetStatus"></param>
+        <param name="Options" value=",[全部]"></param>
+      </procedure>      
+      <procedure name="j4"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="meetSummary/QryMeetList"></param>
+      </procedure>   
+    </flow>
+   	<flow trigger="pnlGroup.writeByName" event="OnClick" filter="" >
+      <procedure name="find"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="emp"></param>
+        <param name="Title" value="人员选择"></param>
+        <param name="Columns" value="id,编码,eq_writeBy|name,姓名,writeByName|email,邮箱"></param>
+      </procedure>
+    </flow>
+   	<flow trigger="pnlGroup.projectName" event="OnClick" filter="" >
+       <procedure name="sprint"  logic="Find" ifyes="" ifno="">
+       <param name="In" value=""></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="pro"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,id,eq_projectId|name,项目名,projectName"></param>
+      </procedure>
+    </flow>
+    <!-- 编辑 -->
+        <flow trigger="pnlDg.ctlEdit" event="OnClick">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmMeetSummaryEdit"></param>
+        <param name="Mode" value="Edit"></param>
+         <param name="Window" value="Large"></param>
+         <param name="Title" value="编辑会议"></param>
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="meetSummary/QryMeetList"></param>
+      </procedure>              
+    </flow>
+        <flow trigger="pnlDg.ctlView" event="OnClick">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmMeetSummaryView"></param>
+        <param name="Mode" value="Readonly"></param>
+         <param name="Window" value="Large"></param>
+         <param name="Title" value="查看会议"></param>
+      </procedure>
+    </flow>
+        <flow trigger="pnlDg.ctlName" event="OnClick">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+        <param name="To" value="frmJobEdit"></param>
+        <param name="Mode" value="Readonly"></param>
+         <param name="Window" value="Large"></param>
+         <param name="Title" value="任务详情"></param>
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="QryMeetList"></param>
+      </procedure>              
+    </flow>
+    <!-- 查询 -->
+        <flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="meetSummary/QryMeetList"></param>
+      </procedure>
+    </flow>
+    
+        <flow trigger="pnlDg.ctlDel" event="OnClick">
+      <procedure name="j0" server="" logic="ConfirmMsg" ifyes="j1" ifno="">
+       <param name="Title" value="删除会议"></param>
+       <param name="Msg" value="确认删除当前记录吗?"></param>
+      </procedure>
+      <procedure name="j1" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="j2"  logic="Delete" ifyes="j3" ifno="">
+        <param name="In" value="pnlDg" />
+        <param name="Cascade" value="t_meeting_file.meeting_id;t_meeting_detail.meeting_id;" />
+        <param name="Msg" value="已删除" />
+      </procedure>
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="meetSummary/QryMeetList"></param>
+      </procedure>              
+    </flow>  
+    <!-- 新增 -->
+        <flow trigger="pnlUp.ctlAdd" event="OnClick" filter="">
+      <procedure name="jspopup" server="" logic="Popup" ifyes="queryTable" ifno="">
+        <param name="To" value="frmMeetSummaryEdit"></param>
+        <param name="Mode" value="Add"></param>
+        <param name="Window" value="Large"></param>
+        <param name="Title" value="新增会议纪要"></param>
+      </procedure>
+      <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="meetSummary/QryMeetList"></param>
+      </procedure>        
+    </flow>
+    <!-- 清空 -->
+        <flow trigger="pnlUp.ctlClear" event="OnClick" filter="">
+      <procedure name="btnClear"  logic="Clear" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="North" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+		<subregion panel="pnlDg" location="Center" scale=""/>
+      </region>
+    </layout>
+  </ui>
+  </ui_layer>
+</tsoftware>

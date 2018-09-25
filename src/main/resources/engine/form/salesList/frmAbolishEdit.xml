@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmAbolishEdit" title="废除商机">
+
+			<!-- 销售线索添加内容 -->
+			<panel name="saleClueTable" title="销售线索表" object="tsalesclues"
+				type="Group">
+				<!-- <control name="status" title="废除状态" property="status" type="Hidden"
+					edit="Y" required="N" format="" width="1" height="" column="" initial="'abolish'"></control> -->
+				<control name="eq_urgency" title="紧急程度" property="urgency"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="id" title="销售编号" property="id" type="Hidden"
+					edit="Y" required="N" format="" width="1" height="" column=""></control>
+				<control name="ctlProName" title="项目名称" property="proName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlDelReason" title="废除原因" property="delReason"
+					type="TextBox" edit="Y" required="Y" format="" width="2" height="3"
+					column="2"></control>
+				<control name="ctlContent" title="项目概述" property="content"
+					type="Hidden" edit="Y" required="" format="" width="2" height="3"
+					column="2"></control>
+				<control name="ctlBudget" title="项目预算(￥)" property="budget"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlProjectStartTime" title="项目启动时间" property="projectStartTime"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlCustomerName" title="客户名" property="customerName"
+					type="Hidden" edit="Y" required="Y" format="" width="1" height=""
+					column="" />
+				<control name="eq_customerId" title="客户编号" property="customerId"
+					type="Hidden" edit="" required="" format="" width="" height=""
+					column=""></control>
+				<control name="ctlInitName" title="初始联系人" property="initContacts"
+					type="Hidden" edit="Y" required="Y" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlInitPhone" title="初始联系方式" property="initContactsTel"
+					type="Hidden" edit="Y" required="Y" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlReportTime" title="商机报备时间" property="reportTime"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlReportName" title="报备人姓名" property="reportName"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlReportContact" title="报备人电话" property="reportContact"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="reportOrgName" title="报备人单位" property="reportOrg"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="sellerName" title="销售人员" property="sellerName"
+					type="Hidden" edit="Y" required="" format="" width="1" height="" column="2"/>
+				<control name="seller" title="销售编号" property="seller" type="Hidden"
+					edit="N" required="" format="" width="" height="" column="2" />
+				<control name="presalesName" title="售前人员" property="presalesName"
+					type="Hidden" edit="Y" required="" format="" width="1" height="" column="2"/>
+				<control name="presales" title="售前编号" property="presales" type="Hidden"
+					edit="N" required="" format="" width="" height="" column="" />
+				<!-- <control name="eq_ctlFollowName" title="跟进人id" property="followId"
+					type="Hidden" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="cltStageName" title="阶段" property="stage"
+					type="Hidden" edit="Y" required="N" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlFollowName" title="跟进人" property="followName"
+					type="PopupBox" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlEstimateTime" title="合同预估时间" property="estimateTime"
+					type="DateBox" edit="Y" required="" format="" width="1" height=""
+					column="2"></control> -->
+				<!-- <control name="customerName" title="客户" property="customerName" 
+					type="PopupBox" edit="Y" required="" format="" width="1" height="" column="" 
+					/> -->
+				<!-- <control name="ctlSalesRevenue" title="销售预计收入" property="salesRevenue"
+					type="TextBox" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				<control name="ctlContractAmount" title="合同预估金额 " property="contractAmount"
+					type="TextBox" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="eq_bid" title="是否投标 " property="bid" type="ComboBox"
+					edit="Y" required="" format="" width="1" height="" column="2"></control>
+				<control name="eq_importanceDegree" title="重要程度 " property="importanceDegree"
+					type="ComboBox" edit="Y" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="eq_projectType" title="项目类型" property="projectType"
+					type="ComboBox" edit="Y" required="" format="" width="1" height=""
+					column="2"></control>
+				
+				
+				<control name="ctlSuccessRate" title="成功率(%)" property="successRate"
+					type="TextBox" edit="Y" required="" format="" width="1" height=""
+					column="2"></control> -->
+				<control name="ctlUpdateTime" title="修改时间" property="updateTime"
+					type="Hidden" edit="Y" required="N" target="CurrentTime()" format=""
+					width="1" height="" column="2"></control>
+				<control name="ctlUpdateByName" title="修改人" property="updateByName"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="" column="2"></control>
+				<control name="eq_ctlUpdateByName" title="修改人id" property="updateBy"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="" column=""></control>
+			</panel>
+
+			<!-- 控件 -->
+			<panel name="saleClueDown" title="控件" object="" type="Toolbar">
+				<control name="ctlSave" title="确认" property="" type="Button"></control>
+				<control name="ctlCancle" title="取消" property="" type="Button"></control>
+			</panel>
+
+			<!-- 逻辑加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<!-- <procedure name="jclear" logic="Clear" ifyes="j1"
+					ifno="">
+					<param name="Out" value="saleClueTable"></param>
+				</procedure> -->
+				<procedure name="j1" server="" logic="DecodeId" ifyes="qid"
+					ifno="">
+					<param name="Out" value="saleClueTable.id" />
+				</procedure>
+				<procedure name="qid" logic="QueryById" ifyes=""
+					ifno="">
+					<param name="In" value="saleClueTable"></param>
+					<param name="Out" value="saleClueTable" />
+					<param name="Sql" value="saleQuery" />
+				</procedure>
+			</flow>
+			
+
+
+			<!-- 确认 -->
+			<flow trigger="saleClueDown.ctlSave" event="OnClick" filter="">
+				<procedure name="jsave" logic="SaveCustom" ifyes="jclose" ifno="">
+					<param name="In" value="saleClueTable"></param>
+					<param name="Sql" value="sale/UpdateSalesStatus"></param>
+					<param name="Msg" value="信息保存成功"></param>
+				</procedure>
+				<procedure name="jclose" logic="Close">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+
+			<!-- 取消 -->
+			<flow trigger="saleClueDown.ctlCancle" event="OnClick" filter="">
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="false"></param>
+				</procedure>
+			</flow>
+
+
+			<!-- 布局 -->
+			<layout>
+				<region location="North" scale="">
+					<subregion panel="saleClueTable" location="Center" scale=""></subregion>
+				</region>
+				<region location="South" scale="">
+					<subregion panel="saleClueDown" location="South" scale=""></subregion>
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware> 

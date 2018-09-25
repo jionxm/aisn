@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+<!-- 迭代model -->
+	<object name="commitFile" table="t_commit" primary="id" unique="" order="id desc">
+		<property name="id" type="Long" length="10" initial="" field="id"/>
+		<property name="Cid" type="String" length="50" field="c_id"/>
+		<property name="message" type="String" length="1000" field="message"/>
+		<property name="url" type="String" length="500" field="url"/>
+		<property name="timestamp" type="Date" length="" field="timestamp"/>
+		<property name="name" type="String" length="100" field="name" />
+		<property name="email" type="String" length="100" field="email" />
+		<property name="pushSha" type="String" length="200" field="push_sha" />
+		<property name="issueId" type="Long" length="20" field="issue_id" />
+ 	</object>  
+</model_layer>
+<ui_layer>
+  <ui name="frmCommitFile" title="提交文件详情">
+   	<panel name="pnlHidden" title="pnlHidden" object="commitFile" type="Group">
+		<control name="eq_Cid" title="Cid" property="Cid" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlDg" title="pnlDg" object="commitFile" type="Grid"  multiple="">
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="Cid" title="Cid" property="Cid" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+    	<control name="message" title="message" property="message" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="timestamp" title="timestamp" property="timestamp" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="name" title="name" property="name" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>		
+		<control name="email" title="email" property="email" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+      <procedure name="getCid" server="" logic="DecodeId" ifyes="jsQuery" ifno="">
+        <param name="Out" value="pnlHidden.eq_Cid"></param>
+      </procedure>
+      <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+      	<param name="In" value="pnlHidden"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryCommitFile"></param>
+      </procedure> 
+    </flow>
+    
+    <layout>
+      <region location ="Center" scale="">
+        <subregion panel="pnlDg" location="Center" scale="" />
+        <subregion panel="pnlHidden" location="North" scale="" />
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

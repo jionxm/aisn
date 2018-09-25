@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmIssueView" title="工作项详情"> 
+	<panel name="pToolbar" title="工具条" object="issue" type="Toolbar">
+		<control name="btnEdit" title="编辑" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnDelete" title="删除工作" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnStart" title="开始工作" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnResolve" title="解决工作" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnTest" title="开始测试" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnClose" title="关闭工作" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnCancel" title="取消工作" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnReopen" title="重新打开" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnTestcase" title="相关测试用例" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnAddMemo" title="新增备注" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnAddfile" title="新增附件" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnReturn" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pForm" title="详细信息" object="issue" type="Group">
+		<control name="issueId" title="工作项ID" property="issueId" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="issueStatusName" title="状态" property="issueStatusName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="projName" title="项目" property="projName" type="TextBox" edit="N" required="N" format="" width="2" height="1" column=""/>
+		<control name="sprintName" title="迭代" property="sprintName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="5"/>
+
+		<control name="title" title="标题" property="title" type="TextBox" edit="N" required="N" format="" width="5" height="2" column="5"/>
+		<control name="remark" title="描述" property="remark" type="TextBox" edit="N" required="N" format="" width="5" height="3" column="5"/>
+		<!-- 新增 start -->
+		<control name="module" title="模块名称" property="moduleName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="" />
+		<!-- 新增 end -->
+		
+		<control name="issueTypeName" title="类型" property="issueTypeName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="issueType" title="类型编码" property="issueType" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="priorityName" title="重要程度" property="priorityName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="createByName" title="创建人" property="createByName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="createTime" title="创建时间" property="createTime" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="5"/>
+		<control name="updateByName" title="最后修改人" property="updateByName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="updateTime" title="最后修改时间" property="updateTime" type="TextBox" edit="N" required="Y" format="" target="CurrentTime()" width="1" height="1" column="" initial=""/>
+		<control name="reporterName" title="发起人" property="reporterName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="assigneeName" title="处理人" property="assigneeName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="testDesignByName" title="测试设计人" property="testDesignByName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="5"/>
+		<control name="testByName" title="测试执行人" property="testByName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="workload" title="预计工作量" property="workload" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="5"/>
+
+		<control name="ctlissueId" title="filter" property="id" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="projId" title="filter" property="projId" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="issueStatus" title="状态" property="issueStatus" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
+		
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />		
+	</panel>	
+	<panel name="pTableMemo" title="备注" object="issueMemo" type="Grid">
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlEdit" title="修改" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="createTime" title="操作时间" property="createTime" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="createByName" title="操作人" property="createByName" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="memo" title="备注内容" property="memo" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+	</panel>
+	<panel name="pTableFile" title="附件" object="issueFile" type="Grid">
+		<control name="ctlDel" title="删除" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="createTime" title="操作时间" property="createTime" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="createByName" title="操作人" property="createByName" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="fileId" title="附件编号" property="fileIndexId" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="fileName" title="附件名" property="fileName" type="DataLink" edit="" required="" format="" width="300" height="" column=""/>
+	</panel>	
+	<panel name="pTableLog" title="日志" object="issueLog" type="Grid" >
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="createTime" title="时间" property="createTime" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="createByName" title="操作人" property="createByName" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>
+		<control name="logContent" title="日志内容" property="logContent" type="TextBox" edit="" required="" format="" width="500" height="" column=""/>
+	</panel>	
+	<panel name="pTableCLog" title="提交日志" object="commitLog" type="Grid" >
+		<control name="sha1" title="提交编号" property="sha1" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="message" title="提交内容" property="message" type="TextBox" edit="" required="" format="" width="240" height="" column=""/>
+		<control name="author" title="操作人" property="authorName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="date" title="提交日期" property="date" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+	</panel>
+	<panel name="pTableFlaw" title="缺陷" object="issueTestCase" type="Grid" >
+  		<control name="id" title="ID" property="id" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+  		<control name="issId" title="工作项ID" property="issueId" type="Hidden" edit="" required="" format="" width="150" height="" column=""/>
+  		<control name="name" title="标题" property="name" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+  		<control name="remark" title="备注" property="remark" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+  		<control name="createTime" title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" width="200" height="" column=""/>
+  		<control name="createBy" title="创建人" property="createBy" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+  		<control name="updateTime" title="修改时间" property="updateTime" type="TextBox" edit="" required="" format="" width="200" height="" column=""/>
+		<control name="updateBy" title="修改人" property="updateBy" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		
+		
+ </panel>
+    <flow trigger="" event="OnLoad" filter="" >
+      <procedure name="j1" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="qid"  logic="QueryById" ifyes="queryMemo" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>
+      <procedure name="queryMemo"  logic="Query" ifyes="queryFile" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableMemo"></param>
+        <param name="Sql" value="issue/QryIssueMemo"></param>
+      </procedure>  
+      <procedure name="queryFile"  logic="Query" ifyes="queryIssLog" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableFile"></param>
+        <param name="Sql" value="issue/QryIssueFile"></param>
+      </procedure> 
+      <procedure name="queryIssLog"  logic="Query" ifyes="queryComLog" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>  
+      <procedure name="queryComLog"  logic="Query" ifyes="queryBug" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableCLog"></param>
+        <param name="Sql" value="issue/QryComLogList"></param>
+      </procedure>  
+      <procedure name="queryBug"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableFlaw"></param>
+        <param name="Sql" value="issue/QryIssueTestCase"></param>
+      </procedure> 
+    </flow>
+    <flow trigger="pToolbar.btnTestcase" event="OnClick" filter="" >
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jsgoto" ifno="">
+        <param name="In" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmTestCaseList"></param>
+        <param name="Mode" value="Readonly"></param>
+      </procedure>
+    </flow>
+    <flow trigger="pToolbar.btnClose" event="OnClick" filter="model.pForm.issueStatus=='test' ">
+		<procedure name="judge" logic="Branch" ifyes="closeRisk" ifno="closeIssue">
+            <param name="In" value="getPanelControlValue('pForm.issueType')=='risk'" />
+		</procedure>
+      <procedure name="closeRisk" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pForm.issueId"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="reload" ifno="">
+        <param name="To" value="frmIssueRiskEdit" />
+        <param name="Mode" value="Edit" />
+         <param name="Window" value="Medium" />
+        <param name="Msg" value="'&lt;b&gt;已关闭&lt;/b&gt;风险工作项[' + model.id + ']'" />
+      </procedure>
+      <procedure name="closeIssue" logic="SaveCustom" ifyes="reload" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusClose"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="In" value="pForm"></param>
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="reload"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList" ></param>
+      </procedure>        
+    </flow>       
+    <flow trigger="pToolbar.btnDelete" event="OnClick" filter="" >
+      <procedure name="j0" server="" logic="ConfirmMsg" ifyes="j1" ifno="">
+       <param name="Title" value="删除提示"></param>
+       <param name="Msg" value="确认删除当前工作项吗?"></param>
+      </procedure>
+      <procedure name="j1" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="j2"  logic="Delete" ifyes="j3" ifno="">
+        <param name="In" value="pForm" />
+        <param name="Msg" value="model.title+'已删除'" />
+      </procedure>
+      <procedure name="j3" server="" logic="Back" ifyes="" ifno="">
+         <param name="Mode" value="Edit" />
+      </procedure> 
+    </flow>
+    <flow trigger="pToolbar.btnEdit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="qid" ifno="">
+        <param name="To" value="frmIssueEdit"/>
+        <param name="Mode" value="Edit"/>
+        <param name="Title" value="编辑工作项" />
+         <param name="Window" value="Medium"/>
+      </procedure>
+      <procedure name="qid"  logic="QueryById" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>             
+    </flow>  
+    <!-- 新增备注 -->  
+    <flow trigger="pToolbar.btnAddMemo" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="queryMemo" ifno="">
+        <param name="To" value="issueMemoEdit" />
+        <param name="Mode" value="Add" />
+        <param name="Title" value="新增工作项备注" />
+        <param name="Window" value="Medium" />
+      </procedure>
+      <procedure name="queryMemo"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableMemo"></param>
+        <param name="Sql" value="issue/QryIssueMemo"></param>
+      </procedure>       
+    </flow>  
+    <!-- 新增附件 -->
+    <flow trigger="pToolbar.btnAddfile" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pForm.ctlissueId"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="queryFile" ifno="">
+        <param name="To" value="issueFileAdd"></param>
+        <param name="Mode" value="Add"></param>
+        <param name="Window" value="Small"></param>
+        <param name="Title" value="新增附件"></param>
+      </procedure>
+      <procedure name="queryFile"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableFile"></param>
+        <param name="Sql" value="issue/QryIssueFile"></param>
+      </procedure>      
+    </flow>      
+    <flow trigger="pToolbar.btnStart" event="OnClick" filter="model.pForm.issueStatus=='open' || model.pForm.issueStatus=='reopen'  ">
+      <procedure name="j1" logic="SaveCustom" ifyes="j2" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusStart"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="j2"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>        
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>        
+    </flow>        
+    <flow trigger="pToolbar.btnResolve" event="OnClick" filter="model.pForm.issueStatus=='workin' ">
+      <procedure name="j1" logic="SaveCustom" ifyes="j2" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusResolve"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="j2"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>             
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>         
+    </flow> 
+    <flow trigger="pToolbar.btnTest" event="OnClick" filter="model.pForm.issueStatus=='resolve' ">
+      <procedure name="j1" logic="SaveCustom" ifyes="j2" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusTest"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="j2"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>        
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>         
+    </flow>
+    <flow trigger="pToolbar.btnCancel" event="OnClick" filter="model.pForm.issueStatus!='close' &amp;&amp; model.pForm.issueStatus!='cancel' ">
+      <procedure name="j1" logic="SaveCustom" ifyes="j2" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusCancel"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="j2"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>      
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>           
+    </flow>
+    <flow trigger="pToolbar.btnReopen" event="OnClick"
+    	 filter="(model.pForm.issueType=='bug' &amp;&amp; model.pForm.issueStatus=='test') || model.pForm.issueStatus=='close'">
+      <procedure name="j1" logic="SaveCustom" ifyes="j2" ifno="">
+        <param name="Sql" value="issue/updateIssueStatusReopen"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'操作成功'"></param>
+      </procedure>      
+      <procedure name="j2"  logic="QueryById" ifyes="j3" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure>
+      <procedure name="j3"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="issue/QryIssLogList"></param>
+      </procedure>                 
+    </flow>                     
+    <flow trigger="pTableLog.remove" event="OnClick" filter="model.name!='Admin'">
+      <procedure name="j0" server="" logic="ConfirmMsg" ifyes="j1" ifno="">
+       <param name="Title" value="删除提示"></param>
+       <param name="Msg" value="确认移除当前角色的功能权限吗?"></param>
+      </procedure>
+      <procedure name="j1" server="" logic="EncodeId" ifyes="j2" ifno="">
+        <param name="In" value="pTableLog.id"></param>
+      </procedure>
+      <procedure name="j2"  logic="Delete" ifyes="queryTable" ifno="">
+        <param name="In" value="pTableLog" />
+        <param name="Msg" value="'权限已移除'" />
+      </procedure>
+      <procedure name="queryTable"  logic="Query" ifyes="j4" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableLog"></param>
+        <param name="Sql" value="QryRoleFuncList"></param>
+      </procedure>              
+    </flow>     
+    <!-- 删除附件 -->
+    <flow trigger="pTableFile.ctlDel" event="OnClick" filter="">
+      <procedure name="msg" server="" logic="ConfirmMsg" ifyes="deleteData" ifno="">
+       <param name="Title" value="删除"></param>
+       <param name="Msg" value="确认删除当前记录吗?"></param>
+      </procedure>
+      <procedure name="deleteData"  logic="Delete" ifyes="queryFile" ifno="">
+        <param name="In" value="pTableFile" />
+        <param name="Msg" value="'记录已删除'" />
+      </procedure>
+      <procedure name="queryFile"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableFile"></param>
+        <param name="Sql" value="issue/QryIssueFile"></param>
+      </procedure>   
+    </flow>  
+    <!-- 修改备注 -->
+    <flow trigger="pTableMemo.ctlEdit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pTableMemo.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="queryMemo" ifno="">
+        <param name="To" value="issueMemoEdit"></param>
+        <param name="Mode" value="Edit"></param>
+        <param name="Title" value="编辑工作项备注"></param>
+         <param name="Window" value="Medium"></param>
+      </procedure>
+      <procedure name="queryMemo"  logic="Query" ifyes="queryFile" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTableMemo"></param>
+        <param name="Sql" value="issue/QryIssueMemo"></param>
+      </procedure>            
+    </flow> 
+    <!-- 附件预览 -->
+    <flow trigger="pTableFile.fileName" event="OnClick" filter="">
+      <procedure name="jspopup" logic="PreviewFile" ifyes="" ifno="">
+        <param name="In" value="pTableFile.fileIndexId"></param>
+      </procedure>
+    </flow> 
+    <flow trigger="pToolbar.btnReturn" event="OnClick" filter="root!=''" >
+      <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+         <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>	      
+    <layout>
+  	<region location ="North" scale="400px">
+        <subregion panel="pToolbar" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+		<subregion panel="pForm" location="North" scale=""/>
+		<subregion panel="pTableMemo" location="Center" scale=""/>
+		<subregion panel="pTableFile" location="Center" scale=""/>
+		<subregion panel="pTableLog" location="Center" scale=""/>
+		<subregion panel="pTableCLog" location="Center" scale=""/>
+      	<subregion panel="pTableFlaw" location="Center" scale=""/>
+      	
+      </region>
+    </layout>
+  </ui>    
+</ui_layer>
+</tsoftware>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+
+    <ui_layer>
+        <ui name="frmReviewView" title="评审详情">
+            <panel name="pnlToolbar" title="工具条" object="" type="Toolbar">
+                <control name="ctlEdit" title="编辑评审" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlDelete" title="删除评审" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlWorkflowStart" title="启动工作流" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlAudit" title="审核" property="" type="Button" edit="" required="" format=""
+                         width=""
+                         height="" column=""/>
+                <control name="ctlWorkflowList" title="查看流程进度" property="" type="Button" edit="" required="" format=""
+                         width=""
+                         height="" column=""/>
+
+                <control name="ctlBack" title="返回" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+            <panel name="pnlInfo" title="详情" object="review" type="Group">
+                <control name="ctlId" title="评审ID" property="id" type="Hidden" initial="" edit="" required="" format=""
+                         width="1" height="" column=""/>
+                <control name="ctrProjName" title="项目" property="projectName" type="TextBox" edit="Y" required="N" format=""
+                         width="1" height="1" column=""/>
+                <control name="eq_reviewId" title="评审ID" property="id" type="Hidden" initial="" edit="" required="" format=""
+                         width="1" height="" column=""/>
+                <control name="ctlApplyDate" title="发起时间" property="startDate" type="DateBox" edit="Y" required="Y"
+                         format="" width="1" height="1" column=""/>
+                <control name="initiatorName" title="发起人" property="initiatorName" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+                <control name="ctlTitle" title="标题" property="title" type="TextBox" edit="Y" required="Y" format="" width="2" height="1" column="1"/>
+                <control name="ctlDescription" title="评审说明" property="description" type="TextBox" edit="Y"
+                         required="N"
+                         format=""
+                         width="1" height="3" column="1"/>
+                <control name="ctlReviewType" title="评审形式" property="reviewTypeName" type="TextBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column="1"/>
+                <control name="ctlWorkflowId" title="工作流模板" property="workflowId" type="Hidden"  edit="Y" required="Y" format=""/>
+
+                <control name="ctlReviewResult" title="评审结果" property="reviewResultName" type="TextBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column="1"/>
+                <control name="ctlWorkflow" title="工作流模板名称" property="workflowName" type="TextBox" edit="Y" required="N" format=""
+                         width="1" height="1" column="1"/>
+                <control name="createByName" title="创建人" property="createByName" type="TextBox" edit="N" required="N"
+                         format=""
+                         width="1" height="1" column="3"/>
+                <control name="createTime" title="创建时间" property="createTime" type="TextBox" edit="N" required="N"
+                         format=""
+                         width="1" height="1" column=""/>
+                <control name="updateByName" title="最后修改人" property="updateByName" type="TextBox" edit="N" required="N"
+                         format=""
+                         width="1" height="1" column=""/>
+                <control name="updateTime" title="最后修改时间" property="updateTime" type="TextBox" edit="N" required="N"
+                         format=""
+                         width="1" height="1" column="3"/>
+                <control name="updateBy" title="最后修改人ID" property="updateBy" target="session.userInfo.empId"
+                         type="Hidden" edit="N" required="N" format=""
+                         width="1" height="1" column=""/>
+                <control name="createBy" title="创建人ID" property="createBy" type="Hidden" edit="N" required="N" format=""
+                         width="1" height="1" column=""/>
+            </panel>
+
+
+
+            <panel name="pnlDetailFile" title="附件" object="reviewFile" type="Grid">
+                <control name="ctlDel" title="删除" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="id" title="主键ID" property="id" type="Hidden" edit="" required="" format=""
+                         width="140" height="" column=""/>
+                <control name="fileId" title="附件编号" property="fileId" type="TextBox" edit="" required="" format=""
+                         width="140" height="" column=""/>
+                <control name="fileName" title="附件名" property="fileName" type="DataLink" edit="" required="" format=""
+                         width="300" height="" column=""/>
+                <control name="remark" title="备注" property="remark" type="TextBox" edit="" required="" format=""
+                         width="300" height="" column=""/>
+                <control name="ctlReviewId" title="评审ID" property="reviewId" type="Hidden" edit="Y" />
+                <control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
+                <control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />
+                <control name="createTime" title="操作日期" property="createTime" type="TextBox" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil" format="" width="1" height="1" column=""  />
+                <control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column=""  />
+            </panel>
+
+                <flow trigger="" event="OnLoad" filter="">
+                    <procedure name="procDecodeId" server="" logic="DecodeId" ifyes="procEncodeId" ifno="procQbi">
+                        <param name="Out" value="pnlInfo.ctlId"></param>
+                    </procedure>
+                    <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procDecodeId1" ifno="">
+                        <param name="In" value="pnlInfo.ctlId"></param>
+                    </procedure>
+                    <procedure name="procDecodeId1" server="" logic="DecodeId" ifyes="procQueryById" ifno="procQbi">
+                        <param name="Out" value="pnlInfo.eq_reviewId"></param>
+                    </procedure>
+
+                    <procedure name="procQueryById" logic="QueryById" ifyes="procQueryFile" ifno=""><!-- procQuery -->
+                        <param name="In" value="pnlInfo"></param>
+                        <param name="Out" value="pnlInfo"></param>
+                        <param name="Sql" value="quality/QryReviewList"></param>
+                    </procedure>
+                    <procedure name="procQueryFile" logic="Query" ifyes="" ifno="">
+                        <param name="In" value="pnlInfo"></param>
+                        <param name="Out" value="pnlDetailFile"></param>
+                        <param name="Sql" value="quality/QryReviewFile"></param>
+                    </procedure>
+                </flow>
+
+            <flow trigger="pnlToolbar.ctlEdit" event="OnClick" filter="WorkflowState('frmReviewView_'+model.pnlInfo.ctlId,'NotStart')">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procPopup" ifno="">
+                    <param name="In" value="pnlInfo.ctlId"></param>
+                    <param name="Mode" value="onClick"></param>
+                </procedure>
+                <procedure name="procPopup" logic="Popup" ifyes="procQuery" ifno="">
+                    <param name="To" value="frmReviewEdit"></param>
+                    <param name="Mode" value="Edit"></param>
+                    <param name="Window" value="Medium"></param>
+                    <param name="Title" value="编辑评审"></param>
+                </procedure>
+                <procedure name="procQuery" logic="QueryById" ifyes="procQueryFile" ifno=""><!-- procQuery -->
+                    <param name="In" value="pnlInfo"></param>
+                    <param name="Out" value="pnlInfo"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+                <procedure name="procQueryFile" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlInfo"></param>
+                    <param name="Out" value="pnlDetailFile"></param>
+                    <param name="Sql" value="quality/QryReviewFile"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlToolbar.ctlDelete" event="OnClick" filter="WorkflowState('frmReviewView_'+model.pnlInfo.ctlId,'NotStart')">
+                <procedure name="procConfirm" server="" logic="ConfirmMsg" ifyes="procDelete" ifno="">
+                    <param name="Title" value="删除项目"></param>
+                    <param name="Msg" value="确认删除当前记录吗?"></param>
+                </procedure>
+                <procedure name="procDelete" logic="Delete" ifyes="proTransition" ifno="">
+                    <param name="In" value="pnlInfo"/>
+                    <param name="Msg" value="model.name+'已删除'"/>
+                    <param name="Cascade" value="t_review_file.review_id" />
+                </procedure>
+                <procedure name="proTransition" server="/frmReviewList" logic="Back" ifyes="" ifno="">
+                </procedure>
+            </flow>
+
+
+            <flow trigger="pnlToolbar.ctlAddEmp" event="OnClick" filter="">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procDecodeId" ifno="">
+                    <param name="In" value="pnlInfo.ctlId"></param>
+                </procedure>
+                <procedure name="procDecodeId" server="" logic="DecodeId" ifyes="procSearchEmp" ifno="">
+                    <param name="Out" value="pnlChooseEmp.eq_proId"></param>
+                </procedure>
+                <procedure name="procSearchEmp"  logic="Find" ifyes="procSave" ifno="">
+                    <param name="In" value="pnlChooseEmp.eq_proId"></param>
+                    <param name="Out" value="pnlChooseEmp"></param>
+                        <param name="Sql" value="ProjectEmp"></param>
+                        <param name="Title" value="选择项目人员"></param>
+                        <param name="Columns" value="id,人员姓名,ctlEmpId,0|name,人员姓名,ctrlEmpName|code,人员编码,ctlEmpCode|orgName,所属部门,ctlOrgName1"></param>
+                        <param name="Window" value="Medium"></param>
+                </procedure>
+                <procedure name="procSave"  logic="Save" ifyes="procEncodeId1" ifno="">
+                    <param name="In" value="pnlChooseEmp"></param>
+                    <param name="Msg" value="选择的人员已保存"></param>
+                </procedure>
+                <procedure name="procEncodeId1" server="" logic="EncodeId" ifyes="procDecodeId2" ifno="">
+                    <param name="In" value="pnlInfo.ctlId"></param>
+                </procedure>
+                <procedure name="procDecodeId2" server="" logic="DecodeId" ifyes="procRefresh" ifno="">
+                    <param name="Out" value="pnlChooseEmp.eq_proId"></param>
+                </procedure>
+                <procedure name="procRefresh" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlChooseEmp"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="QryProjectEmp"></param>
+                </procedure>
+            </flow>
+
+
+
+            <flow trigger="pnlToolbar.ctlWorkflowStart" event="OnClick" filter="WorkflowState('frmReviewView_'+model.pnlInfo.ctlId,'NotStart')">
+            <procedure name="procConfirm" server="" logic="ConfirmMsg" ifyes="procStartWorkflow" ifno="">
+                <param name="Title" value="启动审批流程"></param>
+                <param name="Msg" value="确认启动审批流程吗?"></param>
+            </procedure>
+            <procedure name="procStartWorkflow" logic="StartWorkflow" ifyes="proTransition" ifno="">
+                <param name="Workflow" value="pnlInfo.ctlWorkflowId"></param>
+                <param name="ViewUrl" value="frmReviewView"></param>
+                <param name="In" value="pnlInfo.ctlId"></param>
+            </procedure>
+            <procedure name="proTransition" server="/frmReviewList" logic="Back" ifyes="" ifno="">
+            </procedure>
+
+        </flow>
+
+            <flow trigger="pnlToolbar.ctlAudit" event="OnClick" filter="HasTask('frmReviewView_'+model.pnlInfo.ctlId,session.userInfo.userId)">
+                <procedure name="procExecActivity" logic="ExecActivity" ifyes="proTransition" ifno="">
+                    <param name="WorkFlow" value="pnlInfo.ctlWorkflowId"></param>
+                    <param name="UiName" value="frmReviewView"></param>
+                    <param name="In" value="pnlInfo.ctlId"></param>
+                    <param name="Desc" value="评审审核"></param>
+                </procedure>
+                <procedure name="proTransition" server="/frmReviewList" logic="Back" ifyes="" ifno="">
+                </procedure>
+            </flow>
+
+            <flow trigger="pnlToolbar.ctlWorkflowList" event="OnClick" filter="" >
+                <procedure name="procListActivity" logic="ListActivity" ifyes="" ifno="">
+                    <param name="WorkFlow" value="pnlInfo.ctlWorkflowId"></param>
+                    <param name="UiName" value="frmReviewView"></param>
+                    <param name="In" value="pnlInfo.ctlId"></param>
+                </procedure>
+
+            </flow>
+
+            <!--返回-->
+            <flow trigger="pnlToolbar.ctlBack" event="OnClick" filter="">
+                <procedure name="proTransition" server="/frmReviewList" logic="Back" ifyes="" ifno="">
+                </procedure>
+            </flow>
+            <!-- 附件预览 -->
+            <flow trigger="pnlDetailFile.fileName" event="OnClick" filter="" >
+                <procedure name="procPreview" logic="PreviewFile" ifyes="" ifno="">
+                    <param name="In" value="pnlDetailFile.fileId"></param>
+                </procedure>
+
+            </flow>
+
+
+            <!-- 删除附件 -->
+            <flow trigger="pnlDetailFile.ctlDel" event="OnClick" filter="">
+                <procedure name="msg" server="" logic="ConfirmMsg" ifyes="procDelete" ifno="">
+                    <param name="Title" value="删除"></param>
+                    <param name="Msg" value="确认删除当前记录吗?"></param>
+                </procedure>
+                <procedure name="procDelete"  logic="Delete" ifyes="procQueryFile" ifno="">
+                    <param name="In" value="pnlDetailFile" />
+                    <param name="Msg" value="记录已删除" />
+                </procedure>
+                <procedure name="procQueryFile"  logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlInfo"></param>
+                    <param name="Out" value="pnlDetailFile"></param>
+                    <param name="Sql" value="quality/QryReviewFile"></param>
+                </procedure>
+            </flow>
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlToolbar" location="North" scale=""/>
+                    <subregion panel="pnlInfo" location="Center" scale=""/>
+                </region>
+                <region location="Center" scale="">
+                    <subregion panel="pnlDetailFile" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

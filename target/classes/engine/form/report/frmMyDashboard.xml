@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+	<object name="myDashboard" table="t_issue" primary="id" unique="" order="" autoinc="Y">
+	<property name="item" type="String" length="50" initial="" field="id"/>
+	<property name="openc" type="Long" length="10" initial="" field=""/>
+	<property name="reopenc" type="Long" length="10" initial="" field=""/>
+	<property name="workinc" type="Long" length="10" initial="" field=""/>
+	<property name="resolvec" type="Long" length="10" initial="" field=""/>
+	<property name="testc" type="Long" length="10" initial="" field=""/>
+	<property name="unresolvec" type="Long" length="10" initial="" field=""/>
+	<property name="total" type="Long" length="10" initial="" field=""/>
+	
+	<property name="empId" type="Long" length="10" initial="" field=""/>
+	<property name="projId" type="Long" length="10" initial="" field="id"/>	
+	<property name="assignee" type="Long" length="10" initial="" field=""/>
+	<property name="empName" type="Long" length="10" initial="" field=""/>
+	</object>
+</model_layer>				
+<ui_layer>
+  <ui name="frmMyDashboard" title="个人工作台"> 
+	<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+		<control name="btnQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="btnExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pTable1" title="查询结果" object="myDashboard" type="Grid" page="">
+		<control name="item" title="项" property="item" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},${row.itemFieldName}:'${row.empName}'}" 
+		/><!-- "'{' + row.itemField + ':' + session.userInfo.empId + '}'" -->
+		<control name="openc" title="打开" property="openc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'open',${row.itemFieldName}:'${row.empName}'}" />
+		<control name="reopenc" title="重新打开" property="reopenc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'reopen',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="workinc" title="处理中" property="workinc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'workin',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="resolvec" title="已解决" property="resolvec" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'resolve',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="testc" title="测试中" property="testc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'test',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="unresolvec" title="未解决" property="unresolvec" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'open,reopen,workin',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="total" title="未完成" property="total" type="DataLink" edit="" required="" format="" width="180" height="" column=""
+		drill="{${row.itemField}:${session.userInfo.empId},eq_issueStatus:'open,reopen,workin,test,resolve',${row.itemFieldName}:'${row.empName}'}"  />
+	</panel>
+	<panel name="pTable2" title="查询结果" object="myDashboard" type="Grid" page="">
+		<control name="item" title="项" property="item" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',${row.itemFieldName}:'${row.empName}'}" 
+		/><!-- "'{' + row.itemField + ':' + session.userInfo.empId + '}'" -->
+		<control name="openc" title="打开" property="openc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'open',${row.itemFieldName}:'${row.empName}'}" />
+		<control name="reopenc" title="重新打开" property="reopenc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'reopen',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="workinc" title="处理中" property="workinc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'workin',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="resolvec" title="已解决" property="resolvec" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'resolve',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="testc" title="测试中" property="testc" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'test',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="unresolvec" title="未解决" property="unresolvec" type="DataLink" edit="" required="" format="" width="180" height="" column="" 
+		drill="{${row.itemField}:${session.userInfo.empId},eq_status:'open,reopen,workin',${row.itemFieldName}:'${row.empName}'}"/>
+		<control name="total" title="未完成" property="total" type="DataLink" edit="" required="" format="" width="180" height="" column=""
+		drill="{${row.itemField}:'${session.userInfo.empId}',eq_status:'open,reopen,workin,test,resolve',${row.itemFieldName}:'${row.empName}'}"  />
+	</panel>	
+    <flow trigger="" event="OnLoad" filter="">
+      <procedure name="j1"  logic="Query" ifyes="j2" ifno="">
+        <param name="Out" value="pTable1"/>
+        <param name="Sql" value="report/QryMyDashboard1"/>
+      </procedure>     
+      <procedure name="j2"  logic="Query" ifyes="" ifno="">
+        <param name="Out" value="pTable2"/>
+        <param name="Sql" value="report/QryMyDashboard2"/>
+      </procedure>   
+    </flow>	
+	<flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+      <procedure name="j1"  logic="Query" ifyes="j2" ifno="">
+        <param name="Out" value="pTable1"/>
+        <param name="Sql" value="report/QryMyDashboard1"/>
+      </procedure>     
+      <procedure name="j2"  logic="Query" ifyes="" ifno="">
+        <param name="Out" value="pTable2"/>
+        <param name="Sql" value="report/QryMyDashboard2"/>
+      </procedure>         
+    </flow>   
+    
+    <flow trigger="pToolbar.btnExport" event="OnClick" filter="">
+      <procedure name="exportdata" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pTable1"/>
+        <param name="Sql" value="report/QryMyDashboard"/>
+      </procedure>
+    </flow>      
+    <flow trigger="pTable1.item" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.item"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>        
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>         
+    <flow trigger="pTable1.openc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.openc"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>       
+    <flow trigger="pTable1.reopenc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.reopenc"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>       
+    <flow trigger="pTable1.workinc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.workinc"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>     
+    <flow trigger="pTable1.resolvec" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.resolvec"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList" />
+        <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>    
+    <flow trigger="pTable1.unresolvec" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.unresolvec"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList" />
+        <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>        
+    <flow trigger="pTable1.testc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.testc"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>   
+    <flow trigger="pTable1.total" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable1.total"/>
+        <param name="Out" value="pCondition"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="frmIssueList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>     
+    <!-- issueTestList -->
+    <flow trigger="pTable2.item" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.item"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>        
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>   
+    <flow trigger="pTable2.openc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.openc"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>    
+  <flow trigger="pTable2.reopenc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.reopenc"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>       
+    <flow trigger="pTable2.workinc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.workinc"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>     
+    <flow trigger="pTable2.resolvec" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.resolvec"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList" />
+        <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>      
+    <flow trigger="pTable2.testc" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.testc"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>   
+    <flow trigger="pTable2.unresolvec" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.unresolvec"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList" />
+        <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>       
+    <flow trigger="pTable2.total" event="OnClick" filter="">
+      <procedure name="j1"  logic="EncodeParam" ifyes="jsgoto" ifno="">
+        <param name="In" value="pTable2.total"/>
+        <param name="Out" value="pnlGroup"/>
+      </procedure>    	
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="issueTestList"/>
+        <param name="Mode" value="Edit"/>
+      </procedure>
+    </flow>       
+    <layout>
+  	<region location ="North" scale="">
+        <subregion panel="pToolbar" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+		<subregion panel="pTable1" location="North" scale="300px"/>
+		<subregion panel="pTable2" location="Center" scale="300px"/>
+      </region>
+    </layout>
+  </ui>    
+</ui_layer>
+</tsoftware>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <ui_layer>
+        <ui name="frmOrgWorkDashboard" title="部门工作看板">
+            <panel name="pnlUp" title="工具条" object="" type="Toolbar">
+                <control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+                <control name="ctlClear" title="清空条件" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+            </panel>
+            <panel name="pnlGroup" title="查询条件" object="projDevOverview" type="Group">
+                <control name="ctlOrgName" title="部门名称" property="orgName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+                <control name="orgId" title="部门ID" property="orgId" type="Hidden" edit="Y" required="" format="" width="1" height="1" column=""/>
+				<control name="createTime" title="开始时间" property="createTime" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="4"/>
+            </panel>
+            <panel name="pnlDg" title="pnlDg" object="projDevOverview" type="Grid" page="0">
+                <control name="ctlEmpId" title="人员id" property="empId" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+                <control name="ctlEmpName" title="姓名" property="empName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+               <control name="positionName" title="职位" property="positionName" type="TextBox" edit="" required="" format="" width="120" height="" column=""/>
+                <control name="ctlOrgName" title="所属部门" property="orgName" type="TextBox" edit="" required="" format="" width="" height="" column=""/>
+                <control name="ctlManagerName" title="所属主管" property="managerName" type="TextBox" edit="" required="" format="" width="" height="" column=""/>
+
+                <control name="ctlOpen" title="打开" property="open" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'open'}" />
+                <control name="ctlReOpen" title="重新打开" property="reopen" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'reopen'}"/>
+                <control name="ctlWorkin" title="处理中" property="workin" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'workin'}"/>
+                <control name="ctlResolve" title="已解决" property="resolve" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'resolve'}"/>
+                <control name="ctlTest" title="测试中" property="test" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'test'}"/>
+                <control name="ctlClose" title="已关闭" property="close" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'close'}"/>
+                <control name="ctlCancel" title="已取消" property="cancel" type="DataLink" edit="" required="" format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'cancel'}"/>
+                <control name="total" title="小计" property="total" type="DataLink" edit="" required="" format=""
+                         width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',eq_sprintId:'${row.sprintId}',assigneeName:'${row.empName}',eq_issueStatus:'open,reopen,workin,resolve,test,close'}"/>
+
+                <control name="unDoing" title="待处理" property="unDoing" type="DataLink" edit="" required=""
+                         format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'open,reopen'}"/>
+
+
+                <control name="unSolve" title="未解决" property="unSolve" type="DataLink" edit="" required=""
+                         format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'open,reopen,workin'}"/>
+
+
+                <control name="unComplete" title="未完成" property="unComplete" type="DataLink" edit="" required=""
+                         format="" width="80" height="" column=""
+                         drill="{eq_projId:'${row.projId}',projName:'${row.projectName}',eq_assignee:'${row.empId}',assigneeName:'${row.empName}',eq_sprintId:'${row.sprintId}',eq_issueStatus:'open,reopen,workin,resolve,test'}"/>
+
+
+                <control name="percent" title="解决百分比" property="percent" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="resolvePercent" title="完成百分比" property="resolvePercent" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+
+
+
+
+
+
+                  <!--<control name="ctlComplWorkloadPer" title="完成工作量百分比" property="complWorkloadPer" type="TextBox" edit="" required="" format="" width="140" height="" column=""/>-->
+            </panel>
+            <!-- 加载 -->
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="proj/QryDevOverviewByOrg"></param>
+                </procedure>
+            </flow>
+            <!-- 部门选择 -->
+            <flow trigger="pnlGroup.ctlOrgName" event="OnClick" filter="">
+                <procedure name="jsFind"  logic="Find" ifyes="" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="EmpOrg"></param>
+                    <param name="Title" value="部门选择"></param>
+                    <param name="Options" value="$RESET,重置"/>
+                    <param name="Columns" value="id,编码,orgId|name,部门名称,ctlOrgName"></param>
+                    <param name="Window" value="Large"></param>
+                    <param name="Template" value="Large"></param>
+                </procedure>
+            </flow>
+
+            <!-- 重新打开打开 -->
+            <flow trigger="pnlDg.ctlReOpen" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlReOpen"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 打开 -->
+            <flow trigger="pnlDg.ctlOpen" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlOpen"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 处理中 -->
+            <flow trigger="pnlDg.ctlWorkin" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlWorkin"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 已解决 -->
+            <flow trigger="pnlDg.ctlResolve" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlResolve"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 测试中 -->
+            <flow trigger="pnlDg.ctlTest" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlTest"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 已关闭 -->
+            <flow trigger="pnlDg.ctlClose" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlClose"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 已取消 -->
+            <flow trigger="pnlDg.ctlCancel" event="OnClick" filter="">
+                <procedure name="procEncodeParam"  logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.ctlCancel"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 小计 -->
+            <flow trigger="pnlDg.total" event="OnClick" filter="">
+                <procedure name="procEncodeParam" logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.total"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!--待处理-->
+            <flow trigger="pnlDg.unDoing" event="OnClick" filter="">
+                <procedure name="procEncodeParam" logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.unDoing"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!--未解决-->
+            <flow trigger="pnlDg.unSolve" event="OnClick" filter="">
+                <procedure name="procEncodeParam" logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.unSolve"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!--未完成-->
+            <flow trigger="pnlDg.unComplete" event="OnClick" filter="">
+                <procedure name="procEncodeParam" logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlDg.unComplete"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+            <!-- 查询 -->
+            <flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+                <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="proj/QryDevOverviewByOrg"></param>
+                </procedure>
+            </flow>
+            <!-- 清空条件 -->
+            <flow trigger="pnlUp.ctlClear" event="OnClick" filter="">
+                <procedure name="jsClear"  logic="Clear" ifyes="" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                </procedure>
+            </flow>
+
+            <!-- 数据导出 -->
+            <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+                <procedure name="exportdata" server="" logic="Export" ifyes="" ifno="">
+                    <param name="Format" value="pnlDg"></param>
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Sql" value="proj/QryDevOverviewByOrg"></param>
+                </procedure>
+            </flow>
+            <layout>
+                <region location ="North" scale="">
+                    <subregion panel="pnlUp" location ="North" scale=""/>
+                </region>
+                <region location ="Center" scale="">
+                    <subregion panel="pnlGroup" location="North" scale=""/>
+                    <subregion panel="pnlDg" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

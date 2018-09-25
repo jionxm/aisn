@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+      xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="backlogEdit" title="安排迭代">
+	<panel name="pnlGroup" title="安排迭代" object="issue" type="Group">
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="1" height="1" column=""/>
+		<control name="sprintId" title="迭代" property="sprintId" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+		<control name="assignee" title="处理人" property="assignee" type="Hidden" edit="Y" required="" format="" width="1" height="1" column="1"/>
+		<control name="assigneeName" title="处理人" property="assigneeName" type="PopupBox" edit="Y" required="" format="" width="1" height="1" column="1"/>
+		<control name="workload" title="预计工作量" property="workload" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+		
+		<control name="projId" title="项目ID" property="projId" type="Hidden" edit="Y" required="Y" format="" width="2" height="1" column="1"/>
+		<control name="title" title="标题" property="title" type="Hidden" edit="Y" required="N" format="" width="2" height="1" column=""/>
+		<control name="issueType" title="类型" property="issueType" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="remark" title="描述" property="remark" type="Hidden" edit="Y" required="N" format="" width="2" height="3" column=""/>
+		<control name="issueStatus" title="状态" property="issueStatus" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="priority" title="重要程度" property="priority" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+		<control name="reporter" title="发起人ID" property="reporter" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="testDesignBy" title="测试设计人ID" property="testDesignBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		<control name="testBy" title="测试人ID" property="testBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="1"/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column="1"  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />		
+		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil" format="" width="1" height="1" column="1"  />
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column="1"  />
+	</panel>
+	<panel name="pnlDown" title="pnlDown" object="" type="Toolbar">
+		<control name="ctlSave" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlCancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="" >
+      <procedure name="getId" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pnlGroup.id"></param>
+      </procedure>  
+      <procedure name="qid"  logic="QueryById" ifyes="getSprint" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="issue/QryIssueList"></param>
+      </procedure> 
+      <procedure name="getSprint"  logic="List" ifyes="" ifno="">
+      	<param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlGroup.sprintId"></param>
+        <param name="Sql" value="sprint/sprintList"></param>
+        <param name="Options" value=",请选择"/>
+      </procedure>
+    </flow>
+    <!-- 处理人选择 -->
+    <flow trigger="pnlGroup.assigneeName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="empName"/>
+        <param name="Out" value="pnlGroup"/>
+        <param name="Title" value="处理人选择"/>
+        <param name="Columns" value="id,编码,assignee|name,姓名,assigneeName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow> 
+    <!-- 确认 -->
+    <flow trigger="pnlDown.ctlSave" event="OnClick" filter="" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Msg" value="'安排迭代成功,详情请查看操作日志'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>
+    <!-- 取消 -->
+    <flow trigger="pnlDown.ctlCancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlDown" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale="" />
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

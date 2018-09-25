@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<model_layer>
+		<!-- <object name="presales" table="t_presales_act" primary="id" unique="id" 
+			order="preSalesUpdateTime desc"> <property name="id" type="Long" length="20" 
+			initial="" field="id"/> <property name="cluesId" type="Long" length="20" 
+			initial="" field="clues_id"></property> <property name="name" type="String" 
+			length="20" field=""/> <property name="preSalesUpdate" type="String" length="20" 
+			field="pre_sales_update"/> <property name="preSalesUpdateTime" type="Date" 
+			length="" field="pre_sales_update_time"/> <property name="createTime" type="Date" 
+			length="" field="create_time"/> <property name="createBy" type="Long" length="20" 
+			field="create_by"/> <property name="createByName" type="String" length="20" 
+			field=""/> </object> -->
+		<!-- 销售联系人表 -->
+		<object name="salesContacts" table="t_sales_contacts" primary="id"
+			unique="tel,clues_id" order="updateTime desc">
+			<property name="id" type="Long" length="20" initial=""
+				field="id" />
+			<property name="cluesId" type="Long" length="20" initial=""
+				field="clues_id"></property>
+			<property name="tel" type="String" length="20"
+				validate="CheckMobile(self)||CheckPhone(self)" field="tel" />
+			<property name="name" type="String" length="20" field="name" />
+			<property name="company" type="String" length="200" field="company" />
+			<property name="position" type="String" length="20" field="position" />
+			<property name="department" type="String" length="20"
+				field="department" />
+			<property name="updateTime" type="Date" length="" field="update_time" />
+			<property name="updateBy" type="Long" length="20" field="update_by" />
+			<property name="updateByName" type="String" length="20"
+				field="" />
+			<property name="createTime" type="Date" length="" field="create_time" />
+			<property name="createBy" type="Long" length="20" field="create_by" />
+			<property name="createByName" type="String" length="20"
+				field="" />
+		</object>
+		<object name="sellerAct" table="t_seller_act" primary="id"
+			unique="id" order="salesUpdateTime desc">
+			<property name="id" type="Long" length="20" initial=""
+				field="id" />
+			<property name="cluesId" type="Long" length="20" initial=""
+				field="clues_id"></property>
+			<property name="type" type="String" length="10" field="type" />
+			<property name="name" type="String" length="20" field="" />
+			<property name="customerName" type="String" length="20"
+				field="" />
+			<property name="salesUpdate" type="String" length="200"
+				field="sales_update" />
+			<property name="salesUpdateTime" type="Date" length=""
+				field="sales_update_time" />
+			<property name="createTime" type="Date" length="" field="create_time" />
+			<property name="createBy" type="Long" length="20" field="create_by" />
+			<property name="createByName" type="String" length="20"
+				field="" />
+		</object>
+		<!-- 线索相关表 -->
+		<object name="tsaleact" table="t_saleact" primary="id" unique="id"
+			order="updateTime desc">
+			<property name="cId" type="Long" length="20" initial=""
+				field="id" />
+			<property name="cluesId" type="Long" length="20" initial=""
+				field="clues_id" />
+			<property name="joinName" type="String" length="20" field="join_name" />
+			<property name="place" type="String" length="20" field="place" />
+			<property name="content" type="String" length="20" field="content" />
+			<property name="marks" type="String" length="20" field="marks" />
+			<property name="createTime" type="Date" length="" field="create_time" />
+			<property name="createBy" type="Long" length="20" field="create_by" />
+			<property name="updateTime" type="Date" length="" field="update_time" />
+			<property name="updateBy" type="Long" length="20" field="update_by" />
+			<property name="proName" type="Long" length="20" field="" />
+			<property name="updateByName" type="String" length="20"
+				field="" />
+			<property name="createByName" type="String" length="20"
+				field="" />
+		</object>
+		<object name="tsalesclues" table="t_sales_clues" primary="id"
+			unique="proname,customer_id" order="updateTime desc">
+			<property name="id" type="Long" length="20" initial=""
+				field="id" />
+			<property name="proName" type="String" length="200" initial=""
+				field="proname" />
+			<property name="followId" type="Long" length="20" field="follow_id" />
+			<property name="stage" type="String" length="20" field="stage" />
+			<property name="initContacts" type="String" length="20"
+				validate="" field="init_contacts" />
+			<property name="initContactsTel" type="String" length="20"
+				validate="CheckMobile(self)||CheckPhone(self)" field="init_contacts_tel" />
+			<property name="customerId" type="Long" length="20" field="customer_id" />
+			<property name="budget" type="String" length="20" field="budget"
+				validate="CheckNum(self)" />
+			<property name="content" type="String" length="100" field="content" />
+			<property name="reportName" type="String" length="200"
+				field="reportor" />
+			<property name="reportOrg" type="String" length="200" field="reportorg" />
+			<property name="reportContact" type="String" length="200"
+				validate="CheckMobile(self)||CheckPhone(self)" field="report_contact" />
+			<property name="estimateTime" type="Date" length="0"
+				field="estimate_time" validate="" />
+			<property name="successRate" type="Double" length="5.2"
+				field="success_rate" />
+			<property name="status" type="String" length="20" field="status" />
+			<property name="delReason" type="String" length="200" field="del_reason" />
+			<property name="createTime" type="Date" length="" field="create_time" />
+			<property name="createBy" type="Long" length="20" field="create_by" />
+			<property name="updateTime" type="Date" length="" field="update_time" />
+			<property name="updateBy" type="Long" length="20" field="update_by" />
+			<property name="keyTel1" type="String" length="20"
+				validate="CheckMobile(self)||CheckPhone(self)" field="key_tel1" />
+			<property name="keyContact1" type="String" length="20"
+				validate="" field="key_contact1" />
+			<property name="key1Post" type="String" length="20" initial=""
+				field="key1_post" />
+			<property name="key1Duty" type="String" length="20" initial=""
+				field="key1_duty" />
+			<property name="keyTel2" type="String" length="20"
+				validate="CheckMobile(self)||CheckPhone(self)" field="key_tel2" />
+			<property name="keyContact2" type="String" length="20"
+				validate="" field="key_contact2" />
+			<property name="key2Post" type="String" length="20" initial=""
+				field="key2_post" />
+			<property name="key2Duty" type="String" length="20" initial=""
+				field="key2_duty" />
+			<property name="keyTel3" type="String" length="20"
+				validate="CheckMobile(self)||CheckPhone(self)" field="key_tel3" />
+			<property name="keyContact3" type="String" length="20"
+				validate="" field="key_contact3" />
+			<property name="key3Post" type="String" length="20" initial=""
+				field="key3_post" />
+			<property name="key3Duty" type="String" length="20" initial=""
+				field="key3_duty" />
+			<!-- 新增 -->
+			<property name="importanceDegree" type="String" length="20"
+				initial="" field="importance_degree" />
+			<property name="projectType" type="String" length="20"
+				field="project_type" />
+			<property name="projectStartTime" type="Date" length=""
+				field="project_start_time" />
+			<property name="bid" type="Long" length="1" initial=""
+				field="bid" />
+			<property name="bidName" type="String" length="1" initial=""
+				field="" />
+			<property name="contractAmount" type="Double" length=""
+				field="contract_amount" />
+			<property name="salesRevenue" type="Double" length=""
+				field="sales_revenue" />
+			<property name="byInputtingTime" type="Date" length=""
+				field="by_inputting_time" />
+			<property name="reportTime" type="Date" length="" field="report_time" />
+			<property name="urgency" type="Long" length="1" field="urgency" />
+			<property name="urgencyName" type="String" length="1" field="" />
+			<property name="presales" type="Long" length="20" field="presales" />
+			<property name="presalesName" type="String" length="20"
+				field="" />
+			<property name="seller" type="Long" length="20" field="seller" />
+			<property name="sellerName" type="String" length="20" field="" />
+			<property name="preSalesUpdate" type="String" length="20"
+				field="" />
+			<property name="preUpdateTime" type="Date" length="20"
+				field="" />
+			<property name="salesUpdate" type="String" length="20"
+				field="" />
+			<property name="salesUpdateTime" type="Date" length="20"
+				field="" />
+
+			<!-- 中文信息 -->
+			<property name="customerName" type="String" length="50"
+				field="" />
+			<property name="shortName" type="String" length="50" field="" />
+			<property name="followName" type="String" length="20" field="" />
+			<property name="updateByName" type="String" length="20"
+				field="" />
+			<property name="createByName" type="String" length="20"
+				field="" />
+			<property name="stageName" type="String" length="20" field="" />
+			<property name="fianlTime" type="Date" length="20" field="" />
+			<property name="filesNum" type="Long" length="20" field="" />
+			<property name="actNum" type="Long" length="20" field="" />
+			<property name="statusName" type="String" length="20" field="" />
+			<property name="importanceDegreeName" type="String" length="20"
+				initial="" field="" />
+			<property name="projectTypeName" type="String" length="20"
+				initial="" field="" />
+		</object>
+
+		<object name="tSaleLog" table="t_sale_log" primary="id" unique=""
+			order="id desc">
+			<property name="id" type="Long" length="20" initial=""
+				field="id"></property>
+			<property name="cluesId" type="Long" length="20" initial=""
+				field="clues_id"></property>
+			<property name="logContent" type="String" length="2000"
+				initial="" field="log_content"></property>
+			<property name="createTime" type="Date" length="20" initial=""
+				field="create_time"></property>
+			<property name="createBy" type="Long" length="20" initial=""
+				field="create_by"></property>
+
+			<!-- 中文信息 -->
+			<property name="createByName" type="String" length="50"
+				initial="" field=""></property>
+		</object>
+
+		<object name="tsalebuild" table="t_sale_build" primary="name"
+			unique="" order="">
+			<property name="bid" type="Long" length="10" initial=""
+				field="id"></property>
+			<property name="bname" type="String" length="20" initial=""
+				field="name"></property>
+		</object>
+
+	</model_layer>
+</tsoftware>

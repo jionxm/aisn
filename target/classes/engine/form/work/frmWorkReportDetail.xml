@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmWorkReportDetail" title="每日工作汇报详情"> 
+	<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+		<control name="btnBack" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel> 
+  	<panel name="pCondition" title="工作汇报详情" object="worklog" type="Group">
+         <control name="id" title="编号" property="Id" type="TextBox" edit="N" required="N" format="" width="1" height="" column=""></control>
+         <control name="ctlSubTime" title="提交时间" property="submitTime" type="TextBox" edit="N" required="N" format="" width="1" height="" column="" ></control>
+		 <control name="ctlcreateByName" title="创建人" property="createByName" type="TextBox" edit="" required="" format="" width="1" height="" column=""/>
+		 <control name="ctlcreateTime" title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" width="1" height="" column="4"/>
+		 <control name="ctlupdateByName" title="更新人" property="updateByName" type="TextBox" edit="" required="" format="" width="1" height="" column=""/>
+		 <control name="ctlupdateTime" title="更新时间" property="updateTime" type="TextBox" edit="" required="" format="" width="1" height="" column="4"/>
+         <control name="submitBy" title="提交人" property="submitBy" type="Hidden" edit="N" required="N" format="" width="1" height="1" column="" initial="session.userInfo.empId"/>
+         <control name="ctlWorkSum" title="今日工作总结" property="workSummary" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="1" ></control>
+         <control name="ctlQuestion" title="遇到的问题" property="problem" type="TextBox" edit="N" required="" format="" width="1" height="1" column="1"></control>
+         <control name="cltTomorrowPlan" title="明日工作计划" property="tomWorkplan" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="1"></control>
+    </panel>
+    <!-- 初始加载 -->
+    <flow trigger="" event="OnLoad" filter="">
+      <procedure name="getId"  logic="DecodeId" ifyes="queryById" ifno="">
+        <param name="Out" value="pCondition.id"></param>
+      </procedure>
+      <procedure name="queryById" logic="QueryById" ifyes="" ifno="">
+        <param name="In" value="pCondition"/>
+        <param name="Out" value="pCondition"/>
+        <param name="Sql" value="workreport/QryWorkReportList"/>
+      </procedure>
+    </flow>
+   
+    <!-- 返回 -->
+    <flow trigger="pToolbar.btnBack" event="OnClick" filter=""> 
+      <procedure name="Back"  logic="Back" ifyes="" ifno="" >
+      </procedure> 
+    </flow>
+    <!-- 布局 -->
+    <layout>
+     <region location="North" scale="">
+       <subregion panel="pToolbar" location="North" scale=""/>
+     </region>
+     <region location="Center" scale="">
+       <subregion panel="pCondition" location="Center" scale=""/>
+     </region>
+     </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

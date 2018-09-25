@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmBusinessView" title="查看潜在商机">
+			<panel name="pTable" title="查询结果" object="tsalesclues" type="Group">
+				<control name="id" title="商机编号" property="id" type="TextBox"
+					edit="" required="" format="" width="1" height="" column="" />
+				<control name="ctlProjName" title="项目名称" property="proName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="ctlContent" title="项目概述" property="content"
+					type="TextBox" edit="" required="" format="" width="1" height="2"
+					column="1" />
+				<control name="ctlBudget" title="项目预算" property="budget"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="ctlUrgencyName" title="紧急程度" property="urgencyName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="ctlProjectStartTime" title="项目启动时间" property="projectStartTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="customerName" title="客户名" property="customerName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2"
+					drill="{ctlCustomerName:'${row.customerName}',eq_id:'${row.customerId}'}" />
+				<control name="sellerName" title="销售人员" property="sellerName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="presalesName" title="售前人员" property="presalesName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="initContacts" title="初始联系人" property="initContacts"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="initContactsTel" title="初始联系方式" property="initContactsTel"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="ctlReportTime" title="商机报备时间" property="reportTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="reportName" title="报备人姓名" property="reportName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="reportOrg" title="报备人单位" property="reportOrg"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="reportConcact" title="报备人联系方式" property="reportContact"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="filesNum" title="资料数" property="filesNum"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="actNum" title="进度数" property="actNum" type="TextBox"
+					edit="" required="" format="" width="1" height="" column="2" />
+				<control name="createTime" title="商机创建时间" property="createTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="createBy" title="创建人" property="createByName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+				<control name="updateTime" title="最后修改时间" property="updateTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="updateBy" title="最后修改人" property="updateByName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="2" />
+			</panel>
+			<!-- 逻辑加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="jClear" logic="Clear" ifyes="j1"
+					ifno="" sync="Y">
+					<param name="Out" value="pTable"></param>
+				</procedure>
+				<procedure name="j1" server="" logic="DecodeId" ifyes="Query"
+					ifno="">
+					<param name="Out" value="pTable.id" />
+				</procedure>
+				<procedure name="Query" logic="QueryById" ifyes="" ifno="">
+					<param name="In" value="pTable"></param>
+					<param name="Out" value="pTable"></param>
+					<param name="Sql" value="saleQuery"></param>
+				</procedure>
+			</flow>
+			<layout>
+				<region location="Center" scale="">
+					<subregion panel="pTable" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

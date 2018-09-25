@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="burnChart" table="" primary="date" unique="date" order="" >
+            <property name="date"  type="String" length="" initial="" />
+            <property name="lastDevWork" type="String" length="" initial="" />
+            <property name="lastWork" type="String" length="" initial="" />
+            <property name="lastDevWorkBase" type="String" length="" initial="" />
+            <property name="lastWorkBase" type="String" length="" initial="" />
+
+        </object>
+    </model_layer>
+    <ui_layer>
+        <ui name="frmSprintBurnout" title="迭代燃尽图">
+            <panel name="pnlToolbar" title="工具条" object="" type="Toolbar">
+                <control name="ctlSearch" title="查询" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+            <panel name="pnlCondition" title="查询条件" object="issueTest" type="Group">
+                <control name="projId" title="项目Id" property="projId" type="Hidden" edit="N" required="N" format=""
+                         width="1" height="1" column=""/>
+                <control name="projName" title="项目" property="projectName" type="PopupBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="sprintId" title="迭代" property="sprintId" type="ComboBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column="4"/>
+            </panel>
+
+            <panel name="pnlLineChart" title="按数量统计" object="burnChart" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox" />
+                <control name="lastWork" title="剩余工作量" property="lastWork" initial="" type="TextBox"/>
+                <control name="lastWorkBase" title="剩余工作量基准线" property="lastWorkBase" type="TextBox"/>
+                <control name="lastDevWork" title="剩余开发工作量" property="lastDevWork" type="TextBox"/>
+                <control name="lastDevWorkBase" title="剩余开发工作量基准线" property="lastDevWorkBase" type="TextBox"/>
+            </panel>
+            <panel name="pnlLineChart1" title="按工作量统计" object="burnChart" type="LineChart">
+                <control name="date" title="日期" property="date" type="TextBox" />
+                <control name="lastWork" title="剩余工作量" property="lastWork" initial="" type="TextBox"/>
+                <control name="lastWorkBase" title="剩余工作量基准线" property="lastWorkBase" type="TextBox"/>
+                <control name="lastDevWork" title="剩余开发工作量" property="lastDevWork" type="TextBox"/>
+                <control name="lastDevWorkBase" title="剩余开发工作量基准线" property="lastDevWorkBase" type="TextBox"/>
+            </panel>
+
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="procClear" logic="Clear" ifyes="procProjectFind" ifno="" sync="Y">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+            </flow>
+
+            <!-- 查询 -->
+            <flow trigger="pnlToolbar.ctlSearch" event="OnClick" filter="">
+                <procedure name="proQuery" logic="Query" ifyes="proQuery1" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart"></param>
+                    <param name="Sql" value="stat/StatBurnOut"></param>
+                </procedure>
+                <procedure name="proQuery1" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlLineChart1"></param>
+                    <param name="Sql" value="stat/StatBurnOut1"></param>
+                </procedure>
+            </flow>
+
+            <!-- 项目查询 -->
+            <flow trigger="pnlCondition.projName" event="OnClick" filter="">
+                <procedure name="procProjectFind"  logic="Find" ifyes="procSprintList" ifno="">
+                    <param name="In" value="pnlCondition.projId"></param>
+                    <param name="Out" value="pnlCondition"></param>
+                    <param name="Sql" value="ProjectHasPermission"></param>
+                    <param name="Title" value="项目选择"></param>
+                    <param name="Columns" value="id,编码,projId|name,项目名称,projName"></param>
+                    <param name="Window" value="Large"></param>
+                </procedure>
+                <procedure name="procSprintList"  logic="List" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlCondition.sprintId"></param>
+                    <param name="Sql" value="sprintForBurn"></param>
+                </procedure>
+            </flow>
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlToolbar" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="300px">
+                    <subregion panel="pnlCondition" location="North" scale=""/>
+                    <subregion panel="pnlLineChart" location="Center" scale=""/>
+                    <subregion panel="pnlLineChart1" location="Center" scale=""/>
+
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

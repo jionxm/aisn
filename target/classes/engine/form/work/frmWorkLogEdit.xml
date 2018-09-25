@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmWorkLogEdit" title="工作内容明细">
+	<panel name="pForm" title="编辑界面" object="worklog" type="Group">
+		<!-- <control name="Id" title="Id" property="Id" type="Hidden" edit="Y" required="" format="" width="2" height="" column=""/> -->
+		<control name="workid" title="Id" property="Id" type="Hidden" edit="N" required="" format="" width="2" height="" column=""/>
+		<control name="hours" title="工作时长" property="hours" type="TextBox" edit="Y" required="N" format="" initial="8" width="1" height="1" column="" />
+		<control name="submitByName" title="提交人" property="submitByName" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="" />
+		<control name="examRes" title="审核结果" property="examRes" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="4"/>
+		<control name="remark" title="补充说明" property="remark" type="TextBox" edit="N" required="N" format="" width="1" height="2" column="1" />
+		<control name="examView" title="审核意见" property="examView" type="TextBox" edit="Y" required="Y" format="" width="1" height="2" column="1"/>
+		<control name="examTime" title="审核时间" property="examTime" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="1" target="editMode=='Edit'?CurrentTime():nil"/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column="1"  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />
+		<control name="examBy" title="审核人" property="examBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column="1"  />
+	</panel>
+	<panel name="pToolbar" title="功能按钮" object="" type="Toolbar">
+		<control name="btnSave" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<!-- <control name="btnClose" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/> -->
+		<control name="btnReturn" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pTable" title="工作内容" object="worklogdetail" type="Grid" multiple="">
+		<control name="category" title="分类" property="category" type="TextBox" edit="N" required="" format="" width="100" height="" column=""/>
+		<control name="subCategory" title="子类" property="subCategory" type="TextBox" edit="N" required="" format="" width="100" height="" column=""/>
+		<control name="projId" title="projId" property="projId" type="Hidden" edit="N" required="" format="" width="140" height="" column=""/>
+		<control name="projName" title="项目名称" property="projName" type="TextBox" edit="N" required="" format="" width="180" height="" column=""/>
+		<control name="sprintName" title="迭代名称" property="sprintName" type="TextBox" edit="N" required="" format="" width="150" height="" column=""/>
+		<control name="issueId" title="工作项编号" property="issueId" type="TextBox" edit="N" required="" format="" width="100" height="" column=""/>
+		<control name="issueName" title="工作项内容" property="title" type="TextBox" edit="N" required="" format="" width="550" height="" column=""/>
+		<control name="sprintId" title="sprintId" property="sprintId" type="Hidden" edit="N" required="" format="" width="140" height="" column=""/>
+		<control name="issueType" title="类型" property="issueType" type="Hidden" edit="N" required="" format="" width="140" height="" column=""/>
+		<control name="issueTypeName" title="类型" property="issueTypeName" type="TextBox" edit="N" required="" format="" width="140" height="" column=""/>
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="" >
+    	<procedure name="j0"  logic="Clear" ifyes="j1" ifno="" sync="Y">
+           <param name="Out" value="pForm"></param>
+      </procedure>
+      <procedure name="j1" server="" logic="DecodeId" ifyes="list2" ifno="">
+        <param name="Out" value="pForm.workid"></param>
+      </procedure>
+       <procedure name="list2"  logic="List" ifyes="jdname" ifno="">
+        <param name="Out" value="pForm.examRes"/>
+        <param name="Sql" value="worklog/ListWorkLogStatus"/>
+      </procedure> 
+      <procedure name="jdname"  logic="QueryById" ifyes="je" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pForm"></param>
+        <param name="Sql" value="worklog/QryWorkLogDetail2"></param>
+      </procedure>   
+      <procedure name="je"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Out" value="pTable"></param>
+        <param name="Sql" value="worklog/QryWlDetail"></param>
+      </procedure>            
+    </flow>
+    <!-- 确认 -->
+    <flow trigger="pToolbar.btnSave" event="OnClick" filter="" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+      	 <param name="Mode" value="Edit"></param>
+        <param name="In" value="pForm"></param>
+        <param name="Msg" value="'信息已保存,详情请查看操作日志'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+      </procedure>
+    </flow>
+    
+    <!-- 取消 -->
+    <flow trigger="pToolbar.btnClose" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>	
+    
+    
+     <flow trigger="pToolbar.btnQuery" event="OnClick" filter="" >
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pForm" />
+        <param name="Out" value="pTable" />
+        <param name="Sql" value="worklog/QryWlDetail" />
+      </procedure>
+    </flow>	
+    
+     <flow trigger="pToolbar.btnReturn" event="OnClick" filter="root!=''" >
+      <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+         <param name="Mode" value="Edit" />
+      </procedure>
+    </flow>	 
+    
+    <!-- 布局 -->    
+    <layout>
+   	 <!--  <region location ="South" scale="">
+        <subregion panel="pTable" location="South" scale="" />
+      </region> -->
+      <region location ="Center" scale="">
+        <subregion panel="pTable" location="Center" scale="" />
+      </region>
+       <region location ="North" scale="">
+       <subregion panel="pToolbar" location="Center" scale="" />
+       <subregion panel="pForm" location="South" scale="" />
+       
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

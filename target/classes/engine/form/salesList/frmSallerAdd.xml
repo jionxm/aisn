@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmSallerAdd" title="新增销售进度">
+			<!-- 销售线索新增销售人员 -->
+			<panel name="sallerAdd" title="销售人员" object="sellerAct" type="Group">
+				<control name="cluesId" title="销售线索Id" property="cluesId" type="Hidden" edit="N" required="N" format="" width="1" height="2" column="1"/>
+				<control name="ctlCustomerName" title="销售人员" property=""
+					type="TextBox" edit="N" required="N" format="" width="1" height="1"
+					initial="session.userInfo.empName" column="2" />
+				<control name="ctlSalesUpdate" title="销售状态更新" property="salesUpdate"
+					type="TextBox" edit="Y" required="N" format="" width="1" height="5"
+					column="1" />
+				<control name="ctlType" title="销售状态" property="type" type="Hidden" edit="N" required="N" format="" width="1" height="2" column="1" initial="'saler'"/>
+				<control name="ctlSalesUpdateTime" title="销售状态更新时间 " property="salesUpdateTime"
+					type="Hidden" edit="Y" required="N" format="" target="editMode=='Add'?CurrentTime():nil" 
+					width="1" height="" column=""></control>
+				<control name="ctlCreateTime" title="创建时间" property="createTime"
+					type="Hidden" edit="Y" required="N" format="" target="editMode=='Add'?CurrentTime():nil" width="1" height="" column=""></control>
+				<control name="ctlCreateByName" title="创建人" property="createByName"
+					type="Hidden" edit="Y" required="N"
+					target="editMode=='Add'?session.userInfo.empId:nil" format=""
+					width="1" height="" column="5"></control>
+				<control name="ctlCreateBy" title="创建人id" property="createBy"
+					type="Hidden" edit="Y" required="N"
+					target="editMode=='Add'?session.userInfo.empId:nil" format=""
+					width="1" height="" column=""></control>
+			</panel>
+
+			<!-- 控件 -->
+			<panel name="sallerAddDown" title="控件" object="" type="Toolbar">
+				<control name="ctlSave" title="确认" property="" type="Button"></control>
+				<control name="ctlCancle" title="取消" property="" type="Button"></control>
+			</panel>
+			<!-- 逻辑加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="jclear" logic="Clear" ifyes="getIssId"
+					ifno="">
+					<param name="Out" value="sallerAdd"></param>
+				</procedure>
+      			<procedure name="getIssId" server="" logic="DecodeId" ifyes="" ifno="">
+        		<param name="Out" value="sallerAdd.cluesId"></param>
+      			</procedure>  
+			</flow>
+			<!-- 确认 -->
+			<flow trigger="sallerAddDown.ctlSave" event="OnClick" filter="">
+				<procedure name="jsave" logic="Save" ifyes="jclose" ifno="">
+					<param name="In" value="sallerAdd"></param>
+					<param name="Msg" value="信息保存成功"></param>
+				</procedure>
+				<procedure name="jclose" logic="Close">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+			<!-- 取消 -->
+			<flow trigger="sallerAddDown.ctlCancle" event="OnClick" filter="">
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="false"></param>
+				</procedure>
+			</flow>
+
+
+			<!-- 布局 -->
+			<layout>
+				<region location="South" scale="">
+					<subregion panel="sallerAddDown" location="South" scale=""></subregion>
+				</region>
+				<region location="North" scale="">
+					<subregion panel="sallerAdd" location="Center" scale=""></subregion>
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware> 

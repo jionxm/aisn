@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmWorkReportQry" title="工作汇报查询">
+			<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+				<control name="btnQuery" title="查询" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+				<control name="btnClear" title="清空条件" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+			</panel>
+			<panel name="pCondition" title="查询条件" object="worklog" type="Group">
+				<control name="id" title="编号" property="Id" type="Hidden"
+					edit="N" required="Y" format="" width="1" height="1" column="" />
+				<control name="eq_submitBy" title="提交人员id" property="submitBy"
+					type="Hidden" edit="Y" required="Y" format="" width="1" height="1"
+					column="" />   
+				<control name="submitByName" title="提交人员" property="submitByName"
+					type="PopupBox" edit="Y" required="Y" format="" width="1" height="1"
+					column="" multiple="Y" />
+				<control name="ge_submitTime" title="提交日期从" property="submitTime" type="DateBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
+		        <control name="dl_submitTime" title="至" property="submitTime" type="DateBox" edit="Y" required="N" format="" width="1" height="1" column="4"/>
+ 
+			</panel>
+			<panel name="pTable" title="查询结果" object="worklog" type="Grid">
+				<control name="id" title="编号" property="Id" type="TextBox"
+					edit="" required="" format="" width="80" height="" column="" />
+				<control name="submitTime" title="提交时间" property="submitTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+				<control name="submitByName" title="提交人员" property="submitByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="orgName" title="所在部门" property="orgName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="managerName" title="所在主管" property="managerName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="workSummary" title="今日工作总结" property="workSummary"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+				<control name="problem" title="遇到的问题" property="problem"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+				<control name="tomWorkplan" title="明日工作计划" property="tomWorkplan"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+
+			</panel>  
+
+			<!-- 初始加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="jClear" logic="Clear" ifyes="jQuery"
+					ifno="" sync="Y">
+					<param name="Out" value="pCondition"></param>
+				</procedure>
+				<procedure name="jQuery" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTable"></param>
+					<param name="Sql" value="workreport/QryWorkReportQry"></param>
+				</procedure>
+			</flow>
+
+			<!-- 查询 -->
+			<flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+				<procedure name="queryTable" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTable"></param>
+					<param name="Sql" value="workreport/QryWorkReportQry"></param>
+				</procedure>
+			</flow>
+			<!-- 清空 -->
+			<flow trigger="pToolbar.btnClear" event="OnClick" filter="">
+				<procedure name="btnClear" logic="Clear" ifyes="" ifno="">
+					<param name="Out" value="pCondition"></param>
+				</procedure>
+			</flow>
+
+
+			<!-- 选择人员 -->
+			<flow trigger="pCondition.submitByName" event="OnClick"
+				filter="">
+				<procedure name="jSearch" logic="Find" ifyes="" ifno="" >
+					<param name="Sql" value="emp" />
+					<param name="Out" value="pCondition" />
+					<param name="Title" value="人员选择" />
+                    <param name="Multi" value="Y"></param>
+					<param name="Options" value="$RESET,重置" />
+					<param name="Columns" value="id,编码,eq_submitBy|name,姓名,submitByName" />
+					<param name="Window" value="Medium" />
+				</procedure>
+
+			</flow>
+
+
+
+			<!-- 布局 -->
+			<layout>
+				<region location="North" scale="">
+					<subregion panel="pToolbar" location="North" scale="" />
+				</region>
+				<region location="Center" scale="">
+					<subregion panel="pCondition" location="North" scale="" />
+					<subregion panel="pTable" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

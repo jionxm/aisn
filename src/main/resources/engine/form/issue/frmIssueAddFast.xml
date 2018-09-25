@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmIssueAddFast" title="工作项新增">
+	<panel name="pForm" title="工作项编辑" object="issue" type="Group">
+		<control name="eq_id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="2" height="" column="2"/>
+		<control name="projName" title="项目" property="projName" type="PopupBox" edit="Y" required="Y" format="" width="2" height="1" column="2" initial="'测试项目'"/>
+		<control name="projId" title="项目ID" property="projId" type="Hidden" edit="Y" required="Y" format="" width="2" height="1" column="2" initial="1"/>
+		<control name="title" title="标题" property="title" type="TextBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'这是一条新增记录'+Guid()" />
+		<control name="issueType" title="类型" property="issueType" type="ComboBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'feature'"/>
+		<control name="remark" title="描述" property="remark" type="TextBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'备注信息'+Guid()"/>
+		<control name="issueStatus" title="状态" property="issueStatus" type="ComboBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'open'"/>
+		<control name="priority" title="重要程度" property="priority" type="ComboBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'minor'"/>
+		
+		<control name="reporter" title="发起人ID" property="reporter" type="Hidden" edit="Y" required="N" format="" width="2" height="1" column="2" initial="1"/>
+		<control name="reporterName" title="发起人" property="reporterName" type="PopupBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'Admin'" />
+		
+		<control name="assignee" title="处理人" property="assignee" type="Hidden" edit="Y" required="N" format="" width="2" height="1" column="2" initial="1"/>
+		<control name="assigneeName" title="处理人" property="assigneeName" type="PopupBox" edit="Y" required="N" format="" width="2" height="1" column="2" initial="'Admin'" />
+		
+		<control name="testDesignBy" title="测试设计人ID" property="testDesignBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="" initial="1"/>
+		<control name="testDesignByName" title="测试设计人" property="testDesignByName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="" initial="'Admin'" />
+
+		<control name="testBy" title="测试人ID" property="testBy" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column="" initial="1" />
+		<control name="testByName" title="测试人" property="testByName" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="" initial="'Admin'" />
+
+		<control name="workload" title="预计工作量" property="workload" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="3" initial="1.2" />
+		
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="2" height="1" column="2"  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="2" height="1" column="2"  />		
+		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil" format="" width="2" height="1" column="2"  />
+		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="editMode=='Add'?session.userInfo.empId:nil" format="" width="2" height="1" column="2"  />
+	</panel>
+	<panel name="pButton" title="工具按钮" object="" type="Toolbar">
+		<control name="save" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column="2"/>
+		<control name="cancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column="2"/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+    <!-- 快速录入一条测试数据 -->
+      <procedure name="j1"  logic="Clear" ifyes="list1" ifno="" sync="Y">
+           <param name="Out" value="pForm"></param>
+      </procedure>  
+      <procedure name="list1"  logic="List" ifyes="list2" ifno="">
+        <param name="Out" value="pForm.issueType"/>
+        <param name="Sql" value="issue/ListIssueType"/>
+      </procedure>       
+      <procedure name="list2"  logic="List" ifyes="list3" ifno="">
+        <param name="Out" value="pForm.issueStatus"/>
+        <param name="Sql" value="issue/ListIssueStatus"/>
+      </procedure> 
+      <procedure name="list3"  logic="List" ifyes="" ifno="">
+        <param name="Out" value="pForm.priority"/>
+        <param name="Sql" value="issue/ListIssuePriority"/>
+<!-- 		<param name="Options" value="prio,重要程度"/> -->
+      </procedure>              
+    </flow>
+    <flow trigger="pForm.projName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="Project"/>
+        <param name="Out" value="pForm"/>
+        <param name="Title" value="项目选择"/>
+        <param name="Columns" value="id,编码,projId|name,项目,projName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>    
+    <flow trigger="pForm.reporterName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="empName"/>
+        <param name="Out" value="pForm"/>
+        <param name="Title" value="发起人选择"/>
+        <param name="Columns" value="id,编码,reporter|name,姓名,reporterName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>      
+    <flow trigger="pForm.assigneeName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="empName"/>
+        <param name="Out" value="pForm"/>
+        <param name="Title" value="处理人选择"/>
+        <param name="Columns" value="id,编码,assignee|name,姓名,assigneeName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>      
+    <flow trigger="pForm.testByName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="empName"/>
+        <param name="Out" value="pForm"/>
+        <param name="Title" value="测试人选择"/>
+        <param name="Columns" value="id,编码,testBy|name,姓名,testByName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow> 
+    <flow trigger="pForm.testDesignByName" event="OnClick" filter="">
+      <procedure name="search" logic="Find" ifyes="" ifno="">
+        <param name="Sql" value="empName"/>
+        <param name="Out" value="pForm"/>
+        <param name="Title" value="测试设计人选择"/>
+        <param name="Columns" value="id,编码,testDesignBy|name,姓名,testDesignByName"/>
+         <param name="Window" value="Medium"/>
+      </procedure>
+    </flow>         
+    <flow trigger="pButton.save" event="OnClick" filter="" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Msg" value="'工作项['+model.title+']已保存'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>	
+    <flow trigger="pButton.cancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>	    
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pButton" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pForm" location="Center" scale="" />
+        
+      </region>      
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+<!-- 迭代model -->
+	<object name="sprint" table="t_sprint" primary="id" unique="proj_id,name" order="createTime desc">
+		<property name="id" type="Long" length="20" initial="" field="id"/>
+		<property name="name" type="String" length="50" initial="" field="name"/>
+		<property name="projId" type="Long" length="20" field="proj_id"/>
+		<property name="projName" type="String" length="20" field=""/>
+		<property name="startTime" type="Date" length="20" field="start_time"/>
+		<property name="endTime" type="Date" length="20" field="end_time" validate="self >= model.startTime"/>
+		<property name="testStartTime" type="Date" length="20" field="test_start_time" validate="self >= model.startTime"/>
+		<property name="testEndTime" type="Date" length="20" field="test_end_time" validate="self >= model.testStartTime &amp;&amp; self >= model.endTime"/>
+		<property name="status" type="String" length="20" field="status"/>
+		<property name="statusName" type="String" length="20" field=""/>
+		<property name="remark" type="String" length="200" field=""/>
+		<property name="aim" type="String" length="200" field="aim"/>
+		
+		<property name="createTime" type="Date" length="" validate=""  field="create_time" />		
+		<property name="createBy" type="Long" length="10" validate=""  field="create_by" />
+		<property name="createByName" type="String" length="50" validate=""  field="" />
+		<property name="updateTime" type="Date" length="" validate=""  field="update_time" />
+		<property name="updateBy" type="Long" length="10" validate=""  field="update_by" />
+		<property name="updateCount" type="Long" length="10" validate=""  field="update_count" />
+ 	</object>  
+</model_layer>
+
+<ui_layer>
+  <ui name="sprintList" title="迭代信息管理">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlAdd" title="新增" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="查询条件" object="sprint" type="Group">
+		<control name="eq_projId" title="项目id" property="projId" type="Hidden" edit="N" required="Y" format="" width="1" height="1" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="eq_status" title="状态" property="status" type="ComboBox" edit="Y" required="" format="" width="1" height="1" column="4"/>
+	</panel>
+	<panel name="pnlDg" title="pnlDg" object="sprint" type="Grid"  multiple="">
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width="80" height="" column=""/>
+    	<control name="ctlClose" title="关闭" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+    	<control name="ctlOpen" title="打开" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="TextBox" edit="" required="" format="" width="200" height="" column=""/>
+		<control name="ctlname" title="迭代名称" property="name" type="TextBox" edit="" required="" format="" width="200" height="" column=""/>
+		<control name="aim" title="迭代目标" property="aim" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="ctlstatus" title="状态" property="statusName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctlstartTime" title="开发启动日期" property="startTime" type="TextBox" edit="" required="" format="Common.DateFormatter" width="150" height="" column=""/>
+		<control name="ctlendTime" title="开发完成日期" property="endTime" type="TextBox" edit="" required="" format="Common.DateFormatter" width="150" height="" column=""/>
+		<control name="ctltestStartTime" title="测试启动日期" property="testStartTime" type="TextBox" edit="" required="" format="Common.DateFormatter" width="150" height="" column=""/>
+		<control name="ctltestEndTime" title="测试完成日期" property="testEndTime" type="TextBox" edit="" required="" format="Common.DateFormatter" width="150" height="" column=""/>
+		<control name="ctlcreateByName" title="创建人" property="createByName" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="ctlcreateTime" title="创建日期" property="createTime" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="">
+       <procedure name="getStatus"  logic="List" ifyes="jsQuery" ifno="">
+        <param name="Out" value="pnlGroup.eq_status"></param>
+        <param name="Sql" value="sprint/sprintStatus"></param>	
+        <param name="Options" value=",[全部]"/>
+      </procedure>
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>
+    </flow>
+    <!-- 项目选择 -->
+  <flow trigger="pnlGroup.ctlprojectName" event="OnClick" filter="">
+      <procedure name="jsFind"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="ProjectHasPermission"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,ctlprojectName"/>
+        <param name="Window" value="Medium"></param> 
+      </procedure> 
+  </flow>
+	<!-- 查询 -->
+   	<flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>
+    </flow>
+    <!-- 新增 -->
+    <flow trigger="pnlUp.ctlAdd" event="OnClick" filter="">
+      <procedure name="branch" server="" logic="Branch" ifyes="jsMsg" ifno="jsencodeid">
+        <param name="In" value="getPanelControlValue('pnlGroup.eq_projId')==''"></param>
+      </procedure>
+      <procedure name="jsMsg" server="" logic="InfoMsg" ifyes="" ifno="">
+       <param name="Msg" value="请先选择项目"></param>
+      </procedure> 
+   	  <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlGroup.eq_projId"></param>
+      </procedure>
+      <procedure name="jspopup" server="" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="新增迭代信息"></param>
+        <param name="To" value="sprintEdit"></param>
+        <param name="Mode" value="Add"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>  
+    </flow>
+   <!-- 编辑 -->
+    <flow trigger="pnlDg.ctlEdit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="编辑迭代信息"></param>
+        <param name="To" value="sprintEdit"></param>
+        <param name="Mode" value="Edit"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>              
+    </flow>
+    <!-- 关闭 -->
+    <flow trigger="pnlDg.ctlClose" event="OnClick" filter="row.status!='close'">
+      <procedure name="testJs"  logic="Validate" ifyes="jsMsg" ifno="js2">
+        <param name="In" value="pnlDg"></param>
+        <param name="Options" value="SqlResult('QryCloseIssue',param.id)"></param>
+      </procedure> 
+      <procedure name="jsMsg" logic="InfoMsg" ifyes="" ifno="">
+          <param name="Msg" value="有未关闭的工作项"></param>
+      </procedure> 
+      <procedure name="js2" logic="SaveCustom" ifyes="jsquery" ifno="">
+        <param name="Sql" value="sprint/updateSprintClose"></param>
+        <param name="In" value="pnlDg"></param>
+        <param name="Msg" value="'项目成功关闭'"></param>
+      </procedure>
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+       </procedure>
+    </flow> 
+     <!-- 打开 -->
+    <flow trigger="pnlDg.ctlOpen" event="OnClick" filter="row.status!='open'">
+      <procedure name="js2" logic="SaveCustom" ifyes="jsquery" ifno="">
+        <param name="Sql" value="sprint/updateSprintOpen"></param>
+        <param name="In" value="pnlDg"></param>
+        <param name="Msg" value="'项目成功打开'"></param>
+      </procedure>      
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>          
+    </flow> 
+    <!-- 导出清单 -->
+    <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+      <procedure name="ctlExport" server="" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pnlDg"></param>
+        <param name="In" value="pnlGroup"></param>
+        <param name="Sql" value="sprint/QrySprintList"></param>
+      </procedure>
+    </flow>
+
+    
+    <layout>
+      <region location ="North" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+		<subregion panel="pnlDg" location="Center" scale=""/>
+      </region>
+    </layout>
+  </ui>
+  </ui_layer>
+</tsoftware>

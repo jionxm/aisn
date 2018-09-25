@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+<!-- 新建组织 -->
+  <ui name="frmRecordAdd" title="新增缺陷">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlConfirm" title="确定" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlBack" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup1" title="pnlGroup1" object="issueTest" type="Hidden">
+		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="pnlGroup" object="testCaseRecord" type="Group">
+		<control name="name" title="测试用例名称" property="name" type="TextBox" edit="N" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="testcaseId" title="testcaseId" property="testcaseId" type="Hidden" edit="N" required="N" format="" width="" height="" column=""/>
+		<control name="result" title="测试结果" property="result" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="1"/>
+		<control name="createBy" title="处理人" property="createBy" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
+		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil" format="" width="1" height="1" column=""  />
+	</panel>
+	
+    <flow trigger="" event="OnLoad" filter="">  
+      <procedure name="decode" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pnlGroup1.id"></param>
+      </procedure>   
+            <procedure name="qid"  logic="QueryById" ifyes="result" ifno="">
+        <param name="In" value="pnlGroup1"></param>
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="QryTestCaseDetail"></param>
+      </procedure>
+       <procedure name="result"  logic="List" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup.result"></param>
+        <param name="Sql" value="testResult"></param>
+      </procedure>    
+    </flow>  
+        <flow trigger="pnlUp.ctlConfirm" event="OnClick" filter="editMode!='' &amp;&amp; editMode!='Readonly'" >
+      <procedure name="jssave"  logic="SaveCustom" ifyes="jsclose" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Msg" value="'保存成功'"></param>
+        <param name="Sql" value="SaveRecord"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>	
+    <flow trigger="pnlUp.ctlBack" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="false"></param>
+      </procedure>
+    </flow>
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+        <subregion panel="pnlGroup1" location="North" scale=""/>
+      </region>
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

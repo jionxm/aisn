@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+<!-- 迭代model -->
+	<object name="baseline" table="t_baseline" primary="id" unique="sha1" order="commitTime desc">
+		<property name="id" type="Long" length="20" initial="" field="id"/>
+		<property name="projId" type="Long" length="20" field="proj_id"/>
+		<property name="projName" type="String" length="50" field=""/>
+		<property name="sprintId" type="Long" length="20" field="sprint_id"/>
+		<property name="sprintName" type="String" length="20" field="" />
+		<property name="sha1" type="String" length="50" field="sha1" />
+		<property name="version" type="String" length="10" field="version" />
+		<property name="branch" type="String" length="50" field="branch"/>
+		<property name="strgLocation" type="String" length="50" field="storage_location"/>
+		<property name="type" type="String" length="20" field="type"/>
+		<property name="typeName" type="String" length="20" field=""/>
+		<property name="commitTime" type="Date" length="" field="commit_time"/>
+		<property name="commitor" type="Long" length="20" field="commitor"/>
+		<property name="commitorName" type="String" length="50" field=""/>
+		<property name="remark" type="String" length="200" field="remark"/>
+ 	</object>  
+</model_layer>
+
+<ui_layer>
+  <ui name="baselineList" title="基线记录列表">
+	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+		<control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlAdd" title="新增" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
+	</panel>
+	<panel name="pnlGroup" title="查询条件" object="baseline" type="Group">
+		<control name="eq_projId" title="项目id" property="projId" type="Hidden" edit="N" required="Y" format="" width="1" height="1" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="PopupBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="lk_sha1" title="提交编号" property="sha1" type="TextBox" edit="Y" required="" format="" width="1" height="1" column="4"/>
+	</panel>
+	<panel name="pnlDg" title="pnlDg" object="baseline" type="Grid"  multiple="">
+		<control name="id" title="id" property="id" type="Hidden" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width="200" height="" column=""/>
+    	<control name="ctlPublic" title="发布" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+    	<control name="ctlReport" title="发布报告" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+    	<control name="ctlDiff" title="基线差异报告" property="" type="Link" edit="" required="" format="" width="" height="" column=""/>
+		<control name="ctlprojectName" title="项目名称" property="projName" type="TextBox" edit="" required="" format="" width="200" height="" column=""/>
+		<control name="ctlversion" title="版本号" property="version" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctlsprintName" title="迭代名称" property="sprintName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctlsha1" title="提交编号" property="sha1" type="TextBox" edit="" required="" format="" width="300" height="" column=""/>
+		<control name="ctlbranch" title="分支名称" property="branch" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="ctllocation" title="位置" property="strgLocation" type="TextBox" edit="" required="" format="" width="150" height="" column=""/>
+		<control name="ctltype" title="基线类型" property="type" type="Hidden" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctltypeName" title="基线类型" property="typeName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+		<control name="ctlcommitTime" title="构建日期" property="commitTime" type="TextBox" edit="" required="" format="" width="100" height="" column=""/>
+		<control name="ctlcommitorName" title="构建人" property="commitorName" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>
+	</panel>
+	<!-- 加载 -->
+    <flow trigger="" event="OnLoad" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>
+    </flow>
+    <!-- 项目选择 -->
+  <flow trigger="pnlGroup.ctlprojectName" event="OnClick" filter="">
+      <procedure name="jsFind"  logic="Find" ifyes="" ifno="">
+        <param name="Out" value="pnlGroup"></param>
+        <param name="Sql" value="Project"></param>
+        <param name="Title" value="项目选择"></param>
+        <param name="Columns" value="id,编码,eq_projId|name,项目,ctlprojectName"/>
+        <param name="Window" value="Medium"></param> 
+      </procedure> 
+  </flow>
+	<!-- 查询 -->
+   	<flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+       <procedure name="jsQuery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>
+    </flow>
+    <!-- 新增 -->
+    <flow trigger="pnlUp.ctlAdd" event="OnClick" filter="">
+      <procedure name="branch" server="" logic="Branch" ifyes="jsMsg" ifno="jsencodeid">
+        <param name="In" value="getPanelControlValue('pnlGroup.eq_projId')==''"></param>
+      </procedure>
+      <procedure name="jsMsg" server="" logic="InfoMsg" ifyes="" ifno="">
+       <param name="Msg" value="请先选择项目"></param>
+      </procedure> 
+   	  <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlGroup.eq_projId"></param>
+      </procedure>
+      <procedure name="jspopup" server="" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="新增基线信息"></param>
+        <param name="To" value="baselineEdit"></param>
+        <param name="Mode" value="Add"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+      <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>  
+    </flow>
+   <!-- 编辑 -->
+     <flow trigger="pnlDg.ctlEdit" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+        <param name="In" value="pnlDg.id"></param>
+      </procedure>
+      <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+      	<param name="Title" value="编辑基线信息"></param>
+        <param name="To" value="baselineEdit"></param>
+        <param name="Mode" value="Edit"></param>
+        <param name="Window" value="Medium"></param>
+      </procedure>
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>              
+    </flow>
+     <!-- 发布 -->
+    <flow trigger="pnlDg.ctlPublic" event="OnClick" filter="row.type=='test'">
+      <procedure name="js2" logic="SaveCustom" ifyes="jsquery" ifno="">
+        <param name="Sql" value="baseline/updateBaseline"></param>
+        <param name="In" value="pnlDg"></param>
+        <param name="Msg" value="'基线发布成功'"></param>
+      </procedure>      
+       <procedure name="jsquery"  logic="Query" ifyes="" ifno="">
+        <param name="In" value="pnlGroup"></param>
+        <param name="Out" value="pnlDg"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>          
+    </flow> 
+    <!-- 导出清单 -->
+    <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+      <procedure name="ctlExport" server="" logic="Export" ifyes="" ifno="">
+        <param name="Format" value="pnlDg"></param>
+        <param name="In" value="pnlGroup"></param>
+        <param name="Sql" value="baseline/QryBaselineList"></param>
+      </procedure>
+    </flow>
+    
+    <!-- 差异报告 -->
+    <flow trigger="pnlDg.ctlDiff" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jsgoto" ifno="">
+        <param name="In" value="pnlDg.sha1"></param>
+      </procedure>
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="baselineDiff"></param>
+        <param name="Mode" value="Readonly"></param>
+      </procedure>
+    </flow>
+    <!-- 发布报告 -->
+    <flow trigger="pnlDg.ctlReport" event="OnClick" filter="">
+      <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jsgoto" ifno="">
+        <param name="In" value="pnlDg.sha1"></param>
+      </procedure>
+      <procedure name="jsgoto"  logic="Transition" ifyes="" ifno="">
+        <param name="To" value="baselineReport"></param>
+        <param name="Mode" value="Readonly"></param>
+      </procedure>
+    </flow>
+    
+    
+    <layout>
+      <region location ="North" scale="">
+        <subregion panel="pnlUp" location ="North" scale=""/>
+      </region>
+	  <region location ="Center" scale="">
+        <subregion panel="pnlGroup" location="North" scale=""/>
+		<subregion panel="pnlDg" location="Center" scale=""/>
+      </region>
+    </layout>
+  </ui>
+  </ui_layer>
+</tsoftware>

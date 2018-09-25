@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmWorkCountList" title="工作日报统计">
+			<panel name="pToolbar" title="工具条" object="" type="Toolbar">
+				<control name="btnQuery" title="查询" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+			</panel>
+			<panel name="pCondition" title="查询条件" object="worklog"
+				type="Group">
+				
+				
+				<control name="eq_submitTime" title="提交时间" property="submitTime"
+					type="DateBox" edit="Y" required="N" format="" width="1" height="1"
+					column="4" />
+
+
+			</panel>
+			<panel name="pTable" title="查询结果" object="worklog" type="Grid"
+				multiple="">
+
+				<control name="ctlId" title="ID" property="Id" type="Hidden"
+					edit="" required="" format="" width="140" height="" column="" />
+
+				<control name="ctlEmpName" title="姓名" property="empName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+
+				<control name="ctlOrgName" title="所属部门" property="orgName"
+					type="TextBox" edit="" required="" format="" width="" height=""
+					column="" />
+
+				<control name="ctlWorked" title="今日已解决的工作项" property="woeked"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlBuged" title="今日已关闭的缺陷" property="buged"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlneeded" title="今日已关闭的需求" property="needed"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlWorking" title="进行中的工作项" property="working"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlTesting" title="测试中的工作项" property="testing"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlToWork" title="待办的工作项" property="toWork"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlToNeed" title="已解决的需求" property="toNeed"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+				<control name="ctlToBug" title="已解决的缺陷" property="toBug"
+					type="TextBox" edit="" required="" format="" width="130" height=""
+					column="" />
+
+			</panel>
+
+
+			<!-- 加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="j1" logic="Clear" ifyes="jsquery" ifno=""
+					sync="Y">
+					<param name="Out" value="pCondition"></param>
+				</procedure>
+				<procedure name="jsquery" logic="Query" ifyes="" ifno="">
+					<param name="Out" value="pTable" />
+					<param name="Sql" value="workcount/QryWorkCount" />
+				</procedure>
+			</flow>
+			
+			 <!-- 查询 -->
+            <flow trigger="pToolbar.btnQuery" event="OnClick" filter="">
+                <procedure name="jsquery" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pTable" />
+					<param name="Sql" value="workcount/QryWorkCountQuery" />
+				</procedure>
+            </flow>
+
+
+
+			<layout>
+				<region location="North" scale="">
+					<subregion panel="pToolbar" location="North" scale="" />
+				</region>
+				<region location="Center" scale="">
+					<subregion panel="pCondition" location="North" scale="" />
+					<subregion panel="pTable" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

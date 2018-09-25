@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<ui_layer>
+  <ui name="frmIssueRiskEdit" title="Group">
+  	<panel name="panRiskType" type="Group">
+  		<control name="code" title="code" property="" type="Hidden" edit="Y" initial="'t_issue.risk_result_type'"  
+  		required="" format="" width="2" height="" column=""/>
+  	</panel>
+	<panel name="pForm" title="关闭风险" object="modIssueTracking" type="Group">
+		<control name="eq_id" title="id" property="id" type="Hidden" edit="Y" required="" format="" width="2" height="" column="2"/>
+		<control name="projName" title="项目" property="projName" type="TextBox" edit="N" required="N" format="" width="2" height="1" column="2"/>
+		<control name="projId" title="项目ID" property="projId" type="Hidden" edit="N" required="N" format="" width="2" height="1" column="2"/>
+		<control name="title" title="问题/风险描述" property="title" type="TextBox" edit="N" required="N" format="" width="2" height="2" column="2"/>
+		<control name="remark" title="影响" property="remark" type="TextBox" edit="N" required="N" format="" width="2" height="3" column="2"/>
+		<control name="issueStatusName" title="状态" property="issueStatusName" type="TextBox" target="'close'" edit="N" required="N" format="" width="2" height="1" column=""/>
+		<control name="priority" title="重要程度" property="priority" type="ComboBox" edit="N" required="N" format="" width="2" height="1" column="2"/>
+		
+		<control name="reporter" title="发起人ID" property="reporter" type="Hidden" edit="Y" required="N" format="" width="2" height="1" column=""/>
+		<control name="reporterName" title="发起人" property="reporterName" type="PopupBox" edit="N" required="N" format="" width="2" height="1" column=""/>
+		
+		<control name="assignee" title="处理人" property="assignee" type="Hidden" edit="Y" required="N" format="" width="2" height="1" column=""/>
+		<control name="assigneeName" title="处理人" property="assigneeName" type="TextBox" edit="N" required="N" format="" width="2" height="1" column="2"/>
+
+		<control name="riskLatestDate" title="计划解决日期" property="riskLatestDate" type="TextBox" edit="N" required="N" format="" width="1" height="1" column="2"/>
+		<control name="riskResultType" title="处理结果" property="riskResultType" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
+		<control name="riskResolveDate" title="实际解决日期" property="riskResolveDate" type="DateBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
+		
+		<control name="riskResult" title="结果说明" property="riskResult" type="TextBox" edit="Y" required="N" format="" width="2" height="5" column="2"/>
+	
+		<control name="issueStatus" title="状态" property="issueStatus" type="Hidden" target="'close'" edit="Y" required="Y" format="" width="2" height="1" column=""/>
+		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="2" height="1" column="2"  />
+		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="2" height="1" column="2"  />		
+	</panel>
+	<panel name="pButton" title="工具按钮" object="" type="Toolbar">
+		<control name="save" title="确认" property="" type="Button" edit="" required="" format="" width="" height="" column="2"/>
+		<control name="cancel" title="取消" property="" type="Button" edit="" required="" format="" width="" height="" column="2"/>
+	</panel>
+    <flow trigger="" event="OnLoad" filter="" >
+      <procedure name="j1" server="" logic="DecodeId" ifyes="qid" ifno="">
+        <param name="Out" value="pForm.eq_id" />
+      </procedure>    
+      <procedure name="qid"  logic="QueryById" ifyes="clear1" ifno="">
+        <param name="In" value="pForm" />
+        <param name="Out" value="pForm" />
+        <param name="Sql" value="issue/QryIssueRiskList" />
+      </procedure>  
+      <procedure name="clear1"  logic="Clear" ifyes="list3" ifno="">
+        <param name="Out" value="panRiskType" />
+      </procedure>        
+      <procedure name="list3"  logic="List" ifyes="list4" ifno="">
+        <param name="Out" value="pForm.riskResultType"/>
+        <param name="Sql" value="issue/ListRiskResultType"/>
+      </procedure>       
+      <procedure name="list4"  logic="List" ifyes="" ifno="">
+        <param name="Out" value="pForm.priority"/>
+        <param name="Sql" value="issue/ListIssuePriority"/>
+      </procedure>          
+    </flow>
+    <flow trigger="pButton.save" event="OnClick" filter="" >
+      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+        <param name="In" value="pForm"></param>
+        <param name="Plugin" value="issueLogService" />
+        <param name="Msg" value="'工作项已保存'"></param>
+      </procedure>
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>	
+    <flow trigger="pButton.cancel" event="OnClick" filter="" >
+      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
+        <param name="Refresh" value="true"></param>
+      </procedure>
+    </flow>	    
+    <layout>
+      <region location ="South" scale="">
+        <subregion panel="pButton" location="South" scale="" />
+      </region>
+      <region location ="Center" scale="">
+        <subregion panel="pForm" location="Center" scale="" />
+        <subregion panel="panRiskType" location="South" scale="" />
+      </region>      
+    </layout>
+  </ui>
+</ui_layer>
+</tsoftware>

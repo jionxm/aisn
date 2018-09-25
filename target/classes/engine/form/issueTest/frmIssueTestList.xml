@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="issueTest" table="T_ISSUE" primary="id" unique="" order="createTime desc">
+            <property name="id" type="Long" length="10" validate="" field="id"/>
+            <property name="projId" type="Long" length="" validate="" field="PROJ_ID"/>
+            <property name="projectName" type="String" length="" validate="" field=""/>
+            <property name="sprintName" type="String" length="" validate="" field=""/>
+            <property name="bugno" type="Long" length="" validate="" field=""/>
+            <property name="endbugno" type="Long" length="" validate="" field=""/>
+            <property name="passNo" type="Long" length="" validate="" field=""/>
+            <property name="testNo" type="Long" length="" validate="" field=""/>
+            <property name="sprintId" type="Long" length="" validate="" field="SPRINT_ID"/>
+            <property name="testcaseId" type="Long" length="" validate="" field="TESTCASE_ID"/>
+            <property name="title" type="String" length="200" validate="" field="TITLE"/>
+            <property name="remark" type="String" length="200" validate="" field="REMARK"/>
+            <property name="type" type="String" length="20" validate="" field="TYPE"/>
+            <property name="typeName" type="String" length="20" validate="" field=""/>
+            <property name="workload" type="String" length="50" validate="" field="WORKLOAD"/>
+            <property name="status" type="String" length="20" validate="" field="STATUS"/>
+            <property name="statusName" type="String" length="20" validate="" field=""/>
+            <property name="reporter" type="String" length="120" validate="" field="REPORTER"/>
+            <property name="assignee" type="String" length="120" validate="" field="assignee"/>
+            <property name="assigneeName" type="String" length="120" validate="" field=""/>
+            <property name="priority" type="String" length="20" validate="" field="PRIORITY"/>
+            <property name="priorityName" type="String" length="20" validate="" field=""/>
+            <property name="testDesignBy" type="Long" length="20" validate="" field="TEST_DESIGN_BY"/>
+            <property name="testDesignByName" type="String" length="20" validate="" field=""/>
+            <property name="testBy" type="Long" length="20" validate="" field="TEST_BY"/>
+            <property name="testByName" type="String" length="20" validate="" field=""/>
+            <property name="createTime" type="Date" length="" validate="" field="create_time"/>
+            <property name="createBy" type="String" length="50" validate="" field="CREATE_BY"/>
+            <property name="createByName" type="String" length="50" validate="" field=""/>
+            <property name="updateTime" type="String" length="" validate="" field="UPDATE_TIME"/>
+            <property name="updateBy" type="String" length="50" validate="" field="UPDATE_BY"/>
+            <property name="updateByName" type="String" length="" validate="" field=""/>
+        </object>
+    </model_layer>
+    <ui_layer>
+        <!-- 新建组织 -->
+        <ui name="issueTestList" title="测试任务列表">
+            <panel name="pnlUp" title="工具条" object="" type="Toolbar">
+                <control name="ctlQuery" title="查询" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlClear" title="清空条件" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlDisplay" title="显示列" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlImport" title="导入工作项" property="" type="Button" edit="" required="" format="" width="" 
+                		height="" column=""/>
+                <control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="btnReturn" title="返回" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+            <panel name="pnlGroup" title="pnlGroup" object="issueTest" type="Group">
+                <control name="eq_id" title="工作项编号" property="id" type="TextBox" edit="Y" required="N" format=""
+                         width="1" height="1" column=""/>
+                <!-- <control name="eq_projId" title="项目" property="projId" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column=""/> -->
+                <control name="proName" title="项目" property="projectName" type="PopupBox" edit="Y" required="Y"
+                         format="" width="1" height="1" column=""/>
+                <control name="eq_projId" title="项目" property="projId" type="Hidden" edit="Y" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="eq_sprintId" title="迭代" property="sprintId" type="ComboBox" edit="Y" required="N"
+                         format="" width="1" height="1" column="3"/>
+                <control name="eq_type" title="类型" property="type" type="ComboBox" edit="Y" multiple="Y" required="N"
+                         format="" width="1" height="1" column=""/>
+                <control name="lk_title" title="标题" property="title" type="TextBox" edit="Y" required="N" format=""
+                         width="2" height="1" column="3"/>
+                <control name="eq_status" title="状态" property="status" type="ComboBox" edit="Y" multiple="Y"
+                         required="N" format="" width="1" height="1" column=""/>
+                <control name="eq_priority" title="重要程度" property="priority" type="ComboBox" edit="Y" multiple="Y"
+                         required="N" format="" width="1" height="1" column=""/>
+                <control name="eq_reporter" title="发起人" property="reporter" type="PopupBox" edit="Y" required="N"
+                         format="" width="1" height="1" column="3"/>
+                <control name="eq_assignee" title="处理人" property="assignee" type="PopupBox" edit="Y" required="N"
+                         format="" width="1" height="1" column=""/>
+                <control name="testDesignByName" title="测试设计人" property="" type="PopupBox" edit="Y" required="N"
+                         format="" width="1" height="1" column=""/>
+                <control name="eq_testDesignBy" title="测试设计人" property="testDesignBy" type="Hidden" edit="Y"
+                         required="N" format="" width="1" height="1" column=""/>
+                <control name="testByName" title="测试执行人" property="" type="PopupBox" edit="Y" required="N" format=""
+                         width="1" height="1" column="3"/>
+                <control name="eq_testBy" title="测试执行人" property="testBy" type="Hidden" edit="Y" required="N" format=""
+                         width="1" height="1" column="3"/>
+            </panel>
+            <panel name="pnlDg" title="pnlDg" object="issueTest" type="Grid" multiple="">
+                <control name="ctlCase" title="测试用例" property="" type="Link" edit="" required="" format="" width="150"
+                         height="" column=""/>
+                <control name="ctlSet" title="分配" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlOpen" title="开始测试" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlDel" title="关闭工作" property="" type="Link" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="lk_id" title="工作项编号" property="id" type="TextBox" edit="N" required="N" format=""
+                         width="86" height="1" column=""/>
+                <control name="lk_projId" title="项目" property="projectName" type="TextBox" edit="N" required="N"
+                         format="" width="200" height="1" column=""/>
+                <control name="eq_sprintId" title="迭代" property="sprintName" type="TextBox" edit="N" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="eq_title" title="标题" property="title" type="TextBox" edit="N" required="N" format=""
+                         width="200" height="1" column=""/>
+                <control name="eq_type" title="类型" property="typeName" type="TextBox" edit="N" required="N" format=""
+                         width="80" height="1" column=""/>
+                <control name="eq_status" title="状态" property="statusName" type="TextBox" edit="N" required="N"
+                         format="" width="80" height="1" column=""/>
+                <control name="eq_priority" title="重要程度" property="priorityName" type="TextBox" edit="N" required="N"
+                         format="" width="80" height="1" column=""/>
+                <control name="eq_testDesignBy" title="测试设计人" property="testDesignByName" type="TextBox" edit="N"
+                         required="N" format="" width="100" height="1" column=""/>
+                <control name="eq_assignee" title="处理人" property="assignee" type="TextBox" edit="N" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="eq_testBy1" title="测试执行人" property="testByName" type="TextBox" edit="N" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="eq_reporter" title="发起人" property="reporter" type="TextBox" edit="N" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="eq_testBy2" title="测试用例数" property="testNo" type="TextBox" edit="N" required="N"
+                         format="" width="80" height="1" column=""/>
+                <control name="eq_testBy3" title="测试通过数" property="passNo" type="TextBox" edit="N" required="N"
+                         format="" width="80" height="1" column=""/>
+                <control name="eq_testBy4" title="缺陷数" property="bugno" type="TextBox" edit="N" required="N" format=""
+                         width="80" height="1" column=""/>
+                <control name="eq_testBy5" title="已完成缺陷数" property="endbugno" type="TextBox" edit="N" required="N"
+                         format="" width="80" height="1" column=""/>
+                <!-- 更新标记 savecustom用-->
+                <control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="" required="N"
+                         target="CurrentTime()" format="" width="1" height="1" column=""/>
+                <control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="" required="N"
+                         target="session.userInfo.empId" format="" width="1" height="1" column=""/>
+                <control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="" required="N"
+                         target="CurrentTime()" format="" width="1" height="1" column=""/>
+                <control name="createBy" title="创建人" property="createBy" type="Hidden" edit="" required="N"
+                         target="session.userInfo.empId" format="" width="1" height="1" column=""/>
+            </panel>
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="initForm" logic="Clear" ifyes="sprint" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                </procedure>
+
+                <procedure name="sprint" logic="List" ifyes="type" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlGroup.eq_sprintId"></param>
+                    <param name="Sql" value="sprint"></param>
+                    <param name="Options" value=",[全部]"></param>
+                </procedure>
+                <procedure name="type" logic="List" ifyes="status" ifno="">
+                    <param name="Out" value="pnlGroup.eq_type"></param>
+                    <param name="Sql" value="testType"></param>
+                    <param name="Options" value="YorN,[全选/取消]"/>
+                </procedure>
+                <procedure name="status" logic="List" ifyes="priority" ifno="">
+                    <param name="Out" value="pnlGroup.eq_status"></param>
+                    <param name="Sql" value="testStatus"></param>
+                    <param name="Options" value="YorN,[全选/取消]"/>
+                </procedure>
+                <procedure name="priority" logic="List" ifyes="jBranch" ifno="">
+                    <param name="Out" value="pnlGroup.eq_priority"></param>
+                    <param name="Sql" value="testPriority"></param>
+                    <param name="Options" value="YorN,[全选/取消]"/>
+                </procedure>
+                <procedure name="jBranch" server="" logic="Branch" ifyes="" ifno="query">
+     				 <param name="In" value="getPanelControlValue('pnlGroup.proName')==''"></param>
+     			</procedure>
+                <procedure name="query" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlImport" event="OnClick" filter="">
+      			<procedure name="importbat"  logic="BatchImport" ifyes="" ifno="">
+			        <param name="In" value="issueTestList.pnlDg"></param>
+			        <param name="Title" value="测试批量导入"></param>
+			        <param name="Foreign" value=""></param>
+			        <param name="Dict" value=""></param>
+			        <param name="Window" value="Large"></param>
+      			</procedure>  
+      		</flow>
+            <flow trigger="pnlUp.ctlExport" event="OnClick" filter="">
+                <procedure name="exportdata" server="" logic="Export" ifyes="" ifno="">
+                    <param name="Format" value="pnlDg"></param>
+                    <param name="In" value="pnlUp"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.proName" event="OnSelect" filter="">
+                <procedure name="sprint" logic="List" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlGroup.eq_sprintId"></param>
+                    <param name="Sql" value="sprint"></param>
+                    <param name="Options" value=",全部"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlDisplay" event="OnClick" filter="">
+                <procedure name="p1" logic="ShowColumn" ifyes="" ifno="">
+                    <param name="In" value="pnlDg"/>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.proName" event="OnClick" filter="">
+                <procedure name="searchPro" logic="Find" ifyes="sprint" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="ProjectHasPermission"></param>
+                    <param name="Options" value="$RESET,重置"/>
+                    <!--<param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>-->
+                    <param name="Title" value="项目选择"></param>
+                    <param name="Columns" value="id,id,eq_projId|name,项目名,proName"></param>
+                </procedure>
+                <procedure name="sprint" logic="List" ifyes="type" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlGroup.eq_sprintId"></param>
+                    <param name="Sql" value="sprint"></param>
+                    <param name="Options" value=",[全部]"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.eq_reporter" event="OnClick" filter="">
+                <procedure name="searchEmp" logic="Find" ifyes="" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+                    <param name="Sql" value="emp"></param>
+                    <param name="Title" value="人员选择"></param>
+                    <param name="Columns" value="id,编码|name,姓名,eq_reporter|email,邮箱"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.eq_assignee" event="OnClick" filter="">
+                <procedure name="searchEmp" logic="Find" ifyes="" ifno="">
+                    <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="emp"></param>
+                    <param name="Title" value="人员选择"></param>
+                    <param name="Columns" value="id,编码|name,姓名,eq_assignee|email,邮箱"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.testDesignByName" event="OnClick" filter="">
+                <procedure name="searchEmp" logic="Find" ifyes="" ifno="">
+                    <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="emp"></param>
+                    <param name="Title" value="人员选择"></param>
+                    <param name="Columns" value="id,编码,eq_testDesignBy|name,姓名,testDesignByName|email,邮箱"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlGroup.testByName" event="OnClick" filter="">
+                <procedure name="searchEmp" logic="Find" ifyes="" ifno="">
+                    <param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>
+                    <param name="Out" value="pnlGroup"></param>
+                    <param name="Sql" value="emp"></param>
+                    <param name="Title" value="人员选择"></param>
+                    <param name="Columns" value="id,编码,eq_testBy|name,姓名,testByName|email,邮箱"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+
+            <flow trigger="pnlDg.ctlDel" event="OnClick" filter="row.status=='test' ">
+                <procedure name="confirm" server="" logic="ConfirmMsg" ifyes="js2" ifno="">
+                    <param name="Title" value="提示信息"></param>
+                    <param name="Msg" value="是否关闭此工作项?"></param>
+                </procedure>
+                <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+                    <param name="Sql" value="updateIssueStatus1"></param>
+                    <param name="In" value="pnlDg"></param>
+                    <param name="Msg" value="'已经关闭'"></param>
+                    <param name="Plugin" value="issueLogService"/>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlOpen" event="OnClick" filter="row.status=='resolve' ">
+                <procedure name="confirm" server="" logic="ConfirmMsg" ifyes="jsencodeid" ifno="">
+                    <param name="Title" value="提示信息"></param>
+                    <param name="Msg" value="是否开始处理此工作项?"></param>
+                </procedure>
+                <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="js2" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="js2" logic="SaveCustom" ifyes="queryTable" ifno="">
+                    <param name="Sql" value="updateIssueStatus2"></param>
+                    <param name="In" value="pnlDg"></param>
+                    <param name="Plugin" value="issueLogService"/>
+                    <param name="Msg" value="已经开始处理"></param>
+                </procedure>
+                <procedure name="queryTable" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+
+
+            <flow trigger="pnlDg.ctlCase" event="OnClick" filter="">
+                <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jsgoto" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jsgoto" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmTestCaseList"></param>
+                    <param name="Mode" value="Readonly"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlDg.ctlSet" event="OnClick" filter="">
+                <procedure name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno="">
+                    <param name="In" value="pnlDg.id"></param>
+                </procedure>
+                <procedure name="jspopup" logic="Popup" ifyes="jsquery" ifno="">
+                    <param name="To" value="frmIssueTestEdit"></param>
+                    <param name="Mode" value="Edit"></param>
+                    <param name="Window" value="Large"></param>
+                    <param name="Title" value="分配任务"></param>
+                </procedure>
+                <procedure name="jsquery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlGroup"></param>
+                    <param name="Out" value="pnlDg"></param>
+                    <param name="Sql" value="QryIssueTestList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.ctlClear" event="OnClick" filter="">
+                <procedure name="btnClear" logic="Clear" ifyes="" ifno="">
+                    <param name="Out" value="pnlGroup"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlUp.btnReturn" event="OnClick" filter="root!=''">
+                <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
+                </procedure>
+            </flow>
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlUp" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="">
+                    <subregion panel="pnlGroup" location="North" scale=""/>
+                    <subregion panel="pnlDg" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

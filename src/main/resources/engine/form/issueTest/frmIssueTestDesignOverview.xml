@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="testDesign" table="" primary="rowNum" unique="" order="">
+            <property name="rowNum" type="Long" field="rowNum"/>
+            <property name="empName" type="String" initial="" field=""/>
+            <property name="designBy" type="String" initial="" field=""/>
+            <property name="issueName" type="Long" initial="" field=""/>
+            <property name="hasTestCase" type="Long" initial="" field=""/>
+            <property name="allTestCase" type="Long" initial="" field=""/>
+            <property name="noTestCase" type="Long" initial="" field=""/>
+            <property name="avgTestCase" type="Long" validate="" field=""/>
+            <property name="orgName" type="Long" validate="" field=""/>
+            <property name="managerName" type="Long" validate="" field=""/>
+            <property name="positionName" type="String" length="50" initial="" field=""/>
+        </object>
+    </model_layer>
+    <ui_layer>
+        <ui name="frmTestDesignView" title="测试设计看板">
+            <panel name="pnlToolbar" title="工具条" object="" type="Toolbar">
+                <control name="ctlSearch" title="查询" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlClear" title="清空条件" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+
+            <panel name="pnlCondition" title="查询条件" object="" type="Group">
+                <control name="projName" title="项目" property="" type="PopupBox" edit="Y" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="projId" title="项目" property="" type="Hidden" edit="Y" required="Y" format=""
+                         width="1" height="1" column=""/>
+                <control name="sprintId" title="迭代名称" property="" type="ComboBox" edit="Y" required="N" format=""
+                         width="1" height="1" column="4"/>
+            </panel>
+
+            <panel name="pnlList" title="查询结果" object="testDesign" type="Grid" page="">
+                <control name="empName" title="姓名" property="empName" type="TextBox" edit="" required="" format=""
+                         width="150" height="" column=""/>
+                <control name="positionName" title="职位" property="positionName" type="TextBox" edit="" required="" format=""
+                         width="120" height="" column=""/>
+                <control name="ctlOrgName" title="所属部门" property="orgName" type="TextBox" edit="" required="" format=""
+                         width="150" height="" column=""/>
+                <control name="ctlManagerName" title="所属主管" property="managerName" type="TextBox" edit="" required=""
+                         format="" width="150" height="" column=""/>
+
+
+                <control name="issueName" title="工作项数量" property="issueName" type="DataLink" edit="" required=""
+                         format=""
+                         width="150" height="" column=""
+                         drill="{eq_projId:'${row.projId}',eq_issueType:'feature,improvement',projName:'${row.projectName}',testDesignByName:'${row.empName}',eq_sprintId:'${row.sprintId}',${row.item}:'${row.itemValue}'}"
+                />
+                <control name="hasTestCase" title="已设计用例工作项数" property="hasTestCase" type="TextBox" edit="" required=""
+                         format=""
+                         width="200" height="" column=""/>
+                <control name="allTestCase" title="相关测试用例数" property="allTestCase" type="TextBox" edit="" required=""
+                         format=""
+                         width="200" height="" column=""/>
+                <control name="avgTestCase" title="平均测试用例数" property="avgTestCase" type="TextBox" edit="" required="N"
+                         format="" width="200" height="1" column=""/>
+                <control name="noTestCase" title="未设计用例工作项数" property="noTestCase" type="TextBox" edit="" required="N"
+                         format="" width="200" height="1" column=""/>
+            </panel>
+
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="procClear" logic="Clear" ifyes="jsList" ifno="jsList" sync="">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+                <procedure name="jsList" logic="List" ifyes="jBranch" ifno="">
+                    <param name="In" value="pnlCondition"/>
+                    <param name="Out" value="pnlCondition.sprintId"/>
+                    <param name="Sql" value="sprint/sprintList"/>
+                    <param name="Options" value=",[全部]|$NULL,未指派"/>
+                </procedure>
+                <procedure name="jBranch" server="" logic="Branch" ifyes=""
+					ifno="procQuery">
+					<param name="In" value="getPanelControlValue('pnlCondition.projName')==''"></param>
+				</procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="proj/QryTestDesignView"></param>
+                </procedure>
+            </flow>
+            <!-- 查询 -->
+            <flow trigger="pnlToolbar.ctlSearch" event="OnClick" filter="">
+            	<procedure name="jBranch" server="" logic="Branch" ifyes="j0"
+					ifno="proQuery">
+					<param name="In" value="getPanelControlValue('pnlCondition.projName')==''"></param>
+				</procedure>
+            	<procedure name="j0" server="" logic="ToastMsg" ifyes="procQuery"
+					ifno="">
+					<param name="Title" value="提示信息" />
+					<param name="Msg" value="请设置查询条件" />
+				</procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="proj/QryTestDesignView"></param>
+                </procedure>
+            </flow>
+            <!-- 清空条件 -->
+            <flow trigger="pnlToolbar.ctlClear" event="OnClick" filter="">
+                <procedure name="proClear" logic="Clear" ifyes="" ifno="">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+            </flow>
+            <!-- 导出 -->
+            <flow trigger="pnlToolbar.ctlExport" event="OnClick" filter="">
+
+                <procedure name="procExport" logic="Export" ifyes="" ifno="">
+                    <param name="Format" value="pnlList"></param>
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Sql" value="proj/QryTestDesignView"></param>
+                </procedure>
+            </flow>
+
+            <!-- 项目查询 -->
+            <flow trigger="pnlCondition.projName" event="OnClick" filter="">
+                <procedure name="procProjectFind" logic="Find" ifyes="reloadSprint" ifno="">
+                    <param name="Out" value="pnlCondition"></param>
+                    <param name="Sql" value="ProjectHasPermission"></param>
+                    <param name="Title" value="项目选择"></param>
+                    <param name="Columns" value="id,编码,projId|name,项目名称,projName"></param>
+                    <param name="Window" value="Large"></param>
+                    <param name="Template" value="Large"></param>
+                </procedure>
+                <procedure name="reloadSprint" logic="List" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"/>
+                    <param name="Out" value="pnlCondition.sprintId"/>
+                    <param name="Sql" value="sprint/sprintList"/>
+                    <param name="Options" value=",[全部]|$NULL,未指派"/>
+                </procedure>
+            </flow>
+
+
+            <!--钻取逻辑-->
+
+            <flow trigger="pnlList.issueName" event="OnClick" filter="">
+                <procedure name="procEncodeParam" logic="EncodeParam" ifyes="procToIssueList" ifno="">
+                    <param name="In" value="pnlList.issueName"></param>
+                    <param name="Out" value="pCondition"></param>
+                </procedure>
+                <procedure name="procToIssueList" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmIssueList"></param>
+                    <param name="Mode" value="Edit"></param>
+                </procedure>
+            </flow>
+
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlToolbar" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="">
+                    <subregion panel="pnlCondition" location="North" scale=""/>
+                    <subregion panel="pnlList" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+    <model_layer>
+        <object name="review" table="t_review" primary="id" unique="id" order="">
+            <property name="id" type="Long" length="20" initial="" field="id"/>
+            <property name="projId" type="Long" length="20" initial="" field="proj_id"/>
+            <property name="projectName" type="String" field=""/>
+            <property name="startDate" type="String" initial="" field="start_date"/>
+            <property name="initiatorId" type="Long" initial="" field="initiator_id"/>
+            <property name="initiatorName" type="String" initial="" field=""/>
+            <property name="title" type="String" length="50" field="title"/>
+            <property name="description" type="String" length="200" field="description"/>
+            <property name="reviewType" type="String" initial="" field="review_type"/>
+            <property name="reviewTypeName" type="String" initial="" field=""/>
+            <property name="reviewResult" type="String" initial="" field="review_result"/>
+            <property name="reviewResultName" type="String" initial="" field=""/>
+            <property name="workflowId" type="String" initial="" field="workflow_Id"/>
+            <property name="workflowName" type="String" initial="" field=""/>
+            <property name="updateBy" type="Long" length="10" validate="" field="update_by"/>
+            <property name="updateByName" type="String" length="50" validate="" field=""/>
+            <property name="createBy" type="Long" length="10" validate="" field="create_by"/>
+            <property name="createByName" type="String" validate="" field=""/>
+            <property name="updateTime" type="Date" length="" validate="" field="update_time"/>
+            <property name="createTime" type="Date" length="" validate="" field="create_time"/>
+            <property name="fileCount" type="Long" length="" validate="" field=""/>
+
+        </object>
+        <object name="reviewFile" table="t_review_file" primary="id" unique="id" order="">
+            <property name="id" type="Long" length="20" initial="" field="id"/>
+            <property name="reviewId" type="Long" length="20" initial="" field="review_id"/>
+            <property name="fileId" type="Long" length="20" initial="" field="file_Id"/>
+            <property name="fileName" type="String" length="" field=""/>
+            <property name="remark" type="String" length="200" validate="" field="remark"/>
+            <property name="updateBy" type="Long" length="10" validate="" field="update_by"/>
+            <property name="updateByName" type="String" length="50" validate="" field=""/>
+            <property name="createBy" type="Long" length="10" validate="" field="create_by"/>
+            <property name="createByName" type="String" validate="" field=""/>
+            <property name="updateTime" type="Date" length="" validate="" field="update_time"/>
+            <property name="createTime" type="Date" length="" validate="" field="create_time"/>
+        </object>
+
+    </model_layer>
+    <ui_layer>
+        <ui name="frmReviewList" title="评审列表">
+            <panel name="pnlToolbar" title="工具条" object="" type="Toolbar">
+                <control name="ctlSearch" title="查询" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlClear" title="清空条件" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlAdd" title="新增评审" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+                <control name="ctlExport" title="导出清单" property="" type="Button" edit="" required="" format="" width=""
+                         height="" column=""/>
+            </panel>
+            <panel name="pnlCondition" title="查询条件" object="review" type="Group">
+                <control name="lk_title" title="标题" property="title" type="TextBox" edit="Y" required="N" format="" width="2" height="1" column="3"/>
+
+                <control name="ge_startDate" title="发起日期从" initial="CurrentTime()" property="startDate" type="DateBox"
+                         edit="Y" required="N"
+                         format="" width="1" height="1" column=""/>
+                <control name="dl_startDate" title="至" property="startDate" initial="CurrentTime()" type="DateBox"
+                         edit="Y" required="N"
+                         format="" width="1" height="1" column=""/>
+                <control name="initiatorName" title="发起人" property="" type="PopupBox" edit="Y" required="N" format="" width="1" height="1" column="3"/>
+                <control name="eq_initiatorId" title="发起人" property="initiatorId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
+                <control name="eq_reviewType" title="评审形式" property="reviewType" type="ComboBox" edit="Y" required="N" format=""
+                         width="1" height="1" column=""/>
+                <control name="eq_reviewResult" title="评审结果" property="reviewResult" type="ComboBox" edit="Y" required="N" format=""
+                         width="1" height="1" column=""/>
+                <control name="eq_workflowId" title="工作流模板名称" property="workflowId" type="ComboBox" edit="Y" required="N" format=""
+                         width="1" height="1" column="3"/>
+            </panel>
+
+            <panel name="pnlList" title="查询结果" object="review" type="Grid">
+                <control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" format="" width="80"
+                         height="" column=""/>
+                <control name="ctlDelete" title="删除" property="" type="Link" edit="" required="" format="" width="80"
+                         height="" column=""/>
+                <control name="ctlId" title="编号" property="id" type="DataLink" edit="" required="" format="" width=""
+                         height="" column=""/>
+
+                <control name="ctlApplyDate" title="发起时间" property="startDate" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="ctlCompleteDate" title="发起人" property="initiatorName" type="TextBox" edit=""
+                         required="N"
+                         format="" width="80" height="1" column=""/>
+
+                <control name="ctlName" title="项目名称" property="projectName" type="TextBox" edit="" required=""
+                         format=""
+                         width="200" height="" column=""/>
+                <control name="ctlTitle" title="标题" property="title" type="TextBox" edit="" required=""
+                         format=""
+                         width="100" height="" column=""/>
+                <control name="ctlDescription" title="说明" property="description" type="TextBox" edit=""
+                         required=""
+                         format=""
+                         width="100" height="" column=""/>
+                <control name="ctlReviewTypeName" title="评审形式" property="reviewTypeName" type="TextBox" edit="" required=""
+                         format=""
+                         width="100" height="" column=""/>
+                <control name="ctlReviewResultName" title="评审结果" property="reviewResultName" type="TextBox" edit="" required=""
+                         format=""
+                         width="100" height="" column=""/>
+                <control name="ctlWorkflowName" title="工作流模板名称" property="workflowName" type="TextBox" edit="" required=""
+                         format=""
+                         width="150" height="" column=""/>
+                <control name="ctlFileCount" title="相关附件记录数" property="fileCount" type="TextBox" edit="" required="" format="" width="110" height="" column=""/>
+
+                <control name="createBy" title="创建人" property="createByName" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="createTime" title="创建时间" property="createTime" type="TextBox" edit="" required="N"
+                         format="" width="140" height="1" column=""/>
+                <control name="updateBy" title="最后修改人" property="updateByName" type="TextBox" edit="" required="N"
+                         format="" width="100" height="1" column=""/>
+                <control name="updateTime" title="最后修改时间" property="updateTime" type="TextBox" edit="" required="N"
+                         format="" width="140" height="1" column=""/>
+            </panel>
+
+            <flow trigger="" event="OnLoad" filter="">
+                <procedure name="procClear" logic="Clear" ifyes="procReviewType" ifno="" sync="Y">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+
+                <procedure name="procReviewType" logic="List" ifyes="procReviewResult" ifno="">
+                    <param name="Out" value="pnlCondition.eq_reviewType"></param>
+                    <param name="Sql" value="quality/ReviewType"></param>
+                    <param name="Options" value=",[全部]"></param>
+                </procedure>
+                <procedure name="procReviewResult" logic="List" ifyes="procWorkflowTemp" ifno="">
+                    <param name="Out" value="pnlCondition.eq_reviewResult"></param>
+                    <param name="Sql" value="quality/ReviewResult"></param>
+                    <param name="Options" value=",[全部]"></param>
+                </procedure>
+                <procedure name="procWorkflowTemp" logic="List" ifyes="procQuery" ifno="">
+                    <param name="Out" value="pnlCondition.eq_workflowId"></param>
+                    <param name="Sql" value="workflow/workflowTemplate"></param>
+                    <param name="Options" value=",[全部]"></param>
+                </procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+
+            <flow trigger="pnlToolbar.ctlSearch" event="OnClick" filter="">
+                <procedure name="proQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlToolbar.ctlClear" event="OnClick" filter="">
+                <procedure name="procClear" logic="Clear" ifyes="" ifno="">
+                    <param name="Out" value="pnlCondition"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlToolbar.ctlExport" event="OnClick" filter="">
+
+                <procedure name="procExport" logic="Export" ifyes="" ifno="">
+                    <param name="Format" value="pnlList"></param>
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlToolbar.ctlAdd" event="OnClick" filter="">
+                <procedure name="procPopup" logic="Popup" ifyes="procQuery" ifno="">
+                    <param name="To" value="frmReviewEdit"></param>
+                    <param name="Mode" value="Add"></param>
+                    <param name="Window" value="Large"></param>
+                    <param name="Title" value="新增评审"></param>
+                </procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlList.ctlEdit" event="OnClick" filter="WorkflowState('frmReviewView_'+row.id,'NotStart')">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procPopup" ifno="">
+                    <param name="In" value="pnlList.id"></param>
+                    <param name="Mode" value="onClick"></param>
+                </procedure>
+                <procedure name="procPopup" logic="Popup" ifyes="procQuery" ifno="">
+                    <param name="To" value="frmReviewEdit"></param>
+                    <param name="Mode" value="Edit"></param>
+                    <param name="Window" value="Medium"></param>
+                    <param name="Title" value="编辑评审"></param>
+                </procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+            <flow trigger="pnlList.ctlDelete" event="OnClick" filter="WorkflowState('frmReviewView_'+row.id,'NotStart')">
+                <procedure name="procConfirm" server="" logic="ConfirmMsg" ifyes="procDelete" ifno="">
+                    <param name="Title" value="删除评审"></param>
+                    <param name="Msg" value="确认删除当前记录吗?"></param>
+                </procedure>
+                <procedure name="procDelete" logic="Delete" ifyes="procQuery" ifno="">
+                    <param name="In" value="pnlList"/>
+                    <param name="Msg" value="评审已删除"/>
+                </procedure>
+                <procedure name="procQuery" logic="Query" ifyes="" ifno="">
+                    <param name="In" value="pnlCondition"></param>
+                    <param name="Out" value="pnlList"></param>
+                    <param name="Sql" value="quality/QryReviewList"></param>
+                </procedure>
+            </flow>
+
+            <flow trigger="pnlCondition.initiatorName" event="OnClick" filter="">
+                <procedure name="search" logic="Find" ifyes="" ifno="">
+                    <param name="Out" value="pnlCondition"></param>
+                    <param name="Sql" value="ProjectEmp"></param>
+                    <param name="Title" value="选择发起人"></param>
+                    <param name="Columns" value="id,人员姓名,eq_initiatorId,0|name,人员姓名,initiatorName|code,人员编码,ctlEmpCode|orgName,所属部门,ctlOrgName1"></param>
+                    <param name="Window" value="Large"></param>
+                </procedure>
+            </flow>
+
+            <flow trigger="pnlList.ctlId" event="OnClick" filter="">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procTransition" ifno="">
+                    <param name="In" value="pnlList.id"></param>
+                    <param name="Mode" value="onClick"></param>
+                </procedure>
+                <procedure name="procTransition" logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmReviewView"></param>
+                    <param name="Mode" value="Readonly"></param>
+                </procedure>
+
+            </flow>
+
+
+
+            <flow trigger="pnlList.ctlName" event="OnClick" filter="">
+                <procedure name="procEncodeId" server="" logic="EncodeId" ifyes="procTransition" ifno="">
+                    <param name="In" value="pnlList.id"></param>
+                    <param name="Mode" value="onClick"></param>
+                </procedure>
+                <procedure name="procTransition"  logic="Transition" ifyes="" ifno="">
+                    <param name="To" value="frmReviewView"></param>
+                    <param name="Mode" value="Readonly"></param>
+                </procedure>
+            </flow>
+            <layout>
+                <region location="North" scale="">
+                    <subregion panel="pnlToolbar" location="North" scale=""/>
+                </region>
+                <region location="Center" scale="">
+                    <subregion panel="pnlCondition" location="North" scale=""/>
+                    <subregion panel="pnlList" location="Center" scale=""/>
+                </region>
+            </layout>
+        </ui>
+    </ui_layer>
+</tsoftware>

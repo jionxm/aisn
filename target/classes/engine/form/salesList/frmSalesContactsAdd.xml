@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmSalesContactsAdd" title="新增联系人">
+			<panel name="pForm" title="联系人新增" object="salesContacts" type="Group">
+
+				<control name="eq_CluesId" title="线索id" property="cluesId"
+					type="Hidden" edit="" required="" format="" width="80" height=""
+					column="" />
+				<control name="ctlContactsId" title="Tid" property="id"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="2" />
+				<control name="ctlContactsName" title="姓名" property="name"
+					type="TextBox" edit="Y" required="Y" format="" width="1" height="1"
+					column="" />
+				<control name="ctlMobile" title="联系方式" property="tel" type="TextBox"
+					edit="Y" required="Y" format="" width="1" height="1" column="2" />
+
+				<control name="ctlDepartment" title="部门" property="department"
+					type="TextBox" edit="Y" required="" format="" width="1" height="1"
+					column="" />
+				<control name="ctlPosition" title="职务" property="position"
+					type="TextBox" edit="Y" required="" format="" width="1" height=""
+					column="2" />
+				<control name="ctlCompany" title="公司" property="company"
+					type="TextBox" edit="Y" required="" format="" width="2" height="3"
+					column="2" />
+				<control name="ctlCreateTime" title="创建时间" property="createTime"
+					type="Hidden" edit="Y" required="N" target="editMode=='Add'?CurrentTime():nil"
+					format="" width="1" height="" column=""></control>
+				<control name="ctlCreateByName" title="创建人" property="createByName"
+					type="Hidden" edit="Y" required="N"
+					target="editMode=='Add'?session.userInfo.empId:nil" format=""
+					width="1" height="" column=""></control>
+				<control name="eq_ctlCreateBy" title="创建人id" property="createBy"
+					type="Hidden" edit="Y" required="N"
+					target="editMode=='Add'?session.userInfo.empId:nil" format=""
+					width="1" height="" column=""></control>
+				<control name="ctlUpdateTime" title="修改时间" property="updateTime"
+					type="Hidden" edit="Y" required="N" target="CurrentTime()" format=""
+					width="1" height="" column="2"></control>
+				<control name="ctlUpdateByName" title="修改人" property="updateByName"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="" column="2"></control>
+				<control name="eq_ctlUpdateByName" title="修改人id" property="updateBy"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="" column=""></control>
+			</panel>
+			<panel name="pButton" title="工具按钮" object="" type="Toolbar">
+				<control name="save" title="确认" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="2" />
+				<control name="cancel" title="取消" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="2" />
+			</panel>
+
+			<!-- 初始加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="jClear" logic="Clear" ifyes="branch"
+					ifno="">
+					<param name="Out" value="pForm"></param>
+				</procedure>
+				<procedure name="branch" server="" logic="Branch" ifyes="getId3"
+					ifno="jDecodeId">
+					<param name="In"
+						value="getStorage('frmSalesContactsAdd_EditMode')=='Add'"></param>
+				</procedure>
+
+				<procedure name="getId3" logic="DecodeId" ifyes="" ifno="">
+					<param name="Out" value="pForm.eq_CluesId"></param>
+				</procedure>
+
+				<procedure name="jDecodeId" logic="DecodeId" ifyes="queryById"
+					ifno="">
+					<param name="Out" value="pForm.ctlContactsId"></param>
+				</procedure>
+				<procedure name="queryById" logic="QueryById" ifyes=""
+					ifno="">
+					<param name="In" value="pForm" />
+					<param name="Out" value="pForm" />
+					<param name="Sql" value="sale/QrySalesContacts" />
+				</procedure>
+			</flow>
+
+			<!-- 保存 -->
+			<flow trigger="pButton.save" event="OnClick" filter="">
+				<procedure name="jssave" logic="Save" ifyes="jsClose"
+					ifno="">
+					<param name="In" value="pForm"></param>
+					<param name="Out" value="pForm"></param>
+					<!-- <param name="Plugin" value="contactsAddSave"></param> -->
+					<param name="Msg" value="'联系人信息已被保存,详情请查看操作日志'"></param>
+				</procedure>
+				<procedure name="jsClose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+			<!-- 取消 -->
+			<flow trigger="pButton.cancel" event="OnClick" filter="">
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
+					ifno="">
+					<param name="Refresh" value="false"></param>
+				</procedure>
+			</flow>
+
+			<!-- 布局 -->
+			<layout>
+				<region location="South" scale="">
+					<subregion panel="pButton" location="South" scale="" />
+				</region>
+				<region location="North" scale="">
+					<subregion panel="pForm" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

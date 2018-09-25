@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+	<ui_layer>
+		<ui name="frmSaleDetail" title="销售线索详情">
+			<panel name="pToolbar" title="add" object="" type="Toolbar">
+				<control name="btnAddFile" title="新增资料" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+				<control name="btnAddSeller" title="销售状态更新" property=""
+					type="Button" edit="" required="" format="" width="" height=""
+					column="" />
+				<control name="btnAddPresales" title="售前状态更新" property=""
+					type="Button" edit="" required="" format="" width="" height=""
+					column="" />
+				<control name="btnAdd" title="新增联系人" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+				<control name="btnBack" title="返回" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+			</panel>
+			<panel name="pCondition" title="销售线索表" object="tsalesclues"
+				type="Group">
+
+				<control name="projName" title="项目名称" property="proName"
+					type="TextBox" edit="" required="" format="" width="2" height=""
+					column="" />
+				<control name="ctlContent" title="项目概述" property="content"
+					type="TextBox" edit="" required="" format="" width="2" height=""
+					column="4" />
+				<control name="projectTypeName" title="项目类型" property="projectTypeName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+
+				<control name="budget" title="项目预算(￥)" property="budget"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="projectStartTime" title="项目启动时间" property="projectStartTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+
+				<control name="bidName" title="是否投标" property="bidName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="4" />
+				<control name="successRate" title="成功率(%)" property="successRate"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="stage" title="项目进度" property="stageName"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="id" title="线索编号" property="id" type="TextBox"
+					edit="N" required="N" format="" width="1" height="" column=""></control>
+				<control name="eq_cluesId" title="销售编号(查询条件)" property="id"
+					type="Hidden" edit="N" required="N" format="" width="1" height=""
+					column=""></control>
+				<control name="importanceDegreeName" title="重要程度"
+					property="importanceDegreeName" type="TextBox" edit="" required=""
+					format="" width="1" height="" column="4" />
+				<control name="customerName" title="客户名" property="customerName"
+					type="TextBox" edit="" required="" format="" width="2" height=""
+					column=""
+					drill="{ctlCustomerName:'${row.customerName}',eq_id:'${row.customerId}'}" />
+				<!-- <control name="filesNum" title="资料数" property="filesNum" type="TextBox" 
+					edit="N" required="" format="" width="1" height="" column="" /> <control 
+					name="actNum" title="进度数" property="actNum" type="TextBox" edit="" required="" 
+					format="" width="1" height="" column="4" /> -->
+				<control name="ctlEstimateTime" title="合同预估时间" property="estimateTime"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlContractAmount" title="合同预估金额 " property="contractAmount"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="4"></control>
+				<control name="ctlSalesRevenue" title="销售预计收入" property="salesRevenue"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="sellerName" title="销售人员" property="sellerName"
+					type="PopupBox" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="seller" title="销售编号" property="seller" type="Hidden"
+					edit="N" required="" format="" width="" height="" column="" />
+				<control name="presalesName" title="售前人员" property="presalesName"
+					type="PopupBox" edit="" required="" format="" width="1" height=""
+					column="4" />
+				<control name="presales" title="售前编号" property="presales"
+					type="Hidden" edit="" required="" format="" width="1" height=""
+					column="" />
+				<control name="ctlKeyContact1" title="关键人1" property="keyContact1"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKeyTel1" title="关键人1电话" property="keyTel1"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey1Post" title="关键人1岗位" property="key1Post"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey1Duty" title="关键人1职务" property="key1Duty"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="4"></control>
+				<control name="ctlKeyContact2" title="关键人2" property="keyContact2"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKeyTel2" title="关键人2电话" property="keyTel2"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey2Post" title="关键人2岗位" property="key2Post"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey2Duty" title="关键人2职务" property="key2Duty"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="4"></control>
+				<control name="ctlKeyContact3" title="关键人3" property="keyContact3"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKeyTel3" title="关键人3电话" property="keyTel3"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey3Post" title="关键人3岗位" property="key3Post"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column=""></control>
+				<control name="ctlKey3Duty" title="关键人3职务" property="key3Duty"
+					type="TextBox" edit="" required="" format="" width="1" height=""
+					column="4"></control>
+				<control name="ctlDelReason" title="废除原因" property="delReason"
+					type="TextBox" edit="" required="" format="" width="4" height="2"
+					column="4" />
+				<!-- <control name="createTime" title="创建时间" property="createTime" type="TextBox" 
+					edit="" required="" format="" width="150" height="" column="" /> <control 
+					name="createBy" title="创建人" property="createByName" type="TextBox" edit="" 
+					required="" format="" width="100" height="" column="" /> <control name="updateTime" 
+					title="最后修改时间" property="updateTime" type="TextBox" edit="" required="" format="" 
+					width="150" height="" column="" /> <control name="updateBy" title="最后修改人" 
+					property="updateByName" type="TextBox" edit="" required="" format="" width="100" 
+					height="" column="" /> -->
+			</panel>
+			<!-- <panel name="pnlList" title="活动列表" object="tsaleact" type="Grid"> 
+				<control name="ctlEdit" title="编辑" property="" type="Link" edit="" required="" 
+				format="" width="80" height="" column="" /> <control name="ctlDel" title="删除" 
+				property="" type="Link" edit="" required="" format="" width="80" height="" 
+				column="" /> <control name="cId" title="销售id" property="cId" type="Hidden" 
+				edit="" required="" format="" width="100" height="" column="" /> <control 
+				name="ctlCluesId" title="销售线索" property="cluesId" type="Hidden" edit="" required="" 
+				format="" width="100" height="" column="" /> <control name="ctlJoinName" 
+				title="参与人" property="joinName" type="TextBox" edit="" required="" format="" 
+				width="100" height="" column="" /> <control name="ctlPlace" title="地点" property="place" 
+				type="TextBox" edit="" required="" format="" width="400" height="" column="" 
+				/> <control name="ctlContent" title="进度" property="content" type="TextBox" 
+				edit="" required="" format="" width="100" height="" column="" /> <control 
+				name="ctlMarks" title="说明" property="marks" type="TextBox" edit="" required="" 
+				format="" width="400" height="" column="" /> <control name="ctlCreateTime" 
+				title="创建时间" property="createTime" type="TextBox" edit="" required="" format="" 
+				width="150" height="" column="" /> <control name="ctlCreateBy" title="创建人" 
+				property="createByName" type="TextBox" edit="" required="" format="" width="100" 
+				height="" column="" /> <control name="ctlUpdateTime" title="最后修改时间" property="updateTime" 
+				type="TextBox" edit="" required="" format="" width="150" height="" column="" 
+				/> <control name="ctlUpdateBy" title="最后修改人" property="updateByName" type="TextBox" 
+				edit="" required="" format="" width="100" height="" column="" /> </panel> -->
+			<panel name="pTableLog" title="变更记录" object="tSaleLog" type="Grid">
+				<control name="ctlCreateByName" title="创建人" property="createByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="cltCreateTime" title="创建时间" property="createTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+				<control name="cltLogContent" title="变更内容" property="logContent"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+			</panel>
+			<panel name="pTableMemo" title="资料" object="tsalesfile" type="Grid">
+				<control name="ctlDel" title="删除" property="" type="Link"
+					edit="" required="" format="" width="40" height="" column="" />
+				<control name="createTime" title="操作时间" property="createTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+				<control name="createBy" title="操作人" property="createByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="fileId" title="附件编号" property="fileId" type="TextBox"
+					edit="" required="" format="" width="150" height="" column="" />
+				<control name="fileName" title="附件名" property="fileName"
+					type="DataLink" edit="" required="" format="" width="400" height=""
+					column="" />
+			</panel>
+			<panel name="pTableSeller" title="销售状态更新" object="sellerAct"
+				type="Grid">
+				<control name="ctlDel" title="删除" property="" type="Link"
+					edit="" required="" format="" width="40" height="" column="" />
+				<control name="createBy" title="销售人员名称" property="createByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="salesUpdate" title="销售状态更新" property="salesUpdate"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+				<control name="salesUpdateTime" title="销售状态更新时间" property="salesUpdateTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+			</panel>
+			<panel name="pTablePresales" title="售前状态更新" object="sellerAct"
+				type="Grid">
+				<control name="ctlDel" title="删除" property="" type="Link"
+					edit="" required="" format="" width="40" height="" column="" />
+				<control name="createBy" title="售前人员名称" property="createByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="salesUpdate" title="售前状态更新" property="salesUpdate"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+				<control name="salesUpdateTime" title="售前状态更新时间" property="salesUpdateTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+			</panel>
+			<panel name="pContactsList" title="联系人信息" object="salesContacts"
+				type="Grid">
+				<control name="ctlDel" title="删除" property="" type="Link"
+					edit="" required="" format="" width="100" height="" column="" />
+				<control name="ctlEdit" title="编辑" property="" type="Link"
+					edit="" required="" format="" width="100" height="" column="" />
+				<control name="id" title="联系人id" property="id" type="Hidden"
+					edit="" required="" format="" width="100" height="" column="" />
+				<control name="cluesId" title="线索id" property="cluesId"
+					type="Hidden" edit="" required="" format="" width="80" height=""
+					column="" />
+				<control name="ctlContactsName" title="联系人名称" property="name"
+					type="TextBox" edit="N" required="N" format="" width="100" height=""
+					column="" />
+				<control name="ctlCtl" title="联系方式" property="tel" type="TextBox"
+					edit="N" required="N" format="" width="150" height="" column="" />
+				<control name="ctlPosition" title="职务" property="position"
+					type="TextBox" edit="N" required="N" format="" width="100" height=""
+					column="" />
+				<control name="ctlDepartment" title="部门" property="department"
+					type="TextBox" edit="N" required="N" format="" width="100" height=""
+					column="" />
+				<control name="ctlCompany" title="公司" property="company"
+					type="TextBox" edit="" required="" format="" width="400" height=""
+					column="" />
+				<control name="ctlCreateBy" title="创建人" property="createByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="ctlCreateTime" title="创建时间" property="createTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+				<control name="ctlUpdateBy" title="最后修改人" property="updateByName"
+					type="TextBox" edit="" required="" format="" width="100" height=""
+					column="" />
+				<control name="ctlUpdateTime" title="最后修改时间" property="updateTime"
+					type="TextBox" edit="" required="" format="" width="150" height=""
+					column="" />
+				<!-- <control name="ctlType" title="类型" property="type" type="TextBox" 
+					edit="" required="" format="" width="100" height="" column="" /> -->
+			</panel>
+			<!-- 新增联系人 -->
+			<flow trigger="pToolbar.btnAdd" event="OnClick" filter="">
+				<procedure name="jsencodeid" server="" logic="EncodeId"
+					ifyes="jspopup" ifno="">
+					<param name="In" value="pCondition.eq_cluesId"></param>
+				</procedure>
+				<procedure name="jspopup" logic="Popup" ifyes="contractsQuery"
+					ifno="">
+					<param name="To" value="frmSalesContactsAdd" />
+					<param name="Mode" value="Add" />
+					<param name="Window" value="Medium" />
+					<param name="Title" value="新增联系人" />
+				</procedure>
+				<procedure name="contractsQuery" logic="Query" ifyes="jQuery"
+					ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pContactsList" />
+					<param name="Sql" value="sale/QrySalesContacts" />
+				</procedure>
+			</flow>
+			<!-- 编辑联系人 -->
+			<flow trigger="pContactsList.ctlEdit" event="OnClick" filter="">
+				<procedure name="jsencodeid" server="" logic="EncodeId"
+					ifyes="jspopup" ifno="">
+					<param name="In" value="pContactsList.id"></param>
+				</procedure>
+				<procedure name="jspopup" logic="Popup" ifyes="contractsQuery"
+					ifno="">
+					<param name="To" value="frmSalesContactsAdd" />
+					<param name="Mode" value="Edit" />
+					<param name="Window" value="Medium" />
+					<param name="Title" value="编辑联系人" />
+				</procedure>
+				<procedure name="contractsQuery" logic="Query" ifyes="jQuery"
+					ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pContactsList" />
+					<param name="Sql" value="sale/QrySalesContacts" />
+				</procedure>
+			</flow>
+			<!-- 删除联系人 -->
+			<flow trigger="pContactsList.ctlDel" event="OnClick" filter="">
+				<procedure name="msg" server="" logic="ConfirmMsg" ifyes="deleteData"
+					ifno="">
+					<param name="Title" value="删除"></param>
+					<param name="Msg" value="确认删除当前联系人吗?"></param>
+				</procedure>
+				<procedure name="deleteData" logic="Delete" ifyes="queryFile"
+					ifno="">
+					<param name="In" value="pContactsList" />
+					<param name="Msg" value="'联系人已删除'" />
+				</procedure>
+				<procedure name="queryFile" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pContactsList"></param>
+					<param name="Sql" value="sale/QrySalesContacts"></param>
+				</procedure>
+			</flow>
+			<!-- 删除附件 -->
+			<flow trigger="pTableMemo.ctlDel" event="OnClick" filter="">
+				<procedure name="msg" server="" logic="ConfirmMsg" ifyes="deleteData"
+					ifno="">
+					<param name="Title" value="删除"></param>
+					<param name="Msg" value="确认删除当前记录吗?"></param>
+				</procedure>
+				<procedure name="deleteData" logic="Delete" ifyes="queryFile"
+					ifno="">
+					<param name="In" value="pTableMemo" />
+					<param name="Msg" value="'记录已删除'" />
+				</procedure>
+				<procedure name="queryFile" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTableMemo"></param>
+					<param name="Sql" value="sale/QrySaleFile"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pTablePresales.ctlDel" event="OnClick" filter="">
+				<procedure name="msg" server="" logic="ConfirmMsg" ifyes="deleteData"
+					ifno="">
+					<param name="Title" value="删除"></param>
+					<param name="Msg" value="确认删除当前售前状态更新吗?"></param>
+				</procedure>
+				<procedure name="deleteData" logic="Delete" ifyes="queryFile"
+					ifno="">
+					<param name="In" value="pTablePresales" />
+					<param name="Msg" value="'记录已删除'" />
+				</procedure>
+				<procedure name="queryFile" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTablePresales"></param>
+					<param name="Sql" value="sale/QryPresales"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pTableSeller.ctlDel" event="OnClick" filter="">
+				<procedure name="msg" server="" logic="ConfirmMsg" ifyes="deleteData"
+					ifno="">
+					<param name="Title" value="删除"></param>
+					<param name="Msg" value="确认删除当前销售状态更新吗?"></param>
+				</procedure>
+				<procedure name="deleteData" logic="Delete" ifyes="queryFile"
+					ifno="">
+					<param name="In" value="pTableSeller" />
+					<param name="Msg" value="'记录已删除'" />
+				</procedure>
+				<procedure name="queryFile" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTableSeller"></param>
+					<param name="Sql" value="sale/QrySeller"></param>
+				</procedure>
+			</flow>
+			<!-- 附件预览 -->
+			<flow trigger="pTableMemo.fileName" event="OnClick" filter="">
+				<procedure name="jspopup" logic="PreviewFile" ifyes=""
+					ifno="">
+					<param name="In" value="pTableMemo.fileId"></param>
+				</procedure>
+			</flow>
+			<!-- 新增附件 -->
+			<flow trigger="pToolbar.btnAddFile" event="OnClick" filter="">
+				<procedure name="jsencodeid" server="" logic="EncodeId"
+					ifyes="jspopup" ifno="">
+					<param name="In" value="pCondition.eq_cluesId"></param>
+				</procedure>
+				<procedure name="jspopup" logic="Popup" ifyes="queryFile"
+					ifno="">
+					<param name="To" value="saleFileAdd"></param>
+					<param name="Mode" value="Add"></param>
+					<param name="Window" value="Small"></param>
+					<param name="Title" value="新增资料"></param>
+				</procedure>
+				<procedure name="queryFile" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTableMemo"></param>
+					<param name="Sql" value="sale/QrySaleFile"></param>
+				</procedure>
+			</flow>
+			<!-- 新增售前进度 -->
+			<flow trigger="pToolbar.btnAddPresales" event="OnClick" filter="">
+				<procedure name="jsencodeid" server="" logic="EncodeId"
+					ifyes="jspopup" ifno="">
+					<param name="In" value="pCondition.eq_cluesId"></param>
+				</procedure>
+				<procedure name="jspopup" logic="Popup" ifyes="querySales"
+					ifno="">
+					<param name="To" value="frmPresalesAdd"></param>
+					<param name="Mode" value="Add"></param>
+					<param name="Window" value="Medium"></param>
+					<param name="Title" value="售前状态更新"></param>
+				</procedure>
+				<procedure name="querySales" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTablePresales"></param>
+					<param name="Sql" value="sale/QryPresales"></param>
+				</procedure>
+			</flow>
+			<!-- 新增销售状态更新 -->
+			<flow trigger="pToolbar.btnAddSeller" event="OnClick" filter="">
+				<procedure name="jsencodeid" server="" logic="EncodeId"
+					ifyes="jspopup" ifno="">
+					<param name="In" value="pCondition.eq_cluesId"></param>
+				</procedure>
+				<procedure name="jspopup" logic="Popup" ifyes="querySeller"
+					ifno="">
+					<param name="To" value="frmSallerAdd"></param>
+					<param name="Mode" value="Add"></param>
+					<param name="Window" value="Medium"></param>
+					<param name="Title" value="销售状态更新"></param>
+				</procedure>
+				<procedure name="querySeller" logic="Query" ifyes="" ifno="">
+					<param name="In" value="pCondition"></param>
+					<param name="Out" value="pTableSeller"></param>
+					<param name="Sql" value="sale/QrySeller"></param>
+				</procedure>
+			</flow>
+			<!-- 初始加载 -->
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="cluesId" logic="DecodeId" ifyes="queryById"
+					ifno="">
+					<param name="Out" value="pCondition.id"></param>
+				</procedure>
+				<!-- <procedure name="getId" logic="DecodeId" ifyes="queryById" ifno=""> 
+					<param name="Out" value="pCondition.eq_id"></param> </procedure> -->
+				<procedure name="queryById" logic="QueryById" ifyes="queryComLog"
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pCondition" />
+					<param name="Sql" value="saleQuery" />
+				</procedure>
+				<!-- <procedure name="jQuery" logic="Query" ifyes="queryComLog" ifno=""> 
+					<param name="In" value="pCondition" /> <param name="Out" value="pnlList" 
+					/> <param name="Sql" value="QryQuery" /> </procedure> -->
+				<procedure name="queryComLog" logic="Query" ifyes="queryLog"
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pTableMemo"></param>
+					<param name="Sql" value="sale/QrySaleFile"></param>
+				</procedure>
+				<procedure name="queryLog" logic="Query" ifyes="querySeller"
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pTableLog"></param>
+					<param name="Sql" value="QrySalesLog"></param>
+				</procedure>
+				<procedure name="querySeller" logic="Query" ifyes="queryPresales"
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pTableSeller"></param>
+					<param name="Sql" value="sale/QrySeller"></param>
+				</procedure>
+				<procedure name="queryPresales" logic="Query" ifyes="contractsQuery"
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pTablePresales"></param>
+					<param name="Sql" value="sale/QryPresales"></param>
+				</procedure>
+				<procedure name="contractsQuery" logic="Query" ifyes=""
+					ifno="">
+					<param name="In" value="pCondition" />
+					<param name="Out" value="pContactsList" />
+					<param name="Sql" value="sale/QrySalesContacts" />
+				</procedure>
+			</flow>
+			<!-- 新增活动 -->
+			<!-- <flow trigger="pToolbar.btnAdd" event="OnClick" filter=""> <procedure 
+				name="jsencodeid" server="" logic="EncodeId" ifyes="jspopup" ifno=""> <param 
+				name="In" value="pCondition.eq_cluesId"></param> </procedure> <procedure 
+				name="jspopup" logic="Popup" ifyes="querySchedule" ifno=""> <param name="To" 
+				value="frmActivityAdd" /> <param name="Mode" value="Add" /> <param name="Window" 
+				value="Medium" /> <param name="Title" value="新增活动" /> </procedure> <procedure 
+				name="querySchedule" logic="Query" ifyes="" ifno=""> <param name="In" value="pCondition"></param> 
+				<param name="Out" value="pnlList"></param> <param name="Sql" value="QryQuery"></param> 
+				</procedure> </flow> -->
+			<!-- 删除 -->
+			<!-- <flow trigger="pnlList.ctlDel" event="OnClick" filter=""> <procedure 
+				name="jsencodeid" server="" logic="EncodeId" ifyes="jCMsg" ifno=""> <param 
+				name="In" value="pnlList.cId"></param> </procedure> <procedure name="jCMsg" 
+				server="" logic="ConfirmMsg" ifyes="jDelete" ifno=""> <param name="Title" 
+				value="删除提示" /> <param name="Msg" value="确认删除当前活动吗?" /> </procedure> <procedure 
+				name="jDelete" logic="Delete" ifyes="querySchedule" ifno=""> <param name="In" 
+				value="pnlList" /> <param name="Msg" value="'活动已删除'" /> </procedure> <procedure 
+				name="querySchedule" logic="Query" ifyes="" ifno=""> <param name="In" value="pCondition"></param> 
+				<param name="Out" value="pnlList"></param> <param name="Sql" value="QryQuery"></param> 
+				</procedure> </flow> -->
+			<!-- 编辑 -->
+			<!-- <flow trigger="pnlList.ctlEdit" event="OnClick" filter=""> <procedure 
+				name="jEncodeid" server="" logic="EncodeId" ifyes="jPopup" ifno=""> <param 
+				name="In" value="pnlList.cId"></param> </procedure> <procedure name="jPopup" 
+				logic="Popup" ifyes="querySchedule" ifno=""> <param name="To" value="frmActivityEdit" 
+				/> <param name="Mode" value="Edit" /> <param name="Window" value="Medium" 
+				/> <param name="Title" value="编辑工作项" /> </procedure> <procedure name="querySchedule" 
+				logic="Query" ifyes="" ifno=""> <param name="In" value="pCondition"></param> 
+				<param name="Out" value="pnlList"></param> <param name="Sql" value="QryQuery"></param> 
+				</procedure> </flow> -->
+			<!-- 返回 -->
+			<flow trigger="pToolbar.btnBack" event="OnClick" filter="">
+				<procedure name="Back" logic="Back" ifyes="" ifno="">
+				</procedure>
+			</flow>
+			<!-- 布局 -->
+			<layout>
+				<region location="North" scale="400px">
+					<subregion panel="pToolbar" location="North" scale="" />
+				</region>
+				<region location="Center" scale="">
+					<!-- <subregion panel="pnlList" location="Center" scale="" /> -->
+					<subregion panel="pCondition" location="North" scale="" />
+					<subregion panel="pTableMemo" location="Center" scale="" />
+					<subregion panel="pContactsList" location="Center" scale="" />
+					<subregion panel="pTableLog" location="Center" scale="" />
+					<subregion panel="pTableSeller" location="Center" scale="" />
+					<subregion panel="pTablePresales" location="Center"
+						scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
+</tsoftware>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<model_layer>
+	<!-- 工作项对象 -->
+	<object name="module" table="t_module" primary="id" unique="proj_id,name" order="createTime desc">
+	  <property name="id" type="Long" length="20" initial="" field="id"/>
+	  <property name="name" type="String" length="50" initial="" field="name"/>
+	  <property name="projId" type="Long" length="20" field="proj_id"/>
+	  <property name="remark" type="String" length="200" field="remark"/>
+	  <property name="createTime" type="Date" length="" validate=""  field="create_time" />  
+	  <property name="createBy" type="Long" length="10" validate=""  field="create_by" />
+	  <property name="updateTime" type="Date" length="" validate=""  field="update_time" />
+	  <property name="updateBy" type="Long" length="10" validate=""  field="update_by" />
+	  
+	   <property name="sprintId" type="Long" length="20" field=""/>
+	  <property name="projName" type="String" length="200" field=""/>
+	   <property name="projectName" type="String" length="200" field=""/>
+	  <property name="createByName" type="String" length="200" validate=""  field="" />
+	  <property name="updateByName" type="String" length="200" validate=""  field="" />
+  </object>  
+  <object name="projModule" table="t_module" primary="" unique="proj_id,name" order="">
+	  <property name="moduleId" type="Long" length="20" initial="" field="id"/>
+	  <property name="moduleName" type="String" length="50" initial="" field="name"/>
+	  <property name="projId" type="Long" length="20" field="proj_id"/>
+	  <property name="remark" type="String" length="200" field="remark"/>
+	  <property name="createTime" type="Date" length="" validate=""  field="create_time" />  
+	  <property name="createBy" type="Long" length="10" validate=""  field="create_by" />
+	  <property name="updateTime" type="Date" length="" validate=""  field="update_time" />
+	  <property name="updateBy" type="Long" length="10" validate=""  field="update_by" />
+	  
+	  
+	 <property name="projName" type="String" length="200" field=""/>
+	  <property name="createByName" type="String" length="200" validate=""  field="" />
+	  <property name="updateByName" type="String" length="200" validate=""  field="" />
+	  <property name="open" type="Long" initial="" field="" />
+      <property name="reopen" type="Long" initial="" field="" />
+      <property name="workin" type="Long" validate="" field=""/>
+      <property name="unDoing" type="Long" validate="" field=""/>
+      <property name="resolve" type="Long" validate="" field=""/>
+      <property name="unSolve" type="Long" validate="" field=""/>
+      <property name="test" type="Long" validate="" field=""/>
+      <property name="close" type="Long" validate="" field=""/>
+      <property name="cancel" type="Long" validate="" field=""/>
+      <property name="unComplete" type="Long" validate="" field=""/>
+      <property name="total" type="Long" validate="" field=""/>
+      <property name="resolvePercent" type="String" validate="" field=""/>
+      <property name="completeIssPer" type="String" length="20" field=""/>
+      <property name="relativeChange" type="String" length="20" field=""/>
+  </object> 
+  
+</model_layer>
+</tsoftware>
