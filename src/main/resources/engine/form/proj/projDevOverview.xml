@@ -160,7 +160,7 @@
 					<param name="In" value="pnlGroup" />
 					<param name="Out" value="pnlGroup.sprintId" />
 					<param name="Sql" value="sprint/sprintList" />
-					<param name="Options" value=",[全部]|$NULL,未指派" />
+					<param name="Options" value=",[全部]|,未指派" />
 				</procedure>
 			</flow>
 			<!-- 项目选择 -->
@@ -182,7 +182,7 @@
 					<param name="In" value="pnlGroup" />
 					<param name="Out" value="pnlGroup.sprintId" />
 					<param name="Sql" value="sprint/sprintList" />
-					<param name="Options" value=",[全部]|$NULL,未指派" />
+					<param name="Options" value=",[全部]|,未指派" />
 				</procedure>
 			</flow>
 
