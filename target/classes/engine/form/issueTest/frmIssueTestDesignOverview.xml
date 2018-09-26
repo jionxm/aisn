@@ -87,7 +87,7 @@
             <!-- 查询 -->
             <flow trigger="pnlToolbar.ctlSearch" event="OnClick" filter="">
             	<procedure name="jBranch" server="" logic="Branch" ifyes="j0"
-					ifno="proQuery">
+					ifno="procQuery">
 					<param name="In" value="getPanelControlValue('pnlCondition.projName')==''"></param>
 				</procedure>
             	<procedure name="j0" server="" logic="ToastMsg" ifyes="procQuery"

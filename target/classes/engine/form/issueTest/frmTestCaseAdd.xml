@@ -1,81 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tsoftware  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
-			xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
+<tsoftware
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../componentConfig.xsd">
 
-<ui_layer>
-<!-- 新建组织 -->
-  <ui name="frmTestCaseAdd" title="测试任务列表">
-	<panel name="pnlUp" title="工具条" object="" type="Toolbar">
-		<control name="ctlSave" title="保存" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
-		<control name="ctlBack" title="返回" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
-	</panel>
-	<panel name="pnlGroup" title="pnlGroup" object="testCase" type="Group">
-		<control name="eq_name" title="名称" property="name" type="TextBox" edit="Y" required="Y" format="" width="1" height="1" column=""/>
-		<control name="eq_level" title="等级" property="level" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="2"/>
-		<control name="eq_precondition" title="前置条件" property="precondition" type="TextBox" edit="Y" required="" format="" width="2" height="1" column="2"/>
-		<control name="lastResult" title="最新测试结果" property="lastResult" type="TextBox" edit="N" required="N" format="" width="2" height="1" column="2"/>
-		<control name="issueId" title="issueId" property="issueId" type="Hidden" edit="Y" required="N" format="" width="1" height="1" column=""/>
-		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
-		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
-		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="Mode=='Add'?CurrentTime():nil" format="" width="1" height="1" column=""  />
-		<control name="createBy" title="创建人" property="createBy" type="Hidden" edit="Y" required="N" target="Mode=='Add'?session.userInfo.empId:nil" format="" width="1" height="1" column=""  />
-		<control name="id" title="testcaseId" property="id" type="Hidden" edit="Y" required="N" format="" width="" height="" column=""/>
-	</panel>
-	<panel name="pnlDg" title="pnlDg" object="testCaseStep" type="Grid"  multiple="">
- 		<control name="ctlAdd" title="新增步骤" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
-		<control name="ctlDel" title="删除步骤" property="" type="Button" edit="" required="" format="" width="" height="" column=""/>
-		<control name="number" title="序号" property="number" type="TextBox" edit="Y" required="Y" format="" width="70" height="" column=""/>
-		<control name="testcaseId" title="testcaseId" property="testcaseId" type="Hidden" edit="Y" required="N" format="" width="" height="" column=""/>
-		<control name="id" title="id" property="id" type="Hidden" edit="Y" required="N" format="" width="" height="" column=""/>
-		<control name="describe" title="步骤描述" property="description" type="TextBox" edit="Y" required="Y" format="" width="680" height="" column=""/>
-		<control name="expectResult" title="预期结果" property="expectResult" type="TextBox" edit="Y" required="Y" format="" width="680" height="" column=""/>
-		<control name="createBy" title="处理人" property="createBy" type="Hidden" edit="N" required="N" format="" target="session.userInfo.empId" width="1" height="1" column=""/>
-		<control name="updateTime" title="更新日期" property="updateTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
-		<control name="updateBy" title="更新人" property="updateBy" type="Hidden" edit="Y" required="N" target="session.userInfo.empId" format="" width="1" height="1" column=""  />		
-		<control name="createTime" title="创建日期" property="createTime" type="Hidden" edit="Y" required="N" target="CurrentTime()" format="" width="1" height="1" column=""  />
-	</panel>
-    <flow trigger="" event="OnLoad" filter="">
-           <procedure name="level"  logic="List" ifyes="decode" ifno="">
-        <param name="Out" value="pnlGroup.eq_level"></param>
-        <param name="Sql" value="level"></param>
-      </procedure>
-      <procedure name="decode" server="" logic="DecodeId" ifyes="" ifno="">
-        <param name="Out" value="pnlGroup.issueId"></param>
-      </procedure>   
-    </flow>
-    <flow trigger="pnlUp.ctlSave" event="OnClick" filter="Mode!='' &amp;&amp; Mode!='Readonly'" >
-      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
-        <param name="In" value="pnlGroup,pnlDg.testcaseId"></param>
-         <param name="Msg" value="'信息已被保存'"></param>
-      </procedure>
-      <procedure name="jsclose" server="" logic="Close" ifyes="" ifno="">
-        <param name="Refresh" value="true"></param>
-      </procedure>
-    </flow>
-    <flow trigger="pnlUp.ctlBack" event="OnClick" filter="" >
-      <procedure name="jBack" server="" logic="Back" ifyes="" ifno="">
-        <param name="Refresh" value="true"></param>
-      </procedure>
-    </flow>
-	<flow trigger="pnlDg.ctlAdd" event="OnClick" filter="" >
-      <procedure name="addRow" server="" logic="AddRow" ifyes="" ifno="">
-        <param name="Out" value="pnlDg"></param>
-      </procedure>
-    </flow>
-   	<flow trigger="pnlDg.ctlDel" event="OnClick" filter="" >
-      <procedure name="removeRow" server="" logic="RemoveRow" ifyes="" ifno="">
-        <param name="In" value="pnlDg"></param>
-      </procedure>
-    </flow>
-    <layout>
-      <region location ="North" scale="">
-        <subregion panel="pnlUp" location ="North" scale=""/>
-      </region>
-	  <region location ="Center" scale="">
-        <subregion panel="pnlGroup" location="North" scale=""/>
-		<subregion panel="pnlDg" location="Center" scale=""/>
-      </region>
-    </layout>
-  </ui>
-</ui_layer>
+	<ui_layer>
+		<!-- 新建组织 -->
+		<ui name="frmTestCaseAdd" title="测试任务列表">
+			<panel name="pnlUp" title="工具条" object="" type="Toolbar">
+				<control name="ctlSave" title="保存" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+				<control name="ctlBack" title="返回" property="" type="Button"
+					edit="" required="" format="" width="" height="" column="" />
+			</panel>
+			<panel name="pnlGroup" title="pnlGroup" object="testCase"
+				type="Group">
+				<control name="eq_name" title="名称" property="name"
+					type="TextBox" edit="Y" required="Y" format="" width="1" height="1"
+					column="" />
+				<control name="eq_level" title="等级" property="level"
+					type="ComboBox" edit="Y" required="Y" format="" width="1"
+					height="1" column="2" />
+				<control name="eq_precondition" title="前置条件"
+					property="precondition" type="TextBox" edit="Y" required=""
+					format="" width="2" height="1" column="2" />
+				<control name="lastResult" title="最新测试结果"
+					property="lastResult" type="TextBox" edit="N" required="N"
+					format="" width="2" height="1" column="2" />
+				<control name="issueId" title="issueId" property="issueId"
+					type="Hidden" edit="Y" required="N" format="" width="1" height="1"
+					column="" />
+				<control name="updateTime" title="更新日期"
+					property="updateTime" type="Hidden" edit="Y" required="N"
+					target="CurrentTime()" format="" width="1" height="1" column="" />
+				<control name="updateBy" title="更新人" property="updateBy"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="1" column="" />
+				<control name="createTime" title="创建日期"
+					property="createTime" type="Hidden" edit="Y" required="N"
+					target="Mode=='Add'?CurrentTime():nil" format="" width="1"
+					height="1" column="" />
+				<control name="createBy" title="创建人" property="createBy"
+					type="Hidden" edit="Y" required="N"
+					target="Mode=='Add'?session.userInfo.empId:nil" format="" width="1"
+					height="1" column="" />
+				<control name="id" title="testcaseId" property="id"
+					type="Hidden" edit="Y" required="N" format="" width="" height=""
+					column="" />
+			</panel>
+			<panel name="pnlDg" title="pnlDg" object="testCaseStep"
+				type="Grid" multiple="">
+				<control name="ctlAdd" title="新增步骤" property=""
+					type="Button" edit="" required="" format="" width="" height=""
+					column="" />
+				<control name="ctlDel" title="删除步骤" property=""
+					type="Button" edit="" required="" format="" width="" height=""
+					column="" />
+				<control name="number" title="序号" property="number"
+					type="TextBox" edit="Y" required="Y" format="" width="70" height=""
+					column="" />
+				<control name="testcaseId" title="testcaseId"
+					property="testcaseId" type="Hidden" edit="Y" required="N" format=""
+					width="" height="" column="" />
+				<control name="id" title="id" property="id" type="Hidden"
+					edit="Y" required="N" format="" width="" height="" column="" />
+				<control name="describe" title="步骤描述" property="description"
+					type="TextBox" edit="Y" required="Y" format="" width="680"
+					height="" column="" />
+				<control name="expectResult" title="预期结果"
+					property="expectResult" type="TextBox" edit="Y" required="Y"
+					format="" width="680" height="" column="" />
+				<control name="createBy" title="处理人" property="createBy"
+					type="Hidden" edit="N" required="N" format=""
+					target="session.userInfo.empId" width="1" height="1" column="" />
+				<control name="updateTime" title="更新日期"
+					property="updateTime" type="Hidden" edit="Y" required="N"
+					target="CurrentTime()" format="" width="1" height="1" column="" />
+				<control name="updateBy" title="更新人" property="updateBy"
+					type="Hidden" edit="Y" required="N" target="session.userInfo.empId"
+					format="" width="1" height="1" column="" />
+				<control name="createTime" title="创建日期"
+					property="createTime" type="Hidden" edit="Y" required="N"
+					target="CurrentTime()" format="" width="1" height="1" column="" />
+			</panel>
+			<flow trigger="" event="OnLoad" filter="">
+				<procedure name="initForm" logic="Clear" ifyes="level"
+					ifno="">
+					<param name="Out" value="pnlGroup"></param>
+				</procedure>
+				<procedure name="level" logic="List" ifyes="decode"
+					ifno="">
+					<param name="Out" value="pnlGroup.eq_level"></param>
+					<param name="Sql" value="level"></param>
+				</procedure>
+				<procedure name="decode" server="" logic="DecodeId"
+					ifyes="" ifno="">
+					<param name="Out" value="pnlGroup.issueId"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pnlUp.ctlSave" event="OnClick"
+				filter="Mode!='' &amp;&amp; Mode!='Readonly'">
+				<procedure name="jssave" logic="Save" ifyes="je"
+					ifno="">
+					<param name="In" value="pnlGroup,pnlDg.testcaseId"></param>
+					<param name="Msg" value="'信息已被保存'"></param>
+				</procedure>
+				<procedure name="je" logic="EncodeId" ifyes="jsclose" ifno="">
+                    <param name="In" value="pnlGroup.issueId"></param>
+                </procedure>
+				<procedure name="jsclose" server="" logic="Back" ifyes="je"
+					ifno="">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pnlUp.ctlBack" event="OnClick" filter="">
+				<procedure name="jBack" server="" logic="Back" ifyes=""
+					ifno="">
+					<param name="Refresh" value="true"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pnlDg.ctlAdd" event="OnClick" filter="">
+				<procedure name="addRow" server="" logic="AddRow" ifyes=""
+					ifno="">
+					<param name="Out" value="pnlDg"></param>
+				</procedure>
+			</flow>
+			<flow trigger="pnlDg.ctlDel" event="OnClick" filter="">
+				<procedure name="removeRow" server="" logic="RemoveRow"
+					ifyes="" ifno="">
+					<param name="In" value="pnlDg"></param>
+				</procedure>
+			</flow>
+			<layout>
+				<region location="North" scale="">
+					<subregion panel="pnlUp" location="North" scale="" />
+				</region>
+				<region location="Center" scale="">
+					<subregion panel="pnlGroup" location="North" scale="" />
+					<subregion panel="pnlDg" location="Center" scale="" />
+				</region>
+			</layout>
+		</ui>
+	</ui_layer>
 </tsoftware>

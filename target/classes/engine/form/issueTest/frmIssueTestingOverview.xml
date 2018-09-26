@@ -22,7 +22,7 @@
             </panel>
 
 
-            <panel name="pnlList" title="查询结果" object="projectSprint" type="Grid" page="0">
+            <panel name="pnlList" title="查询结果" object="projectSprint" type="Grid" page="">
                 <control name="testByName" title="姓名" property="testByName" type="TextBox" edit="" required="" format=""
                          width="150" height="" column=""/>
                 <control name="positionName" title="职位" property="positionName" type="TextBox" edit="" required="" format=""

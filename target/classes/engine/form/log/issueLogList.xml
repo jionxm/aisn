@@ -34,7 +34,7 @@
     <control name="lk_issueId" title="工作项编号" property="issueId" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
     <control name="eq_type" title="类型" property="type" type="ComboBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
     <control name="lk_logContent" title="日志内容" property="logContent" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column=""/>
-    <control name="eq_updateStatus" title="最后状态" property="logContent" type="ComboBox" multiple="Y" edit="Y" required="N" format="" width="1" height="1" column="4"/>
+    <control name="eq_updateStatus" title="最后状态" property="updateStatus" type="ComboBox" multiple="Y" edit="Y" required="N" format="" width="1" height="1" column="4"/>
   </panel>
   <panel name="pnlDg" title="pnlDg" object="issueLog" type="Grid"  multiple="">
     <control name="id" title="日志编号" property="id" type="TextBox" edit="" required="" format="" width="80" height="" column=""/>

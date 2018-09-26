@@ -67,7 +67,7 @@
 				</procedure>
 				<procedure name="jsquery" logic="Query" ifyes="" ifno="">
 					<param name="Out" value="pTable" />
-					<param name="Sql" value="workcount/QryWorkCount" />
+					<param name="Sql" value="workcount/QryWorkCountQuery" />
 				</procedure>
 			</flow>
 			

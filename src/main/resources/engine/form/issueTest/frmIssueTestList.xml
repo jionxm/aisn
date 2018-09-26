@@ -205,7 +205,7 @@
                     <param name="Options" value="$RESET,重置"/>
                     <!--<param name="Options" value="$NULL,未分配|$NOTNULL,已分配|$RESET,重置"/>-->
                     <param name="Title" value="项目选择"></param>
-                    <param name="Columns" value="id,id,eq_projId|name,项目名,proName"></param>
+                    <param name="Columns" value="id,编号,eq_projId|name,项目名,proName"></param>
                 </procedure>
                 <procedure name="sprint" logic="List" ifyes="type" ifno="">
                     <param name="In" value="pnlGroup"></param>

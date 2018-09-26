@@ -3,7 +3,7 @@ select * from (
 	id as value,
 	NAME as text from t_sprint 
 	where 
-	case when isnull(#{data.projId}) or #{data.projId}='' then 1=2
-	else proj_id=#{data.projId}
-	end
+	case when isnull(#{data.eq_projId}) or #{data.eq_projId}='' then 1=2
+	else proj_id=#{data.eq_projId}
+	end	and `status`='open'
  ) a 

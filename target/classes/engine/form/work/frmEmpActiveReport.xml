@@ -15,8 +15,8 @@
 					column="4" />
 				<control name="projName" title="项目名称" property="" type="PopupBox"
 					edit="Y" required="N" format="" width="1" height="1" column="4" /> -->
-					<control name="orgId" title="所属部门" property="orgId" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="4" />
-		
+					<control name="orgId" title="所属部门" property="orgId" type="ComboBox" edit="Y" required="Y" format="" width="1" height="1" column="" />
+					<control name="lk_empName" title="姓名" property="empName" type="TextBox" edit="Y" required="N" format="" width="1" height="1" column="4" />
 		
 			</panel>
 			<panel name="pTable" title="查询结果" object="" type="Grid"

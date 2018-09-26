@@ -57,7 +57,7 @@
                          width="1" height="1" column="4"/>
             </panel>
 
-            <panel name="pnlList" title="测试进度" object="testReport" type="Grid" page="0">
+            <panel name="pnlList" title="测试进度" object="testReport" type="Grid" page="">
                 <control name="issueId" title="工作项编号" property="issueId" type="DataLink" edit="" required="" format=""
                          width="100" height="" column=""/>
                 <control name="issueName" title="工作项" property="issueName" type="TextBox" edit="" required="" format=""
