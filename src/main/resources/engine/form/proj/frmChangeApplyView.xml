@@ -41,14 +41,14 @@
                 <control name="ctlChangeReason" title="变更理由" property="changeReason" type="TextBox" edit="Y"
                          required="N"
                          format=""
-                         width="1" height="3" column="1"/>
+                         width="1" height="2" column="1"/>
                 <control name="ctlChangeContent" title="变更内容" property="changeContent" type="TextBox" edit="Y"
                          required="N"
                          format=""
-                         width="1" height="3" column="1"/>
+                         width="1" height="2" column="1"/>
                 <control name="ctlChangePlan" title="变更方案" property="changePlan" type="TextBox" edit="Y" required="N"
                          format=""
-                         width="1" height="3" column="1"/>
+                         width="1" height="2" column="1"/>
 
                 <!--存储issueId-->
                 <control name="issueId" title="选中的issueId" property="" type="Hidden" edit="N" required="N" format="" width="1" height="1" column=""/>
@@ -299,10 +299,10 @@
                     <subregion panel="pnlInfo" location="Center" scale=""/>
                     <subregion panel="pnlHiddenGrid" location="Center" scale=""/>
                 </region>
-                <region location="South" scale="300px">
-                    <subregion panel="pnlDetailFile" location="South" scale="300px"/>
-                    <subregion panel="pnlDetailIssue" location="South" scale="300px"/>
-                    <subregion panel="pnlDetailView" location="South" scale="300px"/>
+                <region location="South" scale="200px">
+                    <subregion panel="pnlDetailFile" location="South" scale="200px"/>
+                    <subregion panel="pnlDetailIssue" location="South" scale="200px"/>
+                    <subregion panel="pnlDetailView" location="South" scale="200px"/>
                 </region>
             </layout>
         </ui>
