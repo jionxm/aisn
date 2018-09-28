@@ -77,6 +77,12 @@
       </procedure>   
     </flow>
 	        <flow trigger="pnlUp.ctlQuery" event="OnClick" filter="">
+	    <procedure name="jsbranch1" logic="Branch" ifyes="queryTable" ifno="jsmsg">
+         <param name="In" value="getPanelControlValue('pnlGroup.ge_createTime')&lt;=getPanelControlValue('pnlGroup.dl_createTime')"></param>
+        </procedure>
+        <procedure name="jsmsg" logic="InfoMsg" ifyes="" ifno="">
+      		<param name="Msg" value="您选的完成日期应小于开始日期"></param>
+      	</procedure>
       <procedure name="queryTable"  logic="Query" ifyes="" ifno="">
         <param name="In" value="pnlGroup"></param>
         <param name="Out" value="pnlDg"></param>
