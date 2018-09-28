@@ -4,9 +4,9 @@ Select * from (
     select
     case when isnull(#{data.projId}) or #{data.projId}='' then '$ALL' else i.proj_id end as projId,
     case when isnull(#{data.projId}) or #{data.projId}='' then '' else p.name end  as projectName,
-    case when isnull(#{data.sprintId}) or #{data.sprintId}=''  then '$ALL'  else i.sprint_id end as sprintId,
+    case when #{data.sprintId}='NULL' then 'NULL' when #{data.sprintId}=''  then '$ALL'  else i.sprint_id end as sprintId,
     e.id as empId,
-    e.name as empName,
+    e.name  as empName,
     o.name as orgName,
     e1.name as managerName,
     po.name as positionName,
@@ -38,7 +38,7 @@ Select * from (
     from (select * from
     t_issue i1
     where  i1.proj_id = #{data.projId}    and
-       case when isnull(#{data.sprintId}) or #{data.sprintId}=''  then 1=1    else  i1.sprint_id = #{data.sprintId} end
+       case when #{data.sprintId}='$NULL' then isnull(i1.sprint_id)  when #{data.sprintId}=''  then 1=1    else  i1.sprint_id = #{data.sprintId} end and i1.assignee is not null
     )  i
     left join t_employee e on i.assignee = e.id
     left join t_org o on e.org_id=o.id
@@ -53,7 +53,7 @@ union all
 select
     case when isnull(#{data.projId}) or #{data.projId}='' then '$ALL' else i.proj_id end as projId,
     case when isnull(#{data.projId}) or #{data.projId}='' then '' else p.name end  as projectName,
-    case when isnull(#{data.sprintId}) or #{data.sprintId}=''  then '$ALL'  else i.sprint_id end as sprintId,
+    case when #{data.sprintId}='$NULL' then '$NULL' when #{data.sprintId}=''  then '$ALL'  else i.sprint_id end as sprintId,
     '$ALL' as empId,
     '合计' as empName,
     '' as orgName,
@@ -88,7 +88,7 @@ select
     t_issue  i
     left join t_project  p on i.proj_id = p.id
     where   i.proj_id = #{data.projId} and
-       		 case when isnull(#{data.sprintId}) or #{data.sprintId}=''  then  1=1   else  i.sprint_id = #{data.sprintId} end
+       		 case when #{data.sprintId}='$NULL' then isnull(i.sprint_id) when #{data.sprintId}=''  then  1=1   else  i.sprint_id = #{data.sprintId} end and i.assignee is not null
 )  a
 where total is not null and total <> 0
 ) devOverView

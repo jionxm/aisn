@@ -109,7 +109,7 @@
                     <param name="In" value="pnlCondition"/>
                     <param name="Out" value="pnlCondition.sprintId"/>
                     <param name="Sql" value="sprint/sprintList"/>
-                    <param name="Options" value=",[全部]|,未指派"/>
+                    <param name="Options" value=",[全部]|$NULL,未指派"/>
                 </procedure>
                 <procedure name="jBranch" server="" logic="Branch" ifyes=""
 					ifno="proQuery">
@@ -167,7 +167,7 @@
                     <param name="In" value="pnlCondition"/>
                     <param name="Out" value="pnlCondition.sprintId"/>
                     <param name="Sql" value="sprint/sprintList"/>
-                    <param name="Options" value=",[全部]|,未指派"/>
+                    <param name="Options" value=",[全部]|$NULL,未指派"/>
                 </procedure>
             </flow>
 
