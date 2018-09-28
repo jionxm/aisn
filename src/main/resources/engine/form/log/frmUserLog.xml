@@ -112,6 +112,12 @@
                 </procedure>
             </flow>
             <flow trigger="pnlToolbar.search" event="OnClick" filter="">
+                <procedure name="jsbranch1" logic="Branch" ifyes="procQuery" ifno="jsmsg">
+                    <param name="In" value="getPanelControlValue('pnlCondition.ge_createTime')&lt;=getPanelControlValue('pnlCondition.dl_createTime')"></param>
+                </procedure>
+                <procedure name="jsmsg" logic="InfoMsg" ifyes="" ifno="">
+      		        <param name="Msg" value="您选的完成日期应小于开始日期"></param>
+             	</procedure>
                 <procedure name="procQuery" logic="Query" ifyes="" ifno="">
                     <param name="In" value="pnlCondition"></param>
                     <param name="Out" value="pnlList"></param>

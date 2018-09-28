@@ -22,7 +22,7 @@
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://localhost:3306/aisn-test?allowMultiQueries=true"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/aisn?allowMultiQueries=true"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="123456"></property>
 		<!-- 指定连接数据库连接池的最小连接数 -->
