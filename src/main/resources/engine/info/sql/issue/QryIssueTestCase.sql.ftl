@@ -21,5 +21,5 @@ select * from (
 	ON 
 		i.update_by = empthr.id
 		
-		where i.type="bug" and i.proj_id=#{data.projId }
+		where i.type="bug" and t.issue_id=#{data.issueId }
  ) a 

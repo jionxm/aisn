@@ -9,4 +9,5 @@ select * from (
 	from t_issue_memo m
 	left join t_employee e on e.id = m.create_by
 	
+	where m.issue_id=#{data.issueId }
  ) a 

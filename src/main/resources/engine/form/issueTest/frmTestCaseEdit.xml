@@ -73,17 +73,20 @@
       </procedure>
     </flow>
     <flow trigger="pnlUp.ctlSave" event="OnClick" filter="Mode!='' &amp;&amp; Mode!='Readonly'" >
-      <procedure name="jssave"  logic="Save" ifyes="jsclose" ifno="">
+      <procedure name="jssave"  logic="Save" ifyes="je" ifno="">
         <param name="In" value="pnlGroup,pnlDg.testcaseId"></param>
          <param name="Msg" value="'信息已被保存'"></param>
       </procedure>
-      <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
-        <param name="Refresh" value="true"></param>
-      </procedure>
+     	<procedure name="je" logic="EncodeId" ifyes="jsclose" ifno="">
+                    <param name="In" value="pnlGroup.issueId"></param>
+                </procedure>
+                <procedure name="jsclose" server="" logic="Back" ifyes=""
+					ifno="">
+				</procedure>
     </flow>
     <flow trigger="pnlUp.ctlBack" event="OnClick" filter="" >
       <procedure name="jsclose" server="" logic="Back" ifyes="" ifno="">
-                </procedure>
+      </procedure>
     </flow>
 	<flow trigger="pnlDg.ctlAdd" event="OnClick" filter="" >
       <procedure name="addRow" server="" logic="AddRow" ifyes="" ifno="">

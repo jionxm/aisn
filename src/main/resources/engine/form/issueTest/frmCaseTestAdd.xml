@@ -5,7 +5,7 @@
 
 	<ui_layer>
 		<!-- 新建组织 -->
-		<ui name="frmTestCaseAdd" title="测试任务列表">
+		<ui name="frmCaseTestAdd" title="测试任务列表">
 			<panel name="pnlUp" title="工具条" object="" type="Toolbar">
 				<control name="ctlSave" title="保存" property="" type="Button"
 					edit="" required="" format="" width="" height="" column="" />
@@ -107,14 +107,15 @@
 				<procedure name="je" logic="EncodeId" ifyes="jsclose" ifno="">
                     <param name="In" value="pnlGroup.issueId"></param>
                 </procedure>
-                <procedure name="jsclose" server="" logic="Back" ifyes=""
+				<procedure name="jsclose" server="" logic="Close" ifyes=""
 					ifno="">
+					<param name="Refresh" value="true"></param>
 				</procedure>
-				
 			</flow>
 			<flow trigger="pnlUp.ctlBack" event="OnClick" filter="">
-				<procedure name="jBack" server="" logic="Back" ifyes=""
+				<procedure name="jBack" server="" logic="Close" ifyes=""
 					ifno="">
+				<param name="Refresh" value="true"></param>
 				</procedure>
 			</flow>
 			<flow trigger="pnlDg.ctlAdd" event="OnClick" filter="">

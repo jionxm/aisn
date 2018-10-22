@@ -6,5 +6,5 @@ select * from (
 	c.timestamp as date,
 	c.issue_id as issueId
 	from t_commit c
-	
+	where c.issue_id=#{data.issueId }
  ) a  

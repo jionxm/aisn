@@ -16,4 +16,6 @@ select * from (
 	left join t_dict d on d.code = l.type and d.cata_code = 't_issue_log.type'
 	left join t_dict d1 on d1.code = l.update_status and d1.cata_code = 't_issue.status'
 	left join t_issue t on t.id=l.issue_id	
+	
+	where l.issue_id=#{data.issueId }
  ) a

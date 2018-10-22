@@ -155,7 +155,7 @@
                 </procedure>
                 <procedure name="jsTransition" logic="Transition" ifyes="queryTable" ifno="">
                     <param name="To" value="frmTestCaseEdit"></param>
-                    <param name="Mode" value="Edit"></param>
+                    <param name="Mode" value="Add"></param>
                 </procedure>
                 <procedure name="queryTable" logic="Query" ifyes="" ifno="">
                     <param name="In" value="pnlGroup"></param>

@@ -139,7 +139,7 @@
 				</procedure>
 				<procedure name="jspopup" logic="Popup" ifyes="queryTable"
 					ifno="">
-					<param name="To" value="frmTestCaseAdd"></param>
+					<param name="To" value="frmCaseTestAdd"></param>
 					<param name="Mode" value="Add"></param>
 					<param name="Window" value="Large"></param>
 					<param name="Title" value="新增测试用例"></param>
