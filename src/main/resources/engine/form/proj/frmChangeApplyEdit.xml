@@ -151,6 +151,7 @@
                     <param name="Type" value="jpg,txt,pdf"></param>
                     <param name="Bucket" value="public"></param>
                     <param name="Out" value="pnlDetailFile.fileId"></param>
+                     <param name="Module" value="aisn"></param>
                 </procedure>
             </flow>
             <flow trigger="pnlDetailIssue.ctlAdd" event="OnClick" filter="" >

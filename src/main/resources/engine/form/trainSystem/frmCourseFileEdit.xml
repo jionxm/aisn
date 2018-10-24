@@ -116,6 +116,7 @@
         			<param name="Type" value="jpg,txt,mp4,md,pdf,jpeg,gif,png,bmp"></param>
         			<param name="Bucket" value="private"></param>
         			<param name="Out" value="pTable.fileid"></param>
+        			 <param name="Module" value="aisn"></param>
       			</procedure>
     		</flow>			
 

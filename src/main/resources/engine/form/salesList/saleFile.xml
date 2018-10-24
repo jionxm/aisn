@@ -29,6 +29,7 @@
         <param name="Type" value="jpg,txt,mp4,md,pdf,jpeg,gif,png,bmp"></param>
         <param name="Bucket" value="public"></param>
         <param name="Out" value="pnlGroup.ctlfileId"></param>
+         <param name="Module" value="aisn"></param>
       </procedure>
     </flow>
     <!-- 确认 -->
